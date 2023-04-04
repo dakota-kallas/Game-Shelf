@@ -10,10 +10,10 @@ var authRouter = require("./routes/auth");
 
 var app = express();
 
-let mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/game-shelf", {
-  userNewUrlParser: true,
-});
+// let mongoose = require("mongoose");
+// mongoose.connect("mongodb://localhost:27017/game-shelf", {
+//   userNewUrlParser: true,
+// });
 
 app.use(
   session({

@@ -1,0 +1,2 @@
+export interface GameShelf {
+}
