@@ -40,6 +40,5 @@ function isGameShelf(obj) {
 module.exports = {
   GameShelf: GameShelf,
   getByOwner: getByOwner,
-  getById: getById,
   isGameShelf: isGameShelf,
 };

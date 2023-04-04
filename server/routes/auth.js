@@ -34,7 +34,7 @@ router.post("/login", upload.none(), (req, res) => {
 
 router.post("/logout", upload.none(), (req, res) => {
   req.session.destroy(() => {
-    res.status(200).send(new ErrorReport.Error("Success"));
+    res.status(200).send();
   });
 });
 
