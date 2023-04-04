@@ -59,7 +59,8 @@ router.get("/discover", function (req, res, next) {
   try {
     let searchName = req.query.name;
     if (searchName) {
-      fetch(`https://api.geekdo.com/xmlapi/search?search=uno%20moo`)
+      searchName = encodeURIComponent(searchName);
+      fetch(`https://api.geekdo.com/xmlapi/search?search=${searchName}`)
         .then((response) => response.text())
         .then((data) => {
           let jsonGames = convert.xml2json(data, {
@@ -78,9 +79,13 @@ router.get("/discover", function (req, res, next) {
           ) {
             // Iterate over the boardgame array
             jsonGames.boardgames.boardgame.forEach((bg) => {
+              console.log("NAME: " + JSON.stringify(bg.name));
+              console.log("YEAR: " + JSON.stringify(bg.yearpublished));
               const id = bg._attributes.objectid;
               const name = bg.name._text;
-              const year = bg.yearpublished._text;
+              if (bg.yearpublished) {
+                var year = bg.yearpublished._text;
+              }
 
               const game = new Game(
                 id,

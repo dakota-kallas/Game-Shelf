@@ -14,8 +14,11 @@ export class DiscoverComponent {
   constructor(private gameShelfApi: GameshelfService) {}
 
   discover() {
-    this.gameShelfApi.search().subscribe((games) => {
-      this.games = games;
-    });
+    console.log(`Search: ${this.search}`);
+    if (this.search && this.search.trim() != '') {
+      this.gameShelfApi.search(this.search).subscribe((games) => {
+        this.games = games;
+      });
+    }
   }
 }

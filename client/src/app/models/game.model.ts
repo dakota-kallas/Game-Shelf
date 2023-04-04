@@ -1,7 +1,7 @@
 export interface Game {
   _id: string;
   year: string;
-  name: string;
+  name: string | undefined;
   minPlayers: number | undefined;
   maxPlayers: number | undefined;
   age: number | undefined;
