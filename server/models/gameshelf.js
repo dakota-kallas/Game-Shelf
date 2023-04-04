@@ -19,7 +19,7 @@ class GameShelf {
   constructor(owner, games) {
     this.owner = owner;
     this.games = games;
-    this.id = uuidv4();
+    this._id = uuidv4();
 
     BY_OWNER[this.owner] = this;
   }

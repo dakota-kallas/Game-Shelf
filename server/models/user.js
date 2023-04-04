@@ -28,9 +28,9 @@ class User {
     this.lastName = lastName;
     this.enabled = true;
     this.admin = false;
-    this.id = uuidv4();
+    this._id = uuidv4();
 
-    BY_ID[this.id] = this;
+    BY_ID[this._id] = this;
     BY_EMAIL[this.email] = this;
   }
 }
@@ -43,8 +43,8 @@ function getUsers() {
     .map((u) => delete u.password);
 }
 
-function getById(id) {
-  let user = BY_ID[id];
+function getById(_id) {
+  let user = BY_ID[_id];
   return user && Object.assign({}, user);
 }
 
