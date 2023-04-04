@@ -6,6 +6,7 @@ router.use(express.urlencoded({ extended: true }));
 
 let UserDB = require("../models/user.js");
 let GameShelfDB = require("../models/gameshelf.js");
+let Game = require("../models/game.js");
 
 const saltRounds = 10;
 
@@ -57,21 +58,53 @@ router.get("/gameshelf", function (req, res, next) {
 router.get("/discover", function (req, res, next) {
   try {
     let searchName = req.query.name;
-    console.log("! Approached: " + searchName);
     if (searchName) {
       fetch(`https://api.geekdo.com/xmlapi/search?search=uno%20moo`)
         .then((response) => response.text())
         .then((data) => {
-          const json = convert.xml2json(data, { compact: true, spaces: 4 });
-          console.log("JSON: " + json);
-          res.status(200).json(JSON.parse(json));
+          let jsonGames = convert.xml2json(data, {
+            compact: true,
+            spaces: 4,
+          });
+          jsonGames = JSON.parse(jsonGames);
+
+          let games = [];
+
+          // Check if the jsonGames object has the expected properties
+          if (
+            jsonGames &&
+            jsonGames.boardgames &&
+            jsonGames.boardgames.boardgame instanceof Array
+          ) {
+            // Iterate over the boardgame array
+            jsonGames.boardgames.boardgame.forEach((bg) => {
+              const id = bg._attributes.objectid;
+              const name = bg.name._text;
+              const year = bg.yearpublished._text;
+
+              const game = new Game(
+                id,
+                year,
+                null,
+                null,
+                null,
+                name,
+                null,
+                null
+              );
+              games.push(game);
+            });
+          } else {
+            res.status(400).send("Error occurred!");
+          }
+
+          res.status(200).json(games);
         })
         .catch((err) => {
-          console.error("Error: " + err.message);
-          res.status(400).send("Error occurred!");
+          res.status(400).send(err.message);
         });
     } else {
-      res.status(400).send("Issue!");
+      res.status(400).send("Error occurred!");
     }
   } catch (err) {
     res.status(400).send(err.message);
