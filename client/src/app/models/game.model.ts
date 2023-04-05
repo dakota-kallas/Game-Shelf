@@ -1,10 +1,9 @@
 export interface Game {
-  _id: string;
-  year: string;
-  name: string | undefined;
-  minPlayers: number | undefined;
-  maxPlayers: number | undefined;
-  age: number | undefined;
-  desc: string | undefined;
-  img: string | undefined;
+  _id: String;
+  name: String | undefined;
+  rating: Number | undefined;
+  image: String | undefined;
+  minPlayers: Number | undefined;
+  maxPlayers: Number | undefined;
+  year: Number | undefined;
 }

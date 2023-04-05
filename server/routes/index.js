@@ -60,49 +60,27 @@ router.get("/discover", function (req, res, next) {
     let searchName = req.query.name;
     if (searchName) {
       searchName = encodeURIComponent(searchName);
-      fetch(`https://api.geekdo.com/xmlapi/search?search=${searchName}`)
-        .then((response) => response.text())
+      fetch(
+        `https://api.boardgameatlas.com/api/search?pretty=true&client_id=byh1ZsZ8eh&name=$${searchName}&fields=id,name,average_user_rating,images,min_players,max_players,year_published`
+      )
+        .then((response) => response.json())
         .then((data) => {
-          let jsonGames = convert.xml2json(data, {
-            compact: true,
-            spaces: 4,
-          });
-          jsonGames = JSON.parse(jsonGames);
-
           let games = [];
 
-          // Check if the jsonGames object has the expected properties
-          if (
-            jsonGames &&
-            jsonGames.boardgames &&
-            jsonGames.boardgames.boardgame instanceof Array
-          ) {
-            // Iterate over the boardgame array
-            jsonGames.boardgames.boardgame.forEach((bg) => {
-              console.log("NAME: " + JSON.stringify(bg.name));
-              console.log("YEAR: " + JSON.stringify(bg.yearpublished));
-              const id = bg._attributes.objectid;
-              const name = bg.name._text;
-              if (bg.yearpublished) {
-                var year = bg.yearpublished._text;
-              }
-
-              const game = new Game(
-                id,
-                year,
-                null,
-                null,
-                null,
-                name,
-                null,
-                null
+          if (data.games) {
+            data.games.forEach((game) => {
+              const currentGame = new Game(
+                game.id,
+                game.name,
+                game.average_user_rating,
+                game.images.small,
+                game.min_players,
+                game.max_players,
+                game.year_published
               );
-              games.push(game);
+              games.push(currentGame);
             });
-          } else {
-            res.status(400).send("Error occurred!");
           }
-
           res.status(200).json(games);
         })
         .catch((err) => {

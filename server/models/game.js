@@ -1,13 +1,12 @@
 class Game {
-  constructor(id, year, minPlayers, maxPlayers, age, name, desc, img) {
+  constructor(id, name, rating, image, minPlayers, maxPlayers, year) {
     this._id = id;
-    this.year = year;
+    this.name = name;
+    this.rating = rating;
+    this.image = image;
     this.minPlayers = minPlayers;
     this.maxPlayers = maxPlayers;
-    this.age = age;
-    this.name = name;
-    this.desc = desc;
-    this.img = img;
+    this.year = year;
   }
 }
 

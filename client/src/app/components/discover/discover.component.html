@@ -1,27 +1,37 @@
 <section class="background">
     <div class="container my-5">
-        <div class="row my-3">
-            <div class="col-md">
-                <input type="text" id="search" class="form-control w-50" placeholder="Enter here..."
-                    [(ngModel)]="search">
+        <div class="row">
+            <div class="col">
+                <div class="row my-3">
+                    <div class="col-md-9">
+                        <input type="text" id="search" class="form-control w-100" placeholder="Enter here..."
+                            [(ngModel)]="search">
+                    </div>
+                    <div class="col">
+                        <button type="submit" (click)="discover()" class="btn btn-primary">Search
+                        </button>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr *ngFor="let game of games">
+                                <td class="thumbnail"><img class="thumbnail" src="{{game.image}}" alt="Game Image">
+                                </td>
+                                <td>
+                                    <div class="game-name"><strong>{{game.name}}</strong></div>
+                                    <div class="game-info">{{game.minPlayers}}-{{game.maxPlayers}} Players</div>
+                                    <div class="game-info ">{{game.rating}} - released {{game.year}}</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="col-md">
-                <button type="submit" (click)="discover()" class="btn btn-primary">Search
-                </button>
-            </div>
-        </div>
-        <div class="row my-3">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Year Published</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div class="col">
 
-                </tbody>
-            </table>
+            </div>
         </div>
+
     </div>
 </section>

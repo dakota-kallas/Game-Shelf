@@ -14,7 +14,6 @@ export class DiscoverComponent {
   constructor(private gameShelfApi: GameshelfService) {}
 
   discover() {
-    console.log(`Search: ${this.search}`);
     if (this.search && this.search.trim() != '') {
       this.gameShelfApi.search(this.search).subscribe((games) => {
         this.games = games;
