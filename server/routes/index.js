@@ -56,52 +56,12 @@ router.get("/gameshelf", function (req, res, next) {
 /**
  * SEARCH GAMES
  */
-router.get("/search", function (req, res, next) {
-  try {
-    let searchName = req.query.name;
-    if (searchName) {
-      searchName = encodeURIComponent(searchName);
-      fetch(
-        `https://api.boardgameatlas.com/api/search?pretty=true&client_id=${BGAClientID}&name=$${searchName}&fields=id,name,average_user_rating,images,min_players,max_players,year_published`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          let games = [];
-
-          if (data.games) {
-            data.games.forEach((game) => {
-              const currentGame = new Game(
-                game.id,
-                game.name,
-                game.average_user_rating,
-                game.images.small,
-                game.min_players,
-                game.max_players,
-                game.year_published
-              );
-              games.push(currentGame);
-            });
-          }
-          res.status(200).json(games);
-        })
-        .catch((err) => {
-          res.status(400).send(err.message);
-        });
-    } else {
-      res.status(400).send("Error occurred!");
-    }
-  } catch (err) {
-    res.status(400).send(err.message);
-  }
-});
-
-/**
- * SEARCH GAMES
- */
-router.get("/trending", function (req, res, next) {
-  try {
+router.get("/search", function (req, res) {
+  let searchName = req.query.name;
+  if (searchName) {
+    searchName = encodeURIComponent(searchName);
     fetch(
-      `https://api.boardgameatlas.com/api/search?order_by=rank&limit=10&pretty=true&client_id=${BGAClientID}&fields=id,name,average_user_rating,images,min_players,max_players,year_published`
+      `https://api.boardgameatlas.com/api/search?pretty=true&client_id=${BGAClientID}&name=$${searchName}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -126,8 +86,46 @@ router.get("/trending", function (req, res, next) {
       .catch((err) => {
         res.status(400).send(err.message);
       });
-  } catch (err) {
-    res.status(400).send(err.message);
+  } else {
+    res.status(400).send("Error occurred!");
+  }
+});
+
+/**
+ * TOP 10 GAMES
+ * Ex. rank, trending, plays
+ */
+router.get("/ordered", function (req, res) {
+  let orderField = req.query.field;
+  if (orderField) {
+    fetch(
+      `https://api.boardgameatlas.com/api/search?order_by=${orderField}&limit=10&pretty=true&client_id=${BGAClientID}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        let games = [];
+
+        if (data.games) {
+          data.games.forEach((game) => {
+            const currentGame = new Game(
+              game.id,
+              game.name,
+              game.average_user_rating,
+              game.images.small,
+              game.min_players,
+              game.max_players,
+              game.year_published
+            );
+            games.push(currentGame);
+          });
+        }
+        res.status(200).json(games);
+      })
+      .catch((err) => {
+        res.status(400).send(err.message);
+      });
+  } else {
+    res.status(400).send("Error occurred!");
   }
 });
 
