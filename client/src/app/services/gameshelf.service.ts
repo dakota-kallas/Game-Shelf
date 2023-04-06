@@ -12,6 +12,6 @@ export class GameshelfService {
   constructor(private http: HttpClient) {}
 
   search(name: string): Observable<Game[]> {
-    return this.http.get<Game[]>(this.URL + `/discover?name=${name}`);
+    return this.http.get<Game[]>(this.URL + `/search?name=${name}`);
   }
 }
