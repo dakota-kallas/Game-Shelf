@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Game } from 'src/app/models/game.model';
-import { GameshelfService } from 'src/app/services/gameshelf.service';
+import { GameService } from 'src/app/services/game.service';
 
 @Component({
   selector: 'app-discover',
@@ -9,13 +9,13 @@ import { GameshelfService } from 'src/app/services/gameshelf.service';
 })
 export class DiscoverComponent {
   games: Game[] | undefined;
-  @Input() search: string | undefined;
+  @Input() value: string | undefined;
 
-  constructor(private gameShelfApi: GameshelfService) {}
+  constructor(private gameApi: GameService) {}
 
-  discover() {
-    if (this.search && this.search.trim() != '') {
-      this.gameShelfApi.search(this.search).subscribe((games) => {
+  search() {
+    if (this.value && this.value.trim() != '') {
+      this.gameApi.search(this.value).subscribe((games) => {
         this.games = games;
       });
     }

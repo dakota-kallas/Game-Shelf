@@ -55,51 +55,22 @@ router.get("/gameshelf", function (req, res, next) {
 
 /**
  * SEARCH GAMES
+ * Order_by Ex. rank, trending, plays (also limit?)
  */
 router.get("/search", function (req, res) {
-  let searchName = req.query.name;
-  if (searchName) {
-    searchName = encodeURIComponent(searchName);
+  const searchName = req.query.name;
+  const orderBy = req.query.orderBy;
+  if (searchName || orderBy) {
+    let orderParam = "";
+    let searchParam = "";
+    if (searchName) {
+      searchParam = `&name=$${encodeURIComponent(searchName)}`;
+    }
+    if (orderBy) {
+      orderParam = `&order_by=${orderBy}`;
+    }
     fetch(
-      `https://api.boardgameatlas.com/api/search?pretty=true&client_id=${BGAClientID}&name=$${searchName}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        let games = [];
-
-        if (data.games) {
-          data.games.forEach((game) => {
-            const currentGame = new Game(
-              game.id,
-              game.name,
-              game.average_user_rating,
-              game.images.small,
-              game.min_players,
-              game.max_players,
-              game.year_published
-            );
-            games.push(currentGame);
-          });
-        }
-        res.status(200).json(games);
-      })
-      .catch((err) => {
-        res.status(400).send(err.message);
-      });
-  } else {
-    res.status(400).send("Error occurred!");
-  }
-});
-
-/**
- * TOP 10 GAMES
- * Ex. rank, trending, plays
- */
-router.get("/ordered", function (req, res) {
-  let orderField = req.query.field;
-  if (orderField) {
-    fetch(
-      `https://api.boardgameatlas.com/api/search?order_by=${orderField}&limit=10&pretty=true&client_id=${BGAClientID}`
+      `https://api.boardgameatlas.com/api/search?client_id=${BGAClientID}${searchParam}${orderParam}`
     )
       .then((response) => response.json())
       .then((data) => {
