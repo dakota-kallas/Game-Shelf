@@ -44,10 +44,50 @@ router.all("*", (req, res, next) => {
 /**
  * GET GAMESHELF FOR USER
  */
-router.get("/gameshelf", function (req, res, next) {
+router.get("/gameshelf", function (req, res) {
   try {
     let gameshelf = GameShelfDB.getByOwner(req.session.user.email);
     res.status(200).send(gameshelf);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
+/**
+ * ADD TO GAMESHELF
+ */
+router.put("/gameshelf", function (req, res) {
+  try {
+    const gameId = req.body.gameId;
+    if (gameId) {
+      let updatedShelf = GameShelfDB.addGameToShelf(
+        req.session.user.email,
+        gameId
+      );
+      res.status(200).json(updatedShelf);
+    } else {
+      throw Error("There was an issue providing the game, try again later.");
+    }
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
+/**
+ * REMOVE FROM GAMESHELF
+ */
+router.delete("/gameshelf", function (req, res) {
+  try {
+    const gameId = req.body.gameId;
+    if (gameId) {
+      let updatedShelf = GameShelfDB.removeFromShelf(
+        req.session.user.email,
+        gameId
+      );
+      res.status(200).json(updatedShelf);
+    } else {
+      throw Error("There was an issue providing the game, try again later.");
+    }
   } catch (err) {
     res.status(400).send(err.message);
   }

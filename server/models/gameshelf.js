@@ -37,8 +37,20 @@ function isGameShelf(obj) {
   );
 }
 
+function addGameToShelf(owner, gameId) {
+  BY_OWNER[owner].games[gameId] = gameId;
+  return BY_OWNER[owner];
+}
+
+function removeFromShelf(owner, gameId) {
+  BY_OWNER[owner].games.splice(gameId, 1);
+  return BY_OWNER[owner];
+}
+
 module.exports = {
   GameShelf: GameShelf,
   getByOwner: getByOwner,
   isGameShelf: isGameShelf,
+  addGameToShelf: addGameToShelf,
+  removeFromShelf: removeFromShelf,
 };
