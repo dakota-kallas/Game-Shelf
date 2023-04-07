@@ -16,6 +16,7 @@ export class DiscoverComponent implements OnInit {
   gameShelf: GameShelf | undefined;
   searched: Boolean = false;
   @Input() value: string | undefined;
+  Math = window.Math;
 
   constructor(
     private gameApi: GameService,

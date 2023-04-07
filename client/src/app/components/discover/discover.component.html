@@ -32,16 +32,42 @@
                                         <div class="col">
                                             <div class="game-info"><i class="fa fa-users"></i>
                                                 {{game.minPlayers}}-{{game.maxPlayers}}</div>
-                                            <div class="game-info ">{{game.rating}} - released {{game.year}}</div>
+                                            <div class="game-info">
+                                                <ng-container *ngIf="!game.rating">
+                                                    <ng-container *ngFor="let i of [1,2,3,4,5] | slice:0:5">
+                                                        <i class="fa fa-star-o"></i>
+                                                    </ng-container>
+                                                </ng-container>
+                                                <ng-container *ngIf="game.rating">
+                                                    <!-- TODO: Need to FIX -->
+                                                    <ng-container
+                                                        *ngFor="let i of [].constructor(Math.floor(game.rating))">
+                                                        <i class="fa fa-star"></i>
+                                                    </ng-container>
+                                                    <ng-container
+                                                        *ngIf="(Math.round(game.rating * 2) / 2) - Math.floor(game.rating) == 0.5">
+                                                        <i class="fa fa-star-half-o"></i>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="Math.ceil(game.rating) != 5">
+                                                        <ng-container
+                                                            *ngFor="let i of [].constructor(Math.floor(5 - (Math.round(game.rating * 2) / 2)))">
+                                                            <i class="fa fa-star-o"></i>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </ng-container>
+                                                <span> - released {{game.year}}</span>
+                                            </div>
                                         </div>
                                         <div class="col text-end">
                                             <button *ngIf="!isGameInShelf(game)" class="btn btn-success mx-3"
                                                 (click)="addGameToShelf(game)">
                                                 <i class="fa fa-plus"></i>
+                                                <span>Add to Game Shelf</span>
                                             </button>
                                             <button *ngIf="isGameInShelf(game)" class="btn btn-danger mx-3"
                                                 (click)="removeFromShelf(game._id)">
                                                 <i class="fa fa-minus"></i>
+                                                <span>Remove from Shelf</span>
                                             </button>
                                         </div>
                                     </div>
@@ -70,16 +96,42 @@
                                         <div class="col">
                                             <div class="game-info"><i class="fa fa-users"></i>
                                                 {{game.minPlayers}}-{{game.maxPlayers}}</div>
-                                            <div class="game-info ">{{game.rating}} - released {{game.year}}</div>
+                                            <div class="game-info">
+                                                <ng-container *ngIf="!game.rating">
+                                                    <ng-container *ngFor="let i of [1,2,3,4,5] | slice:0:5">
+                                                        <i class="fa fa-star-o"></i>
+                                                    </ng-container>
+                                                </ng-container>
+                                                <ng-container *ngIf="game.rating">
+                                                    <!-- TODO: Need to FIX -->
+                                                    <ng-container
+                                                        *ngFor="let i of [].constructor(Math.floor(game.rating))">
+                                                        <i class="fa fa-star"></i>
+                                                    </ng-container>
+                                                    <ng-container
+                                                        *ngIf="(Math.round(game.rating * 2) / 2) - Math.floor(game.rating) == 0.5">
+                                                        <i class="fa fa-star-half-o"></i>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="Math.ceil(game.rating) != 5">
+                                                        <ng-container
+                                                            *ngFor="let i of [].constructor(Math.floor(5 - (Math.round(game.rating * 2) / 2)))">
+                                                            <i class="fa fa-star-o"></i>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </ng-container>
+                                                <span> - released {{game.year}}</span>
+                                            </div>
                                         </div>
                                         <div class="col text-end">
                                             <button *ngIf="!isGameInShelf(game)" class="btn btn-success mx-3"
                                                 (click)="addGameToShelf(game)">
                                                 <i class="fa fa-plus"></i>
+                                                <span>Add to Game Shelf</span>
                                             </button>
                                             <button *ngIf="isGameInShelf(game)" class="btn btn-danger mx-3"
                                                 (click)="removeFromShelf(game._id)">
                                                 <i class="fa fa-minus"></i>
+                                                <span>Remove from Shelf</span>
                                             </button>
                                         </div>
                                     </div>
@@ -108,16 +160,42 @@
                                         <div class="col">
                                             <div class="game-info"><i class="fa fa-users"></i>
                                                 {{game.minPlayers}}-{{game.maxPlayers}}</div>
-                                            <div class="game-info ">{{game.rating}} - released {{game.year}}</div>
+                                            <div class="game-info">
+                                                <ng-container *ngIf="!game.rating">
+                                                    <ng-container *ngFor="let i of [1,2,3,4,5] | slice:0:5">
+                                                        <i class="fa fa-star-o"></i>
+                                                    </ng-container>
+                                                </ng-container>
+                                                <ng-container *ngIf="game.rating">
+                                                    <!-- TODO: Need to FIX -->
+                                                    <ng-container
+                                                        *ngFor="let i of [].constructor(Math.floor(game.rating))">
+                                                        <i class="fa fa-star"></i>
+                                                    </ng-container>
+                                                    <ng-container
+                                                        *ngIf="(Math.round(game.rating * 2) / 2) - Math.floor(game.rating) == 0.5">
+                                                        <i class="fa fa-star-half-o"></i>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="Math.ceil(game.rating) != 5">
+                                                        <ng-container
+                                                            *ngFor="let i of [].constructor(Math.floor(5 - (Math.round(game.rating * 2) / 2)))">
+                                                            <i class="fa fa-star-o"></i>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </ng-container>
+                                                <span> - released {{game.year}}</span>
+                                            </div>
                                         </div>
                                         <div class="col text-end">
                                             <button *ngIf="!isGameInShelf(game)" class="btn btn-success mx-3"
                                                 (click)="addGameToShelf(game)">
                                                 <i class="fa fa-plus"></i>
+                                                <span>Add to Game Shelf</span>
                                             </button>
                                             <button *ngIf="isGameInShelf(game)" class="btn btn-danger mx-3"
                                                 (click)="removeFromShelf(game._id)">
                                                 <i class="fa fa-minus"></i>
+                                                <span>Remove from Shelf</span>
                                             </button>
                                         </div>
                                     </div>
