@@ -26,6 +26,7 @@ button span {
   white-space: nowrap;
   overflow: hidden;
 }
+
 button:hover span {
   margin-left: 6px;
   max-width: 9rem;
