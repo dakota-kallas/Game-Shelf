@@ -8,6 +8,7 @@ import { LoginComponent } from './components/login/login.component';
 import { DiscoverComponent } from './components/discover/discover.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { GameShelfComponent } from './components/gameshelf/gameshelf.component';
+import { GameComponent } from './components/game/game.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { GameShelfComponent } from './components/gameshelf/gameshelf.component';
     DiscoverComponent,
     NavbarComponent,
     GameShelfComponent,
+    GameComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],

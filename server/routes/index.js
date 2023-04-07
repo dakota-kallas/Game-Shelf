@@ -150,4 +150,32 @@ router.get("/search", function (req, res) {
   }
 });
 
+router.get("/games/:gid", function (req, res) {
+  const gameId = req.params.gid;
+  fetch(
+    `https://api.boardgameatlas.com/api/search?client_id=${BGAClientID}&ids=${gameId}`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.games && data.games.length > 0) {
+        const game = data.games[0];
+        const currentGame = new Game(
+          game.id,
+          game.name,
+          game.average_user_rating,
+          game.images.small,
+          game.min_players,
+          game.max_players,
+          game.year_published
+        );
+        res.status(200).send(currentGame);
+      } else {
+        res.status(404).send("The game was not found, try again later.");
+      }
+    })
+    .catch((err) => {
+      res.status(400).send(err.message);
+    });
+});
+
 module.exports = router;

@@ -18,10 +18,12 @@
                     <table class="table table-striped">
                         <tbody>
                             <tr *ngFor="let game of searchGames">
-                                <td class="thumbnail-cell"><img class="thumbnail" src="{{game.image}}" alt="Game Image">
+                                <td class="thumbnail-cell"><a [routerLink]="['/games', game._id]"><img class="thumbnail"
+                                            src="{{game.image}}" alt="Game Image"></a>
                                 </td>
                                 <td>
-                                    <div class="game-name"><strong>{{game.name}}</strong></div>
+                                    <div class="game-name"><a
+                                            [routerLink]="['/games', game._id]"><strong>{{game.name}}</strong></a></div>
                                     <div class="row">
                                         <div class="col">
                                             <div class="game-info"><i class="fa fa-users"></i>
@@ -51,10 +53,12 @@
                     <table class="table table-striped">
                         <tbody>
                             <tr *ngFor="let game of popularGames">
-                                <td class="thumbnail-cell"><img class="thumbnail" src="{{game.image}}" alt="Game Image">
+                                <td class="thumbnail-cell"><a [routerLink]="['/games', game._id]"><img class="thumbnail"
+                                            src="{{game.image}}" alt="Game Image"></a>
                                 </td>
                                 <td>
-                                    <div class="game-name"><strong>{{game.name}}</strong></div>
+                                    <div class="game-name"><a
+                                            [routerLink]="['/games', game._id]"><strong>{{game.name}}</strong></a></div>
                                     <div class="row">
                                         <div class="col">
                                             <div class="game-info"><i class="fa fa-users"></i>
@@ -84,10 +88,12 @@
                     <table class="table table-striped">
                         <tbody>
                             <tr *ngFor="let game of trendingGames">
-                                <td class="thumbnail-cell"><img class="thumbnail" src="{{game.image}}" alt="Game Image">
+                                <td class="thumbnail-cell"><a [routerLink]="['/games', game._id]"><img class="thumbnail"
+                                            src="{{game.image}}" alt="Game Image"></a>
                                 </td>
                                 <td>
-                                    <div class="game-name"><strong>{{game.name}}</strong></div>
+                                    <div class="game-name"><a
+                                            [routerLink]="['/games', game._id]"><strong>{{game.name}}</strong></a></div>
                                     <div class="row">
                                         <div class="col">
                                             <div class="game-info"><i class="fa fa-users"></i>
