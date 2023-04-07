@@ -29,8 +29,14 @@
                                             <div class="game-info ">{{game.rating}} - released {{game.year}}</div>
                                         </div>
                                         <div class="col text-end">
-                                            <button class="btn btn-success mx-3" (click)="addGameToShelf(game)"><i
-                                                    class="fa fa-plus"></i></button>
+                                            <button *ngIf="!isGameInShelf(game)" class="btn btn-success mx-3"
+                                                (click)="addGameToShelf(game)">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                            <button *ngIf="isGameInShelf(game)" class="btn btn-danger mx-3"
+                                                (click)="removeFromShelf(game._id)">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </td>
@@ -56,8 +62,14 @@
                                             <div class="game-info ">{{game.rating}} - released {{game.year}}</div>
                                         </div>
                                         <div class="col text-end">
-                                            <button class="btn btn-success mx-3" (click)="addGameToShelf(game)"><i
-                                                    class="fa fa-plus"></i></button>
+                                            <button *ngIf="!isGameInShelf(game)" class="btn btn-success mx-3"
+                                                (click)="addGameToShelf(game)">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                            <button *ngIf="isGameInShelf(game)" class="btn btn-danger mx-3"
+                                                (click)="removeFromShelf(game._id)">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </td>
@@ -83,8 +95,14 @@
                                             <div class="game-info ">{{game.rating}} - released {{game.year}}</div>
                                         </div>
                                         <div class="col text-end">
-                                            <button class="btn btn-success mx-3" (click)="addGameToShelf(game)"><i
-                                                    class="fa fa-plus"></i></button>
+                                            <button *ngIf="!isGameInShelf(game)" class="btn btn-success mx-3"
+                                                (click)="addGameToShelf(game)">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                            <button *ngIf="isGameInShelf(game)" class="btn btn-danger mx-3"
+                                                (click)="removeFromShelf(game._id)">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </td>

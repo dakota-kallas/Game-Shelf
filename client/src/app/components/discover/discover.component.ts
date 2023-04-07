@@ -58,6 +58,34 @@ export class DiscoverComponent implements OnInit {
   }
 
   addGameToShelf(game: Game) {
-    this.gameShelfApi.addGameToShelf(game).subscribe();
+    this.gameShelfApi.addGameToShelf(game).subscribe((gameShelf) => {
+      if (
+        gameShelf &&
+        this.gameShelf &&
+        gameShelf.games.findIndex((g) => g._id == game._id) != -1
+      ) {
+        this.gameShelf.games.push(game);
+      }
+    });
+  }
+
+  isGameInShelf(game: Game): boolean {
+    if (
+      this.gameShelf &&
+      this.gameShelf.games.findIndex((g) => g._id == game._id) != -1
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  removeFromShelf(gameId: String) {
+    this.gameShelfApi.removeGameFromShelf(gameId).subscribe((game) => {
+      if (game && this.gameShelf) {
+        this.gameShelf.games = this.gameShelf?.games.filter(
+          (game) => game._id !== gameId
+        );
+      }
+    });
   }
 }
