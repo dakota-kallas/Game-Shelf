@@ -58,13 +58,23 @@ router.get("/gameshelf", function (req, res) {
  */
 router.put("/gameshelf", function (req, res) {
   try {
-    const gameId = req.body.gameId;
-    if (gameId) {
-      let updatedShelf = GameShelfDB.addGameToShelf(
-        req.session.user.email,
-        gameId
-      );
-      res.status(200).json(updatedShelf);
+    const game = req.body.game;
+    if (game) {
+      let gameShelf = GameShelfDB.getByOwner(req.session.user.email);
+      if (
+        gameShelf &&
+        gameShelf.games.find((result) => result._id === game._id)
+      ) {
+        res
+          .status(409)
+          .send("You already have the selected Game on your Shelf.");
+      } else {
+        let updatedShelf = GameShelfDB.addGameToShelf(
+          req.session.user.email,
+          game
+        );
+        res.status(200).json(updatedShelf);
+      }
     } else {
       throw Error("There was an issue providing the game, try again later.");
     }
@@ -76,9 +86,9 @@ router.put("/gameshelf", function (req, res) {
 /**
  * REMOVE FROM GAMESHELF
  */
-router.delete("/gameshelf", function (req, res) {
+router.delete("/gameshelf/:gid", function (req, res) {
   try {
-    const gameId = req.body.gameId;
+    const gameId = req.params.gid;
     if (gameId) {
       let updatedShelf = GameShelfDB.removeFromShelf(
         req.session.user.email,

@@ -1,7 +1,11 @@
 <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand ms-2" href="#">Game Shelf</a>
-
+    <div class="container-fluid w-100">
+        <div class="d-flex justify-content-center w-100">
+            <div class="d-flex justify-content-between">
+                <a class="nav-link mx-auto link" [routerLink]="['/discover']" routerLinkActive="active">Discover</a>
+                <a class="nav-link mx-auto link" [routerLink]="['/gameshelf']" routerLinkActive="active">My Shelf</a>
+            </div>
+        </div>
         <div class="collapse navbar-collapse" id="profile">
             <ul class="navbar-nav" style="position:absolute;right:0;margin-right:3em;">
                 <li id="profile-dropdown" class="nav-item dropdown" [hidden]="user == undefined">

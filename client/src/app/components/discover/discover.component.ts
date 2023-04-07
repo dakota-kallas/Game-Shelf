@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { GameShelf } from 'src/app/models/game-shelf.model';
 import { Game } from 'src/app/models/game.model';
 import { GameService } from 'src/app/services/game.service';
+import { GameShelfService } from 'src/app/services/gameshelf.service';
 
 @Component({
   selector: 'app-discover',
@@ -11,14 +13,27 @@ export class DiscoverComponent implements OnInit {
   searchGames: Game[] | undefined;
   popularGames: Game[] | undefined;
   trendingGames: Game[] | undefined;
+  gameShelf: GameShelf | undefined;
   searched: Boolean = false;
   @Input() value: string | undefined;
 
-  constructor(private gameApi: GameService) {}
+  constructor(
+    private gameApi: GameService,
+    private gameShelfApi: GameShelfService
+  ) {}
 
   ngOnInit(): void {
+    this.getGameShelf();
     this.popular();
     this.trending();
+  }
+
+  getGameShelf() {
+    this.gameShelfApi.getGameShelf().subscribe((gameShelf) => {
+      if (gameShelf.owner) {
+        this.gameShelf = gameShelf;
+      }
+    });
   }
 
   popular() {
@@ -40,5 +55,9 @@ export class DiscoverComponent implements OnInit {
       });
       this.searched = true;
     }
+  }
+
+  addGameToShelf(game: Game) {
+    this.gameShelfApi.addGameToShelf(game).subscribe();
   }
 }

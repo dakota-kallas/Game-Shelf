@@ -4,10 +4,16 @@ import { LoginComponent } from './components/login/login.component';
 import { DiscoverComponent } from './components/discover/discover.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginGuard } from './guards/login.guard';
+import { GameShelfComponent } from './components/gameshelf/gameshelf.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
   { path: 'discover', component: DiscoverComponent, canActivate: [AuthGuard] },
+  {
+    path: 'gameshelf',
+    component: GameShelfComponent,
+    canActivate: [AuthGuard],
+  },
   { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];
 

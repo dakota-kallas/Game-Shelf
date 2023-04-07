@@ -1,0 +1,31 @@
+<section class="background">
+    <div class="container my-5">
+        <div class="col">
+            <div class="row my-3">
+                <h2>My Game Shelf</h2>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr *ngFor="let game of gameShelf?.games">
+                            <td class="thumbnail-cell"><img class="thumbnail" src="{{game.image}}" alt="Game Image">
+                            </td>
+                            <td>
+                                <div class="game-name"><strong>{{game.name}}</strong></div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="game-info"><i class="fa fa-users"></i>
+                                            {{game.minPlayers}}-{{game.maxPlayers}}</div>
+                                        <div class="game-info ">{{game.rating}} - released {{game.year}}</div>
+                                    </div>
+                                    <div class="col text-end">
+                                        <button class="btn btn-danger mx-3" (click)="removeFromShelf(game._id)"><i
+                                                class="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

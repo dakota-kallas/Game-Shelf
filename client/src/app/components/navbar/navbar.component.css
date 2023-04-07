@@ -1,0 +1,21 @@
+#profile {
+  flex-grow: unset;
+}
+
+.link {
+  color: var(--bs-white);
+  text-decoration: none !important;
+  width: 120px; /* Change the value as needed */
+  display: inline-block;
+  text-align: center;
+}
+
+.link:hover,
+.link.active:hover {
+  font-weight: bold;
+  transition: font-weight 0.2s ease !important;
+}
+
+.link.active {
+  color: var(--bs-secondary);
+}
