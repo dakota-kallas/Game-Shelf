@@ -107,7 +107,7 @@ router.get("/search", function (req, res) {
       searchParam = `&name=$${encodeURIComponent(searchName)}`;
     }
     if (orderBy) {
-      orderParam = `&order_by=${orderBy}`;
+      orderParam = `&order_by=${orderBy}&limit=10`;
     }
     fetch(
       `https://api.boardgameatlas.com/api/search?client_id=${BGAClientID}${searchParam}${orderParam}`

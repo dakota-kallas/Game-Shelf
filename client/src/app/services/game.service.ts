@@ -14,4 +14,8 @@ export class GameService {
   search(name: string): Observable<Game[]> {
     return this.http.get<Game[]>(this.URL + `/search?name=${name}`);
   }
+
+  orderBy(field: string): Observable<Game[]> {
+    return this.http.get<Game[]>(this.URL + `/search?orderBy=${field}`);
+  }
 }

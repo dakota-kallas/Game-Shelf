@@ -1,9 +1,19 @@
 .thumbnail {
-  width: 60px;
+  height: 80px;
+  max-width: 80px;
+  float: right;
+}
+
+.thumbnail-cell {
+  width: 70px;
 }
 
 .game-info {
   font-size: 0.8rem;
+}
+
+.game-name {
+  text-overflow: ellipsis;
 }
 
 tr:first-child td:first-child {
