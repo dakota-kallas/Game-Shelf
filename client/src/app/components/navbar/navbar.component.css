@@ -10,10 +10,13 @@
   text-align: center;
 }
 
-.link:hover,
-.link.active:hover {
+.link:hover {
   font-weight: bold;
-  transition: font-weight 0.2s ease !important;
+  transition: font-weight 0.2s ease;
+}
+
+.link.active:hover {
+  font-weight: unset !important;
 }
 
 .link.active {
