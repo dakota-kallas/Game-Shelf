@@ -39,13 +39,11 @@
                                                     </ng-container>
                                                 </ng-container>
                                                 <ng-container *ngIf="game.rating">
-                                                    <!-- TODO: Need to FIX -->
                                                     <ng-container
                                                         *ngFor="let i of [].constructor(Math.floor(game.rating))">
                                                         <i class="fa fa-star"></i>
                                                     </ng-container>
-                                                    <ng-container
-                                                        *ngIf="(Math.round(game.rating * 2) / 2) - Math.floor(game.rating) == 0.5">
+                                                    <ng-container *ngIf="game.rating - Math.floor(game.rating) == 0.5">
                                                         <i class="fa fa-star-half-o"></i>
                                                     </ng-container>
                                                     <ng-container *ngIf="Math.ceil(game.rating) != 5">
@@ -103,13 +101,11 @@
                                                     </ng-container>
                                                 </ng-container>
                                                 <ng-container *ngIf="game.rating">
-                                                    <!-- TODO: Need to FIX -->
                                                     <ng-container
                                                         *ngFor="let i of [].constructor(Math.floor(game.rating))">
                                                         <i class="fa fa-star"></i>
                                                     </ng-container>
-                                                    <ng-container
-                                                        *ngIf="(Math.round(game.rating * 2) / 2) - Math.floor(game.rating) == 0.5">
+                                                    <ng-container *ngIf="game.rating - Math.floor(game.rating) == 0.5">
                                                         <i class="fa fa-star-half-o"></i>
                                                     </ng-container>
                                                     <ng-container *ngIf="Math.ceil(game.rating) != 5">
@@ -167,13 +163,11 @@
                                                     </ng-container>
                                                 </ng-container>
                                                 <ng-container *ngIf="game.rating">
-                                                    <!-- TODO: Need to FIX -->
                                                     <ng-container
                                                         *ngFor="let i of [].constructor(Math.floor(game.rating))">
                                                         <i class="fa fa-star"></i>
                                                     </ng-container>
-                                                    <ng-container
-                                                        *ngIf="(Math.round(game.rating * 2) / 2) - Math.floor(game.rating) == 0.5">
+                                                    <ng-container *ngIf="game.rating - Math.floor(game.rating) == 0.5">
                                                         <i class="fa fa-star-half-o"></i>
                                                     </ng-container>
                                                     <ng-container *ngIf="Math.ceil(game.rating) != 5">

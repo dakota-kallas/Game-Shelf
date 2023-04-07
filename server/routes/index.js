@@ -131,7 +131,7 @@ router.get("/search", function (req, res) {
             const currentGame = new Game(
               game.id,
               game.name,
-              game.average_user_rating,
+              Math.round(game.average_user_rating * 2) / 2,
               game.images.small,
               game.min_players,
               game.max_players,
@@ -162,7 +162,7 @@ router.get("/games/:gid", function (req, res) {
         const currentGame = new Game(
           game.id,
           game.name,
-          game.average_user_rating,
+          Math.round(game.average_user_rating * 2) / 2,
           game.images.small,
           game.min_players,
           game.max_players,
