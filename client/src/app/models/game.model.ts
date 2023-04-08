@@ -6,4 +6,5 @@ export interface Game {
   minPlayers: number | undefined;
   maxPlayers: number | undefined;
   year: number | undefined;
+  playtime: String | undefined;
 }

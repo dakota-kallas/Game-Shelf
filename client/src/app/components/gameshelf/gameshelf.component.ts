@@ -11,6 +11,8 @@ import { GameShelfService } from 'src/app/services/gameshelf.service';
 })
 export class GameShelfComponent implements OnInit {
   gameShelf: GameShelf | undefined;
+  Math = window.Math;
+
   constructor(private gameShelfApi: GameShelfService) {}
   ngOnInit(): void {
     this.getGameShelf();

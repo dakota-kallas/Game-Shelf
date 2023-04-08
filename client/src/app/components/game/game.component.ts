@@ -17,6 +17,7 @@ export class GameComponent implements OnInit {
     minPlayers: undefined,
     maxPlayers: undefined,
     year: undefined,
+    playtime: undefined,
   };
   game: Game = Object.assign({}, GameComponent.EMPTY_Game);
 

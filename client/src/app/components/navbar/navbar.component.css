@@ -5,18 +5,18 @@
 .link {
   color: var(--bs-white);
   text-decoration: none !important;
-  width: 120px; /* Change the value as needed */
+  width: fit-content; /* Change the value as needed */
   display: inline-block;
   text-align: center;
+  font-weight: bold;
 }
 
 .link:hover {
-  font-weight: bold;
-  transition: font-weight 0.2s ease;
+  color: var(--bs-blue);
+  transition: color 0.2s ease;
 }
 
 .link.active:hover {
-  font-weight: unset !important;
 }
 
 .link.active {

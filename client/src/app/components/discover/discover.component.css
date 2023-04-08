@@ -17,6 +17,11 @@
   text-decoration: none !important;
 }
 
+.search-button {
+  flex: unset !important;
+  width: fit-content;
+}
+
 button span {
   max-width: 0;
   -webkit-transition: max-width 1s;

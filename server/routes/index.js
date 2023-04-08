@@ -135,7 +135,8 @@ router.get("/search", function (req, res) {
               game.images.small,
               game.min_players,
               game.max_players,
-              game.year_published
+              game.year_published,
+              game.playtime ?? "--"
             );
             games.push(currentGame);
           });
