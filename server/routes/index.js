@@ -128,15 +128,24 @@ router.get("/search", function (req, res) {
 
         if (data.games) {
           data.games.forEach((game) => {
+            console.log(game.image_url);
             const currentGame = new Game(
               game.id,
               game.name,
               Math.round(game.average_user_rating * 2) / 2,
               game.images.small,
+              game.image_url,
               game.min_players,
               game.max_players,
               game.year_published,
-              game.playtime ?? "--"
+              game.playtime ?? "--",
+              game.plays,
+              game.rank,
+              game.trending_rank,
+              game.description,
+              game.min_age,
+              game.rules_url,
+              game.primary_publisher?.name
             );
             games.push(currentGame);
           });
@@ -165,9 +174,18 @@ router.get("/games/:gid", function (req, res) {
           game.name,
           Math.round(game.average_user_rating * 2) / 2,
           game.images.small,
+          game.image_url,
           game.min_players,
           game.max_players,
-          game.year_published
+          game.year_published,
+          game.playtime ?? "--",
+          game.plays,
+          game.rank,
+          game.trending_rank,
+          game.description,
+          game.min_age,
+          game.rules_url,
+          game.primary_publisher?.name
         );
         res.status(200).send(currentGame);
       } else {

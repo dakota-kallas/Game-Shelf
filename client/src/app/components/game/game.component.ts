@@ -14,10 +14,18 @@ export class GameComponent implements OnInit {
     name: undefined,
     rating: undefined,
     image: undefined,
+    thumbnail: undefined,
     minPlayers: undefined,
     maxPlayers: undefined,
     year: undefined,
     playtime: undefined,
+    plays: undefined,
+    rank: undefined,
+    trendingRank: undefined,
+    description: undefined,
+    minAge: undefined,
+    rules: undefined,
+    publisher: undefined,
   };
   game: Game = Object.assign({}, GameComponent.EMPTY_Game);
 

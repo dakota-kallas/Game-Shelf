@@ -1,0 +1,11 @@
+.flex-unset {
+  flex: unset !important;
+}
+
+.w-fit-content {
+  width: fit-content !important;
+}
+
+.thumbnail {
+  width: 300px;
+}
