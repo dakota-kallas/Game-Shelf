@@ -22,13 +22,13 @@
                         <tbody>
                             <tr *ngFor="let game of searchGames">
                                 <td class="thumbnail-cell">
-                                    <a [routerLink]="['/games', game._id]"><img class="thumbnail" src="{{game.image}}"
-                                            alt="Game Image"></a>
+                                    <a [routerLink]="['/games', game.bgaGameId]"><img class="thumbnail"
+                                            src="{{game.image}}" alt="Game Image"></a>
                                 </td>
                                 <td>
                                     <div class="game-name">
                                         <a class="text-dark text-decoration-none"
-                                            [routerLink]="['/games', game._id]"><strong>{{game.name}}</strong></a>
+                                            [routerLink]="['/games', game.bgaGameId]"><strong>{{game.name}}</strong></a>
                                     </div>
                                     <div class="row">
                                         <div class="col">
@@ -69,7 +69,7 @@
                                                 <span>Add to Game Shelf</span>
                                             </button>
                                             <button *ngIf="isGameInShelf(game)" class="btn btn-danger mx-3"
-                                                (click)="removeFromShelf(game._id)">
+                                                (click)="removeFromShelf(game.bgaGameId)">
                                                 <i class="fa fa-minus"></i>
                                                 <span>Remove from Shelf</span>
                                             </button>
@@ -88,13 +88,13 @@
                         <tbody>
                             <tr *ngFor="let game of popularGames">
                                 <td class="thumbnail-cell">
-                                    <a [routerLink]="['/games', game._id]"><img class="thumbnail" src="{{game.image}}"
-                                            alt="Game Image"></a>
+                                    <a [routerLink]="['/games', game.bgaGameId]"><img class="thumbnail"
+                                            src="{{game.image}}" alt="Game Image"></a>
                                 </td>
                                 <td>
                                     <div class="game-name">
                                         <a class="text-dark text-decoration-none"
-                                            [routerLink]="['/games', game._id]"><strong>{{game.name}}</strong></a>
+                                            [routerLink]="['/games', game.bgaGameId]"><strong>{{game.name}}</strong></a>
                                     </div>
                                     <div class="row">
                                         <div class="col">
@@ -135,7 +135,7 @@
                                                 <span>Add to Game Shelf</span>
                                             </button>
                                             <button *ngIf="isGameInShelf(game)" class="btn btn-danger mx-3"
-                                                (click)="removeFromShelf(game._id)">
+                                                (click)="removeFromShelf(game.bgaGameId)">
                                                 <i class="fa fa-minus"></i>
                                                 <span>Remove from Shelf</span>
                                             </button>
@@ -154,13 +154,13 @@
                         <tbody>
                             <tr *ngFor="let game of trendingGames">
                                 <td class="thumbnail-cell">
-                                    <a [routerLink]="['/games', game._id]"><img class="thumbnail" src="{{game.image}}"
-                                            alt="Game Image"></a>
+                                    <a [routerLink]="['/games', game.bgaGameId]"><img class="thumbnail"
+                                            src="{{game.image}}" alt="Game Image"></a>
                                 </td>
                                 <td>
                                     <div class="game-name">
                                         <a class="text-dark text-decoration-none"
-                                            [routerLink]="['/games', game._id]"><strong>{{game.name}}</strong></a>
+                                            [routerLink]="['/games', game.bgaGameId]"><strong>{{game.name}}</strong></a>
                                     </div>
                                     <div class="row">
                                         <div class="col">
@@ -201,7 +201,7 @@
                                                 <span>Add to Game Shelf</span>
                                             </button>
                                             <button *ngIf="isGameInShelf(game)" class="btn btn-danger mx-3"
-                                                (click)="removeFromShelf(game._id)">
+                                                (click)="removeFromShelf(game.bgaGameId)">
                                                 <i class="fa fa-minus"></i>
                                                 <span>Remove from Shelf</span>
                                             </button>

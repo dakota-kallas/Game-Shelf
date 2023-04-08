@@ -19,7 +19,7 @@ export class GameService {
     return this.http.get<Game[]>(this.URL + `/search?orderBy=${field}`);
   }
 
-  getOne(gameId: string): Observable<Game> {
-    return this.http.get<Game>(this.URL + `/games/${gameId}`);
+  getOne(bgaGameId: string): Observable<Game> {
+    return this.http.get<Game>(this.URL + `/games/${bgaGameId}`);
   }
 }

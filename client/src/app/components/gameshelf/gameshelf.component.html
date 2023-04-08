@@ -7,13 +7,13 @@
                     <tbody>
                         <tr *ngFor="let game of gameShelf?.games">
                             <td class="thumbnail-cell">
-                                <a [routerLink]="['/games', game._id]"><img class="thumbnail" src="{{game.image}}"
+                                <a [routerLink]="['/games', game.bgaGameId]"><img class="thumbnail" src="{{game.image}}"
                                         alt="Game Image"></a>
                             </td>
                             <td>
                                 <div class="game-name">
                                     <a class="text-dark text-decoration-none"
-                                        [routerLink]="['/games', game._id]"><strong>{{game.name}}</strong></a>
+                                        [routerLink]="['/games', game.bgaGameId]"><strong>{{game.name}}</strong></a>
                                 </div>
                                 <div class="row">
                                     <div class="col">
@@ -47,7 +47,7 @@
                                         </div>
                                     </div>
                                     <div class="col text-end">
-                                        <button class="btn btn-danger mx-3" (click)="removeFromShelf(game._id)">
+                                        <button class="btn btn-danger mx-3" (click)="removeFromShelf(game.bgaGameId)">
                                             <i class="fa fa-minus"></i>
                                             <span>Remove from Shelf</span>
                                         </button>

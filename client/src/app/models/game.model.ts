@@ -1,5 +1,5 @@
 export interface Game {
-  _id: String;
+  bgaGameId: String;
   name: String | undefined;
   rating: number | undefined;
   image: String | undefined;

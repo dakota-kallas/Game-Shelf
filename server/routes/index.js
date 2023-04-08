@@ -47,7 +47,53 @@ router.all("*", (req, res, next) => {
 router.get("/gameshelf", function (req, res) {
   try {
     let gameshelf = GameShelfDB.getByOwner(req.session.user.email);
-    res.status(200).send(gameshelf);
+    let idString = "";
+    gameshelf.games.forEach(
+      (bgaGameId) => (idString = `${idString},${bgaGameId}`)
+    );
+    if (idString != "") {
+      fetch(
+        `https://api.boardgameatlas.com/api/search?client_id=${BGAClientID}&ids=${idString}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.games && data.games.length > 0) {
+            let games = [];
+
+            data.games.forEach((game) => {
+              const currentGame = new Game(
+                game.id,
+                game.name,
+                Math.round(game.average_user_rating * 2) / 2,
+                game.images.small,
+                game.image_url,
+                game.min_players,
+                game.max_players,
+                game.year_published,
+                game.playtime ?? "--",
+                game.plays,
+                game.rank,
+                game.trending_rank,
+                game.description,
+                game.min_age,
+                game.rules_url,
+                game.primary_publisher?.name
+              );
+              games.push(currentGame);
+            });
+
+            gameshelf.games = games;
+            res.status(200).send(gameshelf);
+          } else {
+            res.status(404).send("Game(s) were not found, try again later.");
+          }
+        })
+        .catch((err) => {
+          res.status(400).send(err.message);
+        });
+    } else {
+      res.status(200).send(gameshelf);
+    }
   } catch (err) {
     res.status(400).send(err.message);
   }
@@ -63,7 +109,7 @@ router.put("/gameshelf", function (req, res) {
       let gameShelf = GameShelfDB.getByOwner(req.session.user.email);
       if (
         gameShelf &&
-        gameShelf.games.find((result) => result._id === game._id)
+        gameShelf.games.find((result) => result === game.bgaGameId)
       ) {
         res
           .status(409)
@@ -71,9 +117,59 @@ router.put("/gameshelf", function (req, res) {
       } else {
         let updatedShelf = GameShelfDB.addGameToShelf(
           req.session.user.email,
-          game
+          game.bgaGameId
         );
-        res.status(200).json(updatedShelf);
+        let idString = "";
+        if (updatedShelf.games) {
+          updatedShelf.games.forEach(
+            (bgaGameId) => (idString = `${idString},${bgaGameId}`)
+          );
+        }
+        if (idString != "") {
+          fetch(
+            `https://api.boardgameatlas.com/api/search?client_id=${BGAClientID}&ids=${idString}`
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.games && data.games.length > 0) {
+                let games = [];
+
+                data.games.forEach((game) => {
+                  const currentGame = new Game(
+                    game.id,
+                    game.name,
+                    Math.round(game.average_user_rating * 2) / 2,
+                    game.images.small,
+                    game.image_url,
+                    game.min_players,
+                    game.max_players,
+                    game.year_published,
+                    game.playtime ?? "--",
+                    game.plays,
+                    game.rank,
+                    game.trending_rank,
+                    game.description,
+                    game.min_age,
+                    game.rules_url,
+                    game.primary_publisher?.name
+                  );
+                  games.push(currentGame);
+                });
+
+                updatedShelf.games = games;
+                res.status(200).send(updatedShelf);
+              } else {
+                res
+                  .status(404)
+                  .send("Game(s) were not found, try again later.");
+              }
+            })
+            .catch((err) => {
+              res.status(400).send(err.message);
+            });
+        } else {
+          res.status(200).send(updatedShelf);
+        }
       }
     } else {
       throw Error("There was an issue providing the game, try again later.");
@@ -88,13 +184,45 @@ router.put("/gameshelf", function (req, res) {
  */
 router.delete("/gameshelf/:gid", function (req, res) {
   try {
-    const gameId = req.params.gid;
-    if (gameId) {
-      let updatedShelf = GameShelfDB.removeFromShelf(
+    const bgaGameId = req.params.gid;
+    if (bgaGameId) {
+      let removedGameBGAId = GameShelfDB.removeFromShelf(
         req.session.user.email,
-        gameId
+        bgaGameId
       );
-      res.status(200).json(updatedShelf);
+      fetch(
+        `https://api.boardgameatlas.com/api/search?client_id=${BGAClientID}&ids=${removedGameBGAId}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.games && data.games.length > 0) {
+            const game = data.games[0];
+            const removedGame = new Game(
+              game.id,
+              game.name,
+              Math.round(game.average_user_rating * 2) / 2,
+              game.images.small,
+              game.image_url,
+              game.min_players,
+              game.max_players,
+              game.year_published,
+              game.playtime ?? "--",
+              game.plays,
+              game.rank,
+              game.trending_rank,
+              game.description,
+              game.min_age,
+              game.rules_url,
+              game.primary_publisher?.name
+            );
+            res.status(200).send(removedGame);
+          } else {
+            res.status(404).send("The game was not found, try again later.");
+          }
+        })
+        .catch((err) => {
+          res.status(400).send(err.message);
+        });
     } else {
       throw Error("There was an issue providing the game, try again later.");
     }
@@ -128,7 +256,6 @@ router.get("/search", function (req, res) {
 
         if (data.games) {
           data.games.forEach((game) => {
-            console.log(game.image_url);
             const currentGame = new Game(
               game.id,
               game.name,
@@ -161,9 +288,9 @@ router.get("/search", function (req, res) {
 });
 
 router.get("/games/:gid", function (req, res) {
-  const gameId = req.params.gid;
+  const bgaGameId = req.params.gid;
   fetch(
-    `https://api.boardgameatlas.com/api/search?client_id=${BGAClientID}&ids=${gameId}`
+    `https://api.boardgameatlas.com/api/search?client_id=${BGAClientID}&ids=${bgaGameId}`
   )
     .then((response) => response.json())
     .then((data) => {

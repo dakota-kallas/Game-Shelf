@@ -1,6 +1,6 @@
 class Game {
   constructor(
-    id,
+    bgaGameId,
     name,
     rating,
     image,
@@ -17,7 +17,7 @@ class Game {
     rules,
     publisher
   ) {
-    this._id = id;
+    this.bgaGameId = bgaGameId;
     this.name = name;
     this.rating = rating;
     this.image = image;

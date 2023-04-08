@@ -10,7 +10,7 @@ import { GameService } from 'src/app/services/game.service';
 })
 export class GameComponent implements OnInit {
   private static EMPTY_Game = {
-    _id: '',
+    bgaGameId: '',
     name: undefined,
     rating: undefined,
     image: undefined,

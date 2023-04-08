@@ -37,21 +37,17 @@ function isGameShelf(obj) {
   );
 }
 
-function addGameToShelf(owner, game) {
-  BY_OWNER[owner].games.push(Object.assign({}, game));
+function addGameToShelf(owner, bgaGameId) {
+  BY_OWNER[owner].games.push(bgaGameId);
   let gameshelf = BY_OWNER[owner];
   return gameshelf && Object.assign({}, gameshelf);
 }
 
-function removeFromShelf(owner, gameId) {
-  let game = Object.assign(
-    {},
-    BY_OWNER[owner].games.find((game) => game._id === gameId)
-  );
+function removeFromShelf(owner, bgaGameId) {
   BY_OWNER[owner].games = BY_OWNER[owner].games.filter(
-    (game) => game._id !== gameId
+    (gameId) => gameId !== bgaGameId
   );
-  return game;
+  return bgaGameId;
 }
 
 module.exports = {

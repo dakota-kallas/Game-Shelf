@@ -22,7 +22,7 @@ export class GameShelfService {
     });
   }
 
-  removeGameFromShelf(gameId: String): Observable<Game> {
-    return this.http.delete<Game>(this.URL + `/gameshelf/${gameId}`);
+  removeGameFromShelf(bgaGameId: String): Observable<Game> {
+    return this.http.delete<Game>(this.URL + `/gameshelf/${bgaGameId}`);
   }
 }

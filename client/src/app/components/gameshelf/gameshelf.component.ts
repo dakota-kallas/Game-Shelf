@@ -26,11 +26,11 @@ export class GameShelfComponent implements OnInit {
     });
   }
 
-  removeFromShelf(gameId: String) {
-    this.gameShelfApi.removeGameFromShelf(gameId).subscribe((game) => {
+  removeFromShelf(bgaGameId: String) {
+    this.gameShelfApi.removeGameFromShelf(bgaGameId).subscribe((game) => {
       if (game && this.gameShelf) {
         this.gameShelf.games = this.gameShelf?.games.filter(
-          (game) => game._id !== gameId
+          (game) => game.bgaGameId !== bgaGameId
         );
       }
     });
