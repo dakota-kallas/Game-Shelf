@@ -1,6 +1,7 @@
 <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand ms-2 position-absolute" href="#"><img class="logo mx-2" src="../../../assets/gs-logo.png"
+            alt="Game Shelf Logo">Game Shelf</a>
     <div class="container-fluid w-100">
-        <a class="navbar-brand ms-2" [hidden]="user != undefined" href="#">Game Shelf</a>
         <div class="d-flex justify-content-center w-100">
             <div class="d-flex justify-content-between">
                 <a class="nav-link mx-auto link" [hidden]="user == undefined" [routerLink]="['/discover']"

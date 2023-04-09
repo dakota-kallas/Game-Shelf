@@ -2,6 +2,10 @@
   flex-grow: unset;
 }
 
+.logo {
+  width: 24px;
+}
+
 .link {
   color: var(--bs-white);
   text-decoration: none !important;

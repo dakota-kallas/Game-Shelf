@@ -58,6 +58,12 @@ export class DiscoverComponent implements OnInit {
     }
   }
 
+  clearSearch() {
+    this.searchGames = undefined;
+    this.value = '';
+    this.searched = false;
+  }
+
   addGameToShelf(game: Game) {
     this.gameShelfApi.addGameToShelf(game).subscribe((gameShelf) => {
       if (
