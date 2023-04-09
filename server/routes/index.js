@@ -10,53 +10,9 @@ let Game = require("../models/game.js");
 const saltRounds = 10;
 const BGAClientID = "byh1ZsZ8eh";
 
-UserDB.createUser(
-  "dakota@test.com",
-  bcrypt.hashSync("123", saltRounds),
-  "Dakota",
-  "Kallas",
-  true,
-  true
-)
-  .then((user) => {
-    console.log(`Created User document for email ${user.email}`);
-  })
-  .catch((error) => {
-    console.error("Error creating GameShelf document:", error);
-  });
+// makeMockData();
 
-GameShelfDB.createGameShelf("dakota@test.com", [])
-  .then((gameshelf) => {
-    console.log(`Created GameShelf document for owner ${gameshelf.owner}`);
-  })
-  .catch((error) => {
-    console.error("Error creating GameShelf document:", error);
-  });
-
-UserDB.createUser(
-  "other@test.com",
-  bcrypt.hashSync("123", saltRounds),
-  "Test",
-  "User",
-  true,
-  false
-)
-  .then((user) => {
-    console.log(`Created User document for email ${user.email}`);
-  })
-  .catch((error) => {
-    console.error("Error creating GameShelf document:", error);
-  });
-
-GameShelfDB.createGameShelf("other@test.com", [])
-  .then((gameshelf) => {
-    console.log(`Created GameShelf document for owner ${gameshelf.owner}`);
-  })
-  .catch((error) => {
-    console.error("Error creating GameShelf document:", error);
-  });
-
-// Routes
+// ROUTES
 
 router.all("*", (req, res, next) => {
   if (req.session && req.session.user) {
@@ -244,6 +200,8 @@ router.get("/games/:gid", async function (req, res) {
   }
 });
 
+// HELPER METHODS
+
 /**
  * Helper method used to fetch game(s) from the BoardGameAtlas API
  * @param {String[]} idListString
@@ -286,6 +244,57 @@ async function getGames(idListString) {
     })
     .catch((err) => {
       return null;
+    });
+}
+
+/**
+ * Function used to create initial data in database
+ */
+function makeMockData() {
+  UserDB.createUser(
+    "dakota@test.com",
+    bcrypt.hashSync("123", saltRounds),
+    "Dakota",
+    "Kallas",
+    true,
+    true
+  )
+    .then((user) => {
+      console.log(`Created User document for email ${user.email}`);
+    })
+    .catch((error) => {
+      console.error("Error creating GameShelf document:", error);
+    });
+
+  GameShelfDB.createGameShelf("dakota@test.com", [])
+    .then((gameshelf) => {
+      console.log(`Created GameShelf document for owner ${gameshelf.owner}`);
+    })
+    .catch((error) => {
+      console.error("Error creating GameShelf document:", error);
+    });
+
+  UserDB.createUser(
+    "other@test.com",
+    bcrypt.hashSync("123", saltRounds),
+    "Test",
+    "User",
+    true,
+    false
+  )
+    .then((user) => {
+      console.log(`Created User document for email ${user.email}`);
+    })
+    .catch((error) => {
+      console.error("Error creating GameShelf document:", error);
+    });
+
+  GameShelfDB.createGameShelf("other@test.com", [])
+    .then((gameshelf) => {
+      console.log(`Created GameShelf document for owner ${gameshelf.owner}`);
+    })
+    .catch((error) => {
+      console.error("Error creating GameShelf document:", error);
     });
 }
 
