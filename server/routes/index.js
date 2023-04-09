@@ -1,7 +1,6 @@
 var express = require("express");
 var router = express.Router();
 const bcrypt = require("bcryptjs");
-const convert = require("xml-js");
 router.use(express.urlencoded({ extended: true }));
 
 let UserDB = require("../models/user.js");
@@ -11,21 +10,51 @@ let Game = require("../models/game.js");
 const saltRounds = 10;
 const BGAClientID = "byh1ZsZ8eh";
 
-new UserDB.User(
-  "dakota@test.com",
-  bcrypt.hashSync("123", saltRounds),
-  "Dakota",
-  "Kallas"
-);
-new GameShelfDB.GameShelf("dakota@test.com", []);
+// UserDB.createUser(
+//   "dakota@test.com",
+//   bcrypt.hashSync("123", saltRounds),
+//   "Dakota",
+//   "Kallas",
+//   true,
+//   true
+// )
+//   .then((user) => {
+//     console.log(`Created User document for email ${user.email}`);
+//   })
+//   .catch((error) => {
+//     console.error("Error creating GameShelf document:", error);
+//   });
 
-new UserDB.User(
-  "other@test.com",
-  bcrypt.hashSync("123", saltRounds),
-  "Other",
-  "User"
-);
-new GameShelfDB.GameShelf("other@test.com", []);
+// GameShelfDB.createGameShelf("dakota@test.com", [])
+//   .then((gameshelf) => {
+//     console.log(`Created GameShelf document for owner ${gameshelf.owner}`);
+//   })
+//   .catch((error) => {
+//     console.error("Error creating GameShelf document:", error);
+//   });
+
+// UserDB.createUser(
+//   "other@test.com",
+//   bcrypt.hashSync("123", saltRounds),
+//   "Test",
+//   "User",
+//   true,
+//   false
+// )
+//   .then((user) => {
+//     console.log(`Created User document for email ${user.email}`);
+//   })
+//   .catch((error) => {
+//     console.error("Error creating GameShelf document:", error);
+//   });
+
+// GameShelfDB.createGameShelf("other@test.com", [])
+//   .then((gameshelf) => {
+//     console.log(`Created GameShelf document for owner ${gameshelf.owner}`);
+//   })
+//   .catch((error) => {
+//     console.error("Error creating GameShelf document:", error);
+//   });
 
 // Routes
 
@@ -44,9 +73,9 @@ router.all("*", (req, res, next) => {
 /**
  * GET GAMESHELF FOR USER
  */
-router.get("/gameshelf", function (req, res) {
+router.get("/gameshelf", async function (req, res) {
   try {
-    let gameshelf = GameShelfDB.getByOwner(req.session.user.email);
+    let gameshelf = await GameShelfDB.getByOwner(req.session.user.email);
     let idString = "";
     gameshelf.games.forEach(
       (bgaGameId) => (idString = `${idString},${bgaGameId}`)
@@ -102,11 +131,11 @@ router.get("/gameshelf", function (req, res) {
 /**
  * ADD TO GAMESHELF
  */
-router.put("/gameshelf", function (req, res) {
+router.put("/gameshelf", async function (req, res) {
   try {
     const game = req.body.game;
     if (game) {
-      let gameShelf = GameShelfDB.getByOwner(req.session.user.email);
+      let gameShelf = await GameShelfDB.getByOwner(req.session.user.email);
       if (
         gameShelf &&
         gameShelf.games.find((result) => result === game.bgaGameId)
@@ -115,7 +144,7 @@ router.put("/gameshelf", function (req, res) {
           .status(409)
           .send("You already have the selected Game on your Shelf.");
       } else {
-        let updatedShelf = GameShelfDB.addGameToShelf(
+        let updatedShelf = await GameShelfDB.addGameToShelf(
           req.session.user.email,
           game.bgaGameId
         );
@@ -182,11 +211,11 @@ router.put("/gameshelf", function (req, res) {
 /**
  * REMOVE FROM GAMESHELF
  */
-router.delete("/gameshelf/:gid", function (req, res) {
+router.delete("/gameshelf/:gid", async function (req, res) {
   try {
     const bgaGameId = req.params.gid;
     if (bgaGameId) {
-      let removedGameBGAId = GameShelfDB.removeFromShelf(
+      let removedGameBGAId = await GameShelfDB.removeFromShelf(
         req.session.user.email,
         bgaGameId
       );
@@ -235,7 +264,7 @@ router.delete("/gameshelf/:gid", function (req, res) {
  * SEARCH GAMES
  * Order_by Ex. rank, trending, plays (also limit?)
  */
-router.get("/search", function (req, res) {
+router.get("/search", async function (req, res) {
   const searchName = req.query.name;
   const orderBy = req.query.orderBy;
   if (searchName || orderBy) {
@@ -287,7 +316,7 @@ router.get("/search", function (req, res) {
   }
 });
 
-router.get("/games/:gid", function (req, res) {
+router.get("/games/:gid", async function (req, res) {
   const bgaGameId = req.params.gid;
   fetch(
     `https://api.boardgameatlas.com/api/search?client_id=${BGAClientID}&ids=${bgaGameId}`

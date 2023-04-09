@@ -6,11 +6,11 @@ let UserDB = require("../models/user.js");
 const multer = require("multer");
 const upload = multer();
 
-router.post("/login", upload.none(), (req, res) => {
+router.post("/login", upload.none(), async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  let user = UserDB.getByEmail(email);
+  let user = await UserDB.getByEmail(email);
   const ERROR = `Invalid credentials`;
 
   if (user) {

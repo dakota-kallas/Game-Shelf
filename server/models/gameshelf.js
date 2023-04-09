@@ -1,59 +1,50 @@
-// const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
-// const GameShelfSchema = new mongoose.Schema({
-//   owner: { type: String, required: true, unique: true },
-//   games: { type: [Number], required: true, default: [] },
-// });
+const GameShelfSchema = new mongoose.Schema(
+  {
+    owner: { type: String, required: true, unique: true },
+    games: { type: [String], required: true, default: [] },
+  },
+  { versionKey: false }
+);
 
-// const GameShelf = mongoose.model("GameShelf", GameShelfSchema);
+const GameShelf = mongoose.model("GameShelf", GameShelfSchema);
 
-// module.exports = {
-//   GameShelf: GameShelf,
-// };
+async function createGameShelf(owner, games) {
+  const gameshelf = new GameShelf({ owner, games });
+  await gameshelf.save();
+  return gameshelf.toObject();
+}
 
-const { v4: uuidv4 } = require("uuid");
+async function getByOwner(owner) {
+  const gameshelf = await GameShelf.findOne({ owner });
+  return gameshelf && gameshelf.toObject();
+}
 
-const BY_OWNER = {};
-
-class GameShelf {
-  constructor(owner, games) {
-    this.owner = owner;
-    this.games = games;
-    this._id = uuidv4();
-
-    BY_OWNER[this.owner] = this;
+async function addGameToShelf(owner, bgaGameId) {
+  const gameshelf = await GameShelf.findOne({ owner });
+  if (!gameshelf) {
+    throw new Error("GameShelf not found");
   }
+  gameshelf.games.push(bgaGameId);
+  await gameshelf.save();
+  return gameshelf.toObject();
 }
 
-function getByOwner(owner) {
-  let gameshelf = BY_OWNER[owner];
-  return gameshelf && Object.assign({}, gameshelf);
-}
-
-function isGameShelf(obj) {
-  return ["owner", "games"].reduce(
-    (acc, val) => obj.hasOwnProperty(val) && acc,
-    true
-  );
-}
-
-function addGameToShelf(owner, bgaGameId) {
-  BY_OWNER[owner].games.push(bgaGameId);
-  let gameshelf = BY_OWNER[owner];
-  return gameshelf && Object.assign({}, gameshelf);
-}
-
-function removeFromShelf(owner, bgaGameId) {
-  BY_OWNER[owner].games = BY_OWNER[owner].games.filter(
-    (gameId) => gameId !== bgaGameId
-  );
+async function removeFromShelf(owner, bgaGameId) {
+  const gameshelf = await GameShelf.findOne({ owner });
+  if (!gameshelf) {
+    throw new Error("GameShelf not found");
+  }
+  gameshelf.games = gameshelf.games.filter((gameId) => gameId !== bgaGameId);
+  await gameshelf.save();
   return bgaGameId;
 }
 
 module.exports = {
   GameShelf: GameShelf,
+  createGameShelf: createGameShelf,
   getByOwner: getByOwner,
-  isGameShelf: isGameShelf,
   addGameToShelf: addGameToShelf,
   removeFromShelf: removeFromShelf,
 };
