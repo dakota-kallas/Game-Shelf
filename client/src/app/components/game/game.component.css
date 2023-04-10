@@ -1,0 +1,24 @@
+.flex-unset {
+  flex: unset !important;
+}
+
+.w-fit-content {
+  width: fit-content !important;
+}
+
+.thumbnail {
+  width: 300px;
+}
+
+.text-goldenrod {
+  color: goldenrod;
+}
+
+.text-burnt {
+  color: orangered;
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: normal;
+}

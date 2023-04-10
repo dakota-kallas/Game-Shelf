@@ -1,2 +1,2 @@
 # Game-Shelf
- A web application enables users to create a list of board games, search and track played games, and add personal ratings.
+This web application allows users to create and manage a list of board games they want to play. Users can search for games by name or AKAs, and track the games they would like to play by adding them to their 'Game Shelf'. Users can log in and out of their accounts, search for games, add/remove games to their game shelf. The application's user-friendly interface enables users to manage their game list effectively.

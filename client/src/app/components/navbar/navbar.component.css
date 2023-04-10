@@ -1,0 +1,32 @@
+#profile {
+  flex-grow: unset;
+}
+
+.logo {
+  width: 24px;
+}
+
+.link {
+  color: var(--bs-white);
+  text-decoration: none !important;
+  width: fit-content; /* Change the value as needed */
+  display: inline-block;
+  text-align: center;
+  font-weight: bold;
+}
+
+.link:hover {
+  color: var(--bs-blue);
+  transition: color 0.2s ease;
+}
+
+.link.active:hover {
+}
+
+.link.active {
+  color: var(--bs-secondary);
+}
+
+nav {
+  min-height: 56px;
+}

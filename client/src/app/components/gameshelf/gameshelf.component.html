@@ -1,0 +1,64 @@
+<section class="background">
+    <div class="container my-5">
+        <div class="col">
+            <div class="row my-3">
+                <h2>My Game Shelf</h2>
+                <hr>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr *ngFor="let game of gameShelf?.games">
+                            <td class="thumbnail-cell">
+                                <a [routerLink]="['/games', game.bgaGameId]"><img class="thumbnail" src="{{game.image}}"
+                                        alt="Game Image"></a>
+                            </td>
+                            <td>
+                                <div class="game-name">
+                                    <a class="text-dark text-decoration-none"
+                                        [routerLink]="['/games', game.bgaGameId]"><strong>{{game.name}}</strong></a>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="game-info">
+                                            <span><i class="fa fa-users"></i>
+                                                {{game.minPlayers}}-{{game.maxPlayers}}</span>
+                                            <span class="mx-2"><i class='fa fa-clock-o'></i>
+                                                {{game.playtime}}m</span>
+                                        </div>
+                                        <div class="game-info">
+                                            <ng-container *ngIf="!game.rating">
+                                                <ng-container *ngFor="let i of [1,2,3,4,5] | slice:0:5">
+                                                    <i class="fa fa-star-o"></i>
+                                                </ng-container>
+                                            </ng-container>
+                                            <ng-container *ngIf="game.rating">
+                                                <ng-container *ngFor="let i of [].constructor(Math.floor(game.rating))">
+                                                    <i class="fa fa-star"></i>
+                                                </ng-container>
+                                                <ng-container *ngIf="game.rating - Math.floor(game.rating) == 0.5">
+                                                    <i class="fa fa-star-half-o"></i>
+                                                </ng-container>
+                                                <ng-container *ngIf="Math.ceil(game.rating) != 5">
+                                                    <ng-container
+                                                        *ngFor="let i of [].constructor(Math.floor(5 - (Math.round(game.rating * 2) / 2)))">
+                                                        <i class="fa fa-star-o"></i>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                            <span> - released {{game.year}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col text-end">
+                                        <button class="btn btn-danger mx-3" (click)="removeFromShelf(game.bgaGameId)">
+                                            <i class="fa fa-minus"></i>
+                                            <span>Remove from Shelf</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,48 @@
+.thumbnail {
+  height: 80px;
+  max-width: 80px;
+  float: right;
+}
+
+.thumbnail-cell {
+  width: 70px;
+}
+
+.game-info {
+  font-size: 0.8rem;
+}
+
+.game-name {
+  text-overflow: ellipsis;
+}
+
+button span {
+  max-width: 0;
+  -webkit-transition: max-width 1s;
+  transition: max-width 1s;
+  display: inline-block;
+  vertical-align: top;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+button:hover span {
+  margin-left: 6px;
+  max-width: 9rem;
+}
+
+tr:first-child td:first-child {
+  border-top-left-radius: 10px;
+}
+tr:first-child td:last-child {
+  border-top-right-radius: 10px;
+}
+
+tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+  border-style: none;
+}
+tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+  border-style: none;
+}
