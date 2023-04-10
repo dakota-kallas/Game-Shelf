@@ -26,3 +26,7 @@
 .link.active {
   color: var(--bs-secondary);
 }
+
+nav {
+  min-height: 56px;
+}

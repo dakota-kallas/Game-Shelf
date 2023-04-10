@@ -142,14 +142,12 @@ router.get("/search", async function (req, res) {
     let orderParam = "";
     let searchParam = "";
     if (searchName) {
-      searchParam = `&name=$${encodeURIComponent(searchName)}`;
-    }
-    if (orderBy) {
+      searchParam = `&name=${encodeURIComponent(searchName)}&limit=30`;
+    } else if (orderBy) {
       orderParam = `&order_by=${orderBy}&limit=10`;
     }
-    fetch(
-      `https://api.boardgameatlas.com/api/search?client_id=${BGAClientID}${searchParam}${orderParam}`
-    )
+    let fetchURL = `https://api.boardgameatlas.com/api/search?client_id=${BGAClientID}${searchParam}${orderParam}`;
+    fetch(fetchURL)
       .then((response) => response.json())
       .then((data) => {
         let games = [];
@@ -177,6 +175,8 @@ router.get("/search", async function (req, res) {
             games.push(currentGame);
           });
         }
+
+        res.setHeader("Search-Count", games.length);
         res.status(200).json(games);
       })
       .catch((err) => {

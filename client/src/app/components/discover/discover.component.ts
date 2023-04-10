@@ -10,7 +10,9 @@ import { GameShelfService } from 'src/app/services/gameshelf.service';
   styleUrls: ['./discover.component.css'],
 })
 export class DiscoverComponent implements OnInit {
-  searchGames: Game[] | undefined;
+  searchGames: Game[] | null = null;
+  currentSearchCount: number = 0;
+  maxSearchCount: number = 0;
   popularGames: Game[] | undefined;
   trendingGames: Game[] | undefined;
   gameShelf: GameShelf | undefined;
@@ -51,15 +53,17 @@ export class DiscoverComponent implements OnInit {
 
   search() {
     if (this.value && this.value.trim() != '') {
-      this.gameApi.search(this.value).subscribe((searchGames) => {
-        this.searchGames = searchGames;
+      this.gameApi.search(this.value).subscribe((search) => {
+        this.searchGames = search.games;
+        this.currentSearchCount = 1;
+        this.maxSearchCount = search.count;
       });
       this.searched = true;
     }
   }
 
   clearSearch() {
-    this.searchGames = undefined;
+    this.searchGames = null;
     this.value = '';
     this.searched = false;
   }
