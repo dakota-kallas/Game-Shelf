@@ -6,10 +6,12 @@ import { AuthGuard } from './guards/auth.guard';
 import { LoginGuard } from './guards/login.guard';
 import { GameShelfComponent } from './components/gameshelf/gameshelf.component';
 import { GameComponent } from './components/game/game.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
   { path: 'discover', component: DiscoverComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   {
     path: 'gameshelf',
     component: GameShelfComponent,

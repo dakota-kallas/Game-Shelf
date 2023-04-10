@@ -27,6 +27,16 @@ router.all("*", (req, res, next) => {
 });
 
 /**
+ * UPDATE USER DETAILS
+ */
+router.put("/user", (req, res) => {
+  if (req.session.user._id == req.body._id) {
+  } else {
+    res.status(403).send("Unable to update user, try again later.");
+  }
+});
+
+/**
  * GET GAMESHELF FOR USER
  */
 router.get("/gameshelf", async function (req, res) {
