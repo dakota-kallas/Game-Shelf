@@ -9,3 +9,16 @@
 .thumbnail {
   width: 300px;
 }
+
+.text-goldenrod {
+  color: goldenrod;
+}
+
+.text-burnt {
+  color: orangered;
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: normal;
+}
