@@ -31,6 +31,12 @@ router.all("*", (req, res, next) => {
  */
 router.put("/user", (req, res) => {
   if (req.session.user._id == req.body._id) {
+    try {
+      let updatedUser = UserDB.updateUser(req.body);
+      res.status(200).send(updatedUser);
+    } catch (err) {
+      res.status(403).send(err.message);
+    }
   } else {
     res.status(403).send("Unable to update user, try again later.");
   }
