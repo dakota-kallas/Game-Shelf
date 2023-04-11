@@ -34,7 +34,7 @@ async function createUser(
   return user.toObject();
 }
 
-async function updateUser(user) {
+async function updateUser(firstName, lastName, user) {
   try {
     const existingUser = await User.findById(user._id);
 
@@ -42,12 +42,8 @@ async function updateUser(user) {
       throw new Error("User not found");
     }
 
-    existingUser.email = user.email;
-    existingUser.password = user.password;
-    existingUser.firstName = user.firstName;
-    existingUser.lastName = user.lastName;
-    existingUser.enabled = user.enabled;
-    existingUser.admin = user.admin;
+    existingUser.firstName = firstName;
+    existingUser.lastName = lastName;
 
     await existingUser.save();
     return existingUser.toObject();

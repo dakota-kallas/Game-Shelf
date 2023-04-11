@@ -11,7 +11,15 @@ export class UserService {
   private URL: string = Constants.API_VERSION;
   constructor(private http: HttpClient) {}
 
-  updateUser(user: User): Observable<User> {
-    return this.http.put<User>(this.URL + `/user`, user);
+  updateUser(
+    firstName: string,
+    lastName: string,
+    user: User
+  ): Observable<User> {
+    return this.http.put<User>(this.URL + `/user`, {
+      firstName: firstName,
+      lastName: lastName,
+      user: user,
+    });
   }
 }

@@ -29,10 +29,17 @@ router.all("*", (req, res, next) => {
 /**
  * UPDATE USER DETAILS
  */
-router.put("/user", (req, res) => {
-  if (req.session.user._id == req.body._id) {
+router.put("/user", async (req, res) => {
+  if (req.session.user._id == req.body.user._id) {
     try {
-      let updatedUser = UserDB.updateUser(req.body);
+      let updatedUser = await UserDB.updateUser(
+        req.body.firstName,
+        req.body.lastName,
+        req.body.user
+      );
+      updatedUser = await UserDB.getByEmail(req.session.user.email);
+      delete updatedUser.password;
+      req.session.user = updatedUser;
       res.status(200).send(updatedUser);
     } catch (err) {
       res.status(403).send(err.message);

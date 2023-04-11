@@ -11,6 +11,9 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ProfileComponent implements OnInit {
   user: User | undefined;
+  email: string = '';
+  firstName: string = '';
+  lastName: string = '';
 
   constructor(
     private router: Router,
@@ -25,14 +28,20 @@ export class ProfileComponent implements OnInit {
   getCurrentUser() {
     this.authApi.fetchUser().subscribe((user) => {
       this.user = user;
+      this.email = user.email;
+      this.firstName = user.firstName;
+      this.lastName = user.lastName;
     });
   }
 
   onSubmit() {
     if (this.user) {
-      this.userApi.updateUser(this.user).subscribe((user) => {
-        this.user = user;
-      });
+      this.userApi
+        .updateUser(this.firstName, this.lastName, this.user)
+        .subscribe((user) => {
+          this.user = user;
+          this.router.navigateByUrl('login');
+        });
     }
   }
 }
