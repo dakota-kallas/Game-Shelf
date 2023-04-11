@@ -58,8 +58,8 @@ async function getByEmail(email) {
 }
 
 async function getUsers() {
-  const users = await User.findAll();
-  return users && users.toObject();
+  const users = await User.find().select("-password");
+  return users && users.map((user) => user.toObject());
 }
 
 module.exports = {

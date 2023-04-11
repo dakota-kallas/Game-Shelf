@@ -11,6 +11,7 @@ import { GameShelfComponent } from './components/gameshelf/gameshelf.component';
 import { GameComponent } from './components/game/game.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
+import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { RegisterComponent } from './components/register/register.component';
     GameComponent,
     ProfileComponent,
     RegisterComponent,
+    ManageUsersComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],

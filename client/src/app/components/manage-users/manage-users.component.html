@@ -1,0 +1,36 @@
+<section class="background">
+    <div class="container my-5">
+        <div class="col">
+            <div class="row my-3">
+                <h2>Manage Users</h2>
+                <hr>
+                <table class="table table-striped">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col"><input type="checkbox"></th>
+                            <th scope="col">Email</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col" class="align-middle text-center w-boolean">Enabled</th>
+                            <th scope="col" class="align-middle text-center w-boolean">Admin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of users">
+                            <td><input type="checkbox"></td>
+                            <td>{{user.email}}</td>
+                            <td>{{user.firstName}}</td>
+                            <td>{{user.lastName}}</td>
+                            <td class="w-auto text-center">
+                                <input type="checkbox" disabled [checked]="user.enabled">
+                            </td>
+                            <td class="w-auto align-middle text-center">
+                                <input type="checkbox" disabled [checked]="user.admin">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

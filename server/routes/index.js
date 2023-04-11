@@ -50,6 +50,22 @@ router.put("/user", async (req, res) => {
 });
 
 /**
+ * GET ALL USERS
+ */
+router.get("/user", async (req, res) => {
+  if (req.session.user.admin) {
+    try {
+      let users = await UserDB.getUsers();
+      res.status(200).send(users);
+    } catch (err) {
+      res.status(409).send(err.message);
+    }
+  } else {
+    res.status(409).send("Unable to obtain users, try again later.");
+  }
+});
+
+/**
  * GET GAMESHELF FOR USER
  */
 router.get("/gameshelf", async function (req, res) {

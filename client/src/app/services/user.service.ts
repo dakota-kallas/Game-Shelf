@@ -22,4 +22,8 @@ export class UserService {
       user: user,
     });
   }
+
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.URL + '/user');
+  }
 }
