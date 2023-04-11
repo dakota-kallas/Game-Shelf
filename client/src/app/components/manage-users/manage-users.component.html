@@ -4,6 +4,9 @@
             <div class="row my-3">
                 <h2>Manage Users</h2>
                 <hr>
+                <div>
+                    <button class="btn btn-primary" (click)="enableUsers()">Enable</button>
+                </div>
                 <table class="table table-striped">
                     <thead class="table-light">
                         <tr>
@@ -17,7 +20,8 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let user of users">
-                            <td><input type="checkbox"></td>
+                            <td><input type="checkbox" [checked]="isUserSelected(user)" (change)="onUserSelected(user)">
+                            </td>
                             <td>{{user.email}}</td>
                             <td>{{user.firstName}}</td>
                             <td>{{user.lastName}}</td>
