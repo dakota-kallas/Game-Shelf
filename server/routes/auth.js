@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const bcrypt = require("bcryptjs");
 let UserDB = require("../models/user.js");
+let GameShelfDB = require("../models/gameshelf.js");
 
 const multer = require("multer");
 const upload = multer();
@@ -48,6 +49,47 @@ router.get("/who/", (req, res) => {
     }
   } catch (err) {
     res.status(400).send(err.message);
+  }
+});
+
+/**
+ * USER REGISTRATION
+ */
+router.post("/user", async (req, res) => {
+  const email = req.body.email;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const password = req.body.password;
+
+  try {
+    let user = await UserDB.createUser(
+      email,
+      bcrypt.hashSync(password, 10),
+      firstName,
+      lastName,
+      true,
+      false
+    )
+      .then((user) => {
+        console.log(`Created User document for email ${user.email}`);
+        GameShelfDB.createGameShelf(user.email, [])
+          .then((gameshelf) => {
+            console.log(
+              `Created GameShelf document for owner ${gameshelf.owner}`
+            );
+            res.status(200).send(user);
+          })
+          .catch((error) => {
+            throw new Error(
+              "Error creating GameShelf document:" + error.message
+            );
+          });
+      })
+      .catch((error) => {
+        throw new Error("Error creating User document:" + error.message);
+      });
+  } catch (err) {
+    res.status(409).send(err.message);
   }
 });
 
