@@ -71,12 +71,8 @@ router.post("/user", async (req, res) => {
       false
     )
       .then((user) => {
-        console.log(`Created User document for email ${user.email}`);
         GameShelfDB.createGameShelf(user.email, [])
           .then((gameshelf) => {
-            console.log(
-              `Created GameShelf document for owner ${gameshelf.owner}`
-            );
             res.status(200).send(user);
           })
           .catch((error) => {
