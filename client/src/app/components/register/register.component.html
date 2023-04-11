@@ -1,0 +1,54 @@
+<div class="background">
+    <div class="flex-column d-flex">
+        <div class="d-flex justify-content-center mt-3">
+            <img id="game-shelf-icon" src="../../../assets/gs-logo.png" alt="Game Shelf Icon">
+        </div>
+        <div class="d-flex justify-content-center">
+            <form id="register-form" class="float-end card shadow">
+                <h3>Register</h3>
+                <div>
+                    <div [hidden]="!errorOccured" class="text-danger">
+                        *{{errorMsg}}
+                    </div>
+                    <div>
+                        <div class="form-group mb-2">
+                            <label for="email" class="sr-only">Email</label>
+                            <input type="text" class="form-control" name="email" placeholder="Email"
+                                [(ngModel)]="email">
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label for="firstName" class="sr-only">First Name</label>
+                            <input type="text" class="form-control" name="firstName" placeholder="First name"
+                                [(ngModel)]="firstName">
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label for="lastName" class="sr-only">Last Name</label>
+                            <input type="text" class="form-control" name="lastName" placeholder="Last name"
+                                [(ngModel)]="lastName">
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label for="password" class="sr-only">Password</label>
+                            <input type="password" class="form-control" name="password" placeholder="Password"
+                                [(ngModel)]="password">
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label for="confirmPassword" class="sr-only">Confirm Password</label>
+                            <input type="password" class="form-control" name="confirmPassword"
+                                placeholder="Confirm password" [(ngModel)]="confirmPassword">
+                        </div>
+                    </div>
+
+                    <button type="submit" (click)="register()" class="btn btn-primary btn-sm">Register
+                    </button>
+                    <a [routerLink]="['/login']" class="btn btn-secondary btn-sm mx-2">Back to Login
+                    </a>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
