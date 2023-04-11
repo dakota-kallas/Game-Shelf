@@ -1,0 +1,34 @@
+<section class="background">
+    <div class="container my-5 justify-content-center d-flex">
+        <div class="w-25 card shadow p-4 rounded-3" id="edit-profile-form">
+            <h2>Edit Profile</h2>
+            <hr>
+            <form *ngIf="user != undefined">
+                <div class="form-group my-2">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" required aria-describedby="emailHelp"
+                        placeholder="Email address" [(ngModel)]="email" readonly name="email">
+                </div>
+                <div class="form-group my-2">
+                    <label for="firstName">First Name</label>
+                    <input type="text" class="form-control" id="firstName" required placeholder="Enter first name"
+                        [(ngModel)]="firstName" name="firstName">
+                </div>
+                <div class="form-group my-2">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" required placeholder="Enter last name"
+                        [(ngModel)]="lastName" name="lastName">
+                </div>
+                <!-- <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="enabled" [(ngModel)]="user.enabled" name="enabled">
+                    <label class="form-check-label" for="enabled">Enabled</label>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="admin" [(ngModel)]="user.admin" name="admin">
+                    <label class="form-check-label" for="admin">Admin</label>
+                </div> -->
+                <button (click)="onSubmit()" class="btn btn-primary my-2">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</section>

@@ -27,6 +27,29 @@ router.all("*", (req, res, next) => {
 });
 
 /**
+ * UPDATE USER DETAILS
+ */
+router.put("/user", async (req, res) => {
+  if (req.session.user._id == req.body.user._id) {
+    try {
+      let updatedUser = await UserDB.updateUser(
+        req.body.firstName,
+        req.body.lastName,
+        req.body.user
+      );
+      updatedUser = await UserDB.getByEmail(req.session.user.email);
+      delete updatedUser.password;
+      req.session.user = updatedUser;
+      res.status(200).send(updatedUser);
+    } catch (err) {
+      res.status(403).send(err.message);
+    }
+  } else {
+    res.status(403).send("Unable to update user, try again later.");
+  }
+});
+
+/**
  * GET GAMESHELF FOR USER
  */
 router.get("/gameshelf", async function (req, res) {

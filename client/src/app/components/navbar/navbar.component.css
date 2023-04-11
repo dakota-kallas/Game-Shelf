@@ -20,9 +20,6 @@
   transition: color 0.2s ease;
 }
 
-.link.active:hover {
-}
-
 .link.active {
   color: var(--bs-secondary);
 }

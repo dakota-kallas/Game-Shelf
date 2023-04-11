@@ -34,6 +34,24 @@ async function createUser(
   return user.toObject();
 }
 
+async function updateUser(firstName, lastName, user) {
+  try {
+    const existingUser = await User.findById(user._id);
+
+    if (!existingUser) {
+      throw new Error("User not found");
+    }
+
+    existingUser.firstName = firstName;
+    existingUser.lastName = lastName;
+
+    await existingUser.save();
+    return existingUser.toObject();
+  } catch (error) {
+    throw new Error(`Failed to update user: ${error.message}`);
+  }
+}
+
 async function getByEmail(email) {
   const user = await User.findOne({ email });
   return user && user.toObject();
@@ -46,6 +64,7 @@ async function getUsers() {
 
 module.exports = {
   User: User,
+  updateUser: updateUser,
   getByEmail: getByEmail,
   getUsers: getUsers,
   createUser: createUser,

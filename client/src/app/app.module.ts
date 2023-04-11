@@ -9,6 +9,7 @@ import { DiscoverComponent } from './components/discover/discover.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { GameShelfComponent } from './components/gameshelf/gameshelf.component';
 import { GameComponent } from './components/game/game.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { GameComponent } from './components/game/game.component';
     NavbarComponent,
     GameShelfComponent,
     GameComponent,
+    ProfileComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
