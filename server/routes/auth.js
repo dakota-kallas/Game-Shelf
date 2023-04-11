@@ -45,7 +45,7 @@ router.get("/who/", (req, res) => {
     if (result) {
       res.status(200).send(result);
     } else {
-      res.status(403).send("An error occured, try again later.");
+      res.status(403).send("Session user invalid.");
     }
   } catch (err) {
     res.status(400).send(err.message);
