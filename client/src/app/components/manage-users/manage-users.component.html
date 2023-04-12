@@ -4,13 +4,38 @@
             <div class="row my-3">
                 <h2>Manage Users</h2>
                 <hr>
-                <div>
-                    <button class="btn btn-primary" (click)="enableUsers()">Enable</button>
+                <div class="dropdown mb-2">
+                    <a class="btn btn-primary dropdown-toggle" id="dropdownMenuButton" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Actions
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <button class="dropdown-item" (click)="setEnabled(true)"><i
+                                class="fa fa-toggle-on text-success"></i>
+                            Enable</button>
+                        <button class="dropdown-item" (click)="setEnabled(false)"><i
+                                class="fa fa-toggle-on fa-flip-horizontal text-danger"></i>
+                            Disable</button>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" (click)="setAdmin(true)"><i
+                                class="fa fa-arrow-up text-success"></i>
+                            Promote
+                            to Admin</button>
+                        <button class="dropdown-item" (click)="setAdmin(false)"><i
+                                class="fa fa-arrow-down text-danger"></i> Demote
+                            to User</button>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" (click)="manageUser()"><i class="fa fa-lock"></i> Change
+                            Password</button>
+                    </div>
+                    <span class="mx-4 text-danger" [hidden]="!errorOccured">
+                        *{{errorMsg}}
+                    </span>
                 </div>
                 <table class="table table-striped">
                     <thead class="table-light">
                         <tr>
-                            <th scope="col"><input type="checkbox"></th>
+                            <th scope="col"><input type="checkbox" (change)="selectAll($event)"></th>
                             <th scope="col">Email</th>
                             <th scope="col">First Name</th>
                             <th scope="col">Last Name</th>
@@ -19,17 +44,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let user of users">
-                            <td><input type="checkbox" [checked]="isUserSelected(user)" (change)="onUserSelected(user)">
+                        <tr *ngFor="let selectUser of users">
+                            <td><input type="checkbox" (change)="resetError()" [(ngModel)]="selectUser.selected">
                             </td>
-                            <td>{{user.email}}</td>
-                            <td>{{user.firstName}}</td>
-                            <td>{{user.lastName}}</td>
+                            <td>{{selectUser.email}}</td>
+                            <td>{{selectUser.firstName}}</td>
+                            <td>{{selectUser.lastName}}</td>
                             <td class="w-auto text-center">
-                                <input type="checkbox" disabled [checked]="user.enabled">
+                                <input type="checkbox" disabled [(ngModel)]="selectUser.enabled">
                             </td>
                             <td class="w-auto align-middle text-center">
-                                <input type="checkbox" disabled [checked]="user.admin">
+                                <input type="checkbox" disabled [(ngModel)]="selectUser.admin">
                             </td>
                         </tr>
                     </tbody>

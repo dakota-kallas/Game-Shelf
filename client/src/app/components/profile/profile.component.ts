@@ -37,7 +37,13 @@ export class ProfileComponent implements OnInit {
   onSubmit() {
     if (this.user) {
       this.userApi
-        .updateUser(this.firstName, this.lastName, this.user)
+        .updateUser(
+          this.firstName,
+          this.lastName,
+          this.user.enabled,
+          this.user.admin,
+          this.user
+        )
         .subscribe((user) => {
           this.user = user;
           this.router.navigateByUrl('login');
