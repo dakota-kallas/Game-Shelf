@@ -34,16 +34,13 @@ router.put("/user", async (req, res) => {
     try {
       let enabled = true;
       let admin = false;
+
+      // If the current session user is an admin, allow for enabled & admin to be changed.
       if (req.session.user.admin) {
         enabled = req.body.enabled;
         admin = req.body.admin;
-        console.log(
-          `ADMIN!!!! | Enabled: ${req.body.enabled} | Admin: ${req.body.admin}`
-        );
       }
-      console.log(
-        `${req.body.user.email} | Enabled: ${enabled} | Admin: ${admin}`
-      );
+
       let updatedUser = await UserDB.updateUser(
         req.body.firstName,
         req.body.lastName,
@@ -51,9 +48,14 @@ router.put("/user", async (req, res) => {
         admin,
         req.body.user
       );
-      updatedUser = await UserDB.getByEmail(req.session.user.email);
+      updatedUser = await UserDB.getByEmail(req.body.user.email);
       delete updatedUser.password;
-      req.session.user = updatedUser;
+
+      // If the current session user is not an admin, update the session user.
+      if (!req.session.user.admin) {
+        req.session.user = updatedUser;
+      }
+
       res.status(200).send(updatedUser);
     } catch (err) {
       res.status(403).send(err.message);
