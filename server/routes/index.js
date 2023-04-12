@@ -30,11 +30,25 @@ router.all("*", (req, res, next) => {
  * UPDATE USER DETAILS
  */
 router.put("/user", async (req, res) => {
-  if (req.session.user._id == req.body.user._id) {
+  if (req.session.user._id == req.body.user._id || req.session.user.admin) {
     try {
+      let enabled = true;
+      let admin = false;
+      if (req.session.user.admin) {
+        enabled = req.body.enabled;
+        admin = req.body.admin;
+        console.log(
+          `ADMIN!!!! | Enabled: ${req.body.enabled} | Admin: ${req.body.admin}`
+        );
+      }
+      console.log(
+        `${req.body.user.email} | Enabled: ${enabled} | Admin: ${admin}`
+      );
       let updatedUser = await UserDB.updateUser(
         req.body.firstName,
         req.body.lastName,
+        enabled,
+        admin,
         req.body.user
       );
       updatedUser = await UserDB.getByEmail(req.session.user.email);

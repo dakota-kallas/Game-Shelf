@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ManageUser } from 'src/app/models/manage-user.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
@@ -9,8 +10,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./manage-users.component.css'],
 })
 export class ManageUsersComponent implements OnInit {
-  users: User[] | undefined;
-  selectedUsers: User[] = [];
+  users: ManageUser[] = [];
 
   constructor(private userApi: UserService, private authApi: AuthService) {}
 
@@ -20,21 +20,60 @@ export class ManageUsersComponent implements OnInit {
 
   getUsers() {
     this.userApi.getUsers().subscribe((users) => {
-      this.users = users;
+      for (const user of users) {
+        const manageUser: ManageUser = {
+          _id: user._id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          enabled: user.enabled,
+          admin: user.admin,
+          selected: false,
+        };
+        this.users.push(manageUser);
+      }
     });
   }
 
-  onUserSelected(user: User) {
-    if (this.isUserSelected(user)) {
-      this.selectedUsers = this.selectedUsers.filter((u) => u !== user); // Remove user from selectedUsers array
-    } else {
-      this.selectedUsers.push(user); // Add user to selectedUsers array
+  enableUsers(): void {
+    const users: User[] = this.users.filter((user) => user.selected).map(selectedUser => {
+      const user: User = {
+        _id: selectedUser._id,
+        email: selectedUser.email,
+        firstName: selectedUser.firstName,
+        lastName: selectedUser.lastName,
+        enabled: selectedUser.enabled,
+        admin: selectedUser.admin
+      }});
+    for (const user of users) {
+      this.userApi
+        .updateUser(user.firstName, user.lastName, true, user.admin, user)
+        .subscribe((updatedUser) => {
+          if (!user.enabled && updatedUser.enabled) {
+            console.log(`User ${updatedUser.email} enabled.`);
+          }
+        });
     }
   }
 
-  isUserSelected(user: User): boolean {
-    return this.selectedUsers.includes(user); // Check if user is in selectedUsers array
+  disableUsers(): void {
+    const users: User[] = this.users.filter((user) => user.selected).map(selectedUser => {
+      const user: User = {
+        _id: selectedUser._id,
+        email: selectedUser.email,
+        firstName: selectedUser.firstName,
+        lastName: selectedUser.lastName,
+        enabled: selectedUser.enabled,
+        admin: selectedUser.admin
+      }
+    for (const user of users) {
+      this.userApi
+        .updateUser(user.firstName, user.lastName, false, user.admin, user)
+        .subscribe((updatedUser) => {
+          if (user.enabled && !updatedUser.enabled) {
+            console.log(`User ${updatedUser.email} disabled.`);
+          }
+        });
+    }
   }
-
-  enableUsers(): void {}
 }

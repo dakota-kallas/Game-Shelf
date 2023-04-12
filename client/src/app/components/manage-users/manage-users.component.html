@@ -6,6 +6,7 @@
                 <hr>
                 <div>
                     <button class="btn btn-primary" (click)="enableUsers()">Enable</button>
+                    <button class="btn btn-danger" (click)="disableUsers()">Disable</button>
                 </div>
                 <table class="table table-striped">
                     <thead class="table-light">
@@ -19,17 +20,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let user of users">
-                            <td><input type="checkbox" [checked]="isUserSelected(user)" (change)="onUserSelected(user)">
+                        <tr *ngFor="let selectUser of users">
+                            <td><input type="checkbox" [checked]="selectUser.checked"
+                                    (change)="onUserSelected(selectUser)">
                             </td>
-                            <td>{{user.email}}</td>
-                            <td>{{user.firstName}}</td>
-                            <td>{{user.lastName}}</td>
+                            <td>{{selectUser.user.email}}</td>
+                            <td>{{selectUser.user.firstName}}</td>
+                            <td>{{selectUser.user.lastName}}</td>
                             <td class="w-auto text-center">
-                                <input type="checkbox" disabled [checked]="user.enabled">
+                                <input type="checkbox" disabled [(ngModel)]="selectUser.user.enabled">
                             </td>
                             <td class="w-auto align-middle text-center">
-                                <input type="checkbox" disabled [checked]="user.admin">
+                                <input type="checkbox" disabled [(ngModel)]="selectUser.user.admin">
                             </td>
                         </tr>
                     </tbody>

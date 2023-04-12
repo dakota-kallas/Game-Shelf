@@ -14,11 +14,15 @@ export class UserService {
   updateUser(
     firstName: string,
     lastName: string,
+    enabled: boolean,
+    admin: boolean,
     user: User
   ): Observable<User> {
     return this.http.put<User>(this.URL + `/user`, {
       firstName: firstName,
       lastName: lastName,
+      enabled: enabled,
+      admin: admin,
       user: user,
     });
   }

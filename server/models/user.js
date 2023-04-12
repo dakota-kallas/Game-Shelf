@@ -34,7 +34,7 @@ async function createUser(
   return user.toObject();
 }
 
-async function updateUser(firstName, lastName, user) {
+async function updateUser(firstName, lastName, enabled, admin, user) {
   try {
     const existingUser = await User.findById(user._id);
 
@@ -44,6 +44,8 @@ async function updateUser(firstName, lastName, user) {
 
     existingUser.firstName = firstName;
     existingUser.lastName = lastName;
+    existingUser.enabled = enabled;
+    existingUser.admin = admin;
 
     await existingUser.save();
     return existingUser.toObject();
