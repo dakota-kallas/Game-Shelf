@@ -12,6 +12,7 @@ import { UserService } from 'src/app/services/user.service';
 export class ProfileComponent implements OnInit {
   user: User | undefined;
   private userId: string = '';
+  private currentUser: User | undefined;
   email: string = '';
   firstName: string = '';
   lastName: string = '';
@@ -32,7 +33,8 @@ export class ProfileComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.userId = params['uid'];
       this.authApi.fetchUser().subscribe((currentUser) => {
-        if (currentUser.admin) {
+        this.currentUser = currentUser;
+        if (currentUser.admin || currentUser._id == this.userId) {
           this.userApi.getUser(this.userId).subscribe((user) => {
             this.user = user;
             this.email = user.email;
@@ -60,6 +62,9 @@ export class ProfileComponent implements OnInit {
             )
             .subscribe((user) => {
               this.user = user;
+              if (!this.currentUser?.admin) {
+                this.authApi.setUser(user);
+              }
               this.router.navigateByUrl('login');
             });
         } else {

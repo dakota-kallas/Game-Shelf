@@ -26,6 +26,10 @@ export class AuthService implements OnInit {
     return this.user != undefined;
   }
 
+  isAdmin(): boolean {
+    return this.user?.admin ? true : false;
+  }
+
   setUser(user: User | undefined): void {
     this.user = user;
     if (this.user) {
@@ -55,7 +59,7 @@ export class AuthService implements OnInit {
     }
   }
 
-  login(username: string, password: string): Observable<User> {
+  login(username: string, password: string): Observable<User | string> {
     const API = this.URL + '/login';
     const formData = new HttpParams()
       .set('email', username)
@@ -63,14 +67,18 @@ export class AuthService implements OnInit {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
-    return this.http.post<User>(API, formData, { headers: headers }).pipe(
-      catchError((error) => {
-        return of(error.error);
-      }),
-      tap((u) => {
-        this.setUser(u);
-      })
-    );
+    return this.http
+      .post<User | string>(API, formData, { headers: headers })
+      .pipe(
+        catchError((error) => {
+          return of(error.error);
+        }),
+        tap((u) => {
+          if (typeof u === 'object' && 'email' in u && u.email) {
+            this.setUser(u);
+          }
+        })
+      );
   }
 
   register(

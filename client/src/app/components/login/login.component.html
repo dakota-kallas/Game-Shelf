@@ -7,7 +7,7 @@
             <form id="login-form" class="float-end card shadow">
                 <h3>Welcome!</h3>
                 <div>
-                    <div [hidden]="!errorOccured" class="text-danger">
+                    <div [hidden]="!errorOccured" class="text-danger" id="error-container">
                         *{{errorMsg}}
                     </div>
                     <div>

@@ -30,8 +30,12 @@ export class LoginComponent implements OnInit {
           this.email = '';
           this.password = '';
           this.router.navigateByUrl('discover');
+        } else if (!(typeof user === 'object')) {
+          this.errorMsg = user;
+          this.errorOccured = true;
+          this.password = '';
         } else {
-          this.errorMsg = 'Invalid credentials.';
+          this.errorMsg = 'Something went wrong, try again later.';
           this.errorOccured = true;
           this.password = '';
         }
