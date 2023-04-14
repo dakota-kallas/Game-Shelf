@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.errorOccured = false;
+    this.errorMsg = '';
 
     if (this.email && this.password) {
       this.authService.login(this.email, this.password).subscribe((user) => {
@@ -30,7 +31,7 @@ export class LoginComponent implements OnInit {
           this.password = '';
           this.router.navigateByUrl('discover');
         } else {
-          this.errorMsg = 'There was an issue.';
+          this.errorMsg = 'Invalid credentials.';
           this.errorOccured = true;
           this.password = '';
         }

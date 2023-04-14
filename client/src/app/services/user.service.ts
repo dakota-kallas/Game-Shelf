@@ -16,6 +16,7 @@ export class UserService {
     lastName: string,
     enabled: boolean,
     admin: boolean,
+    password: string,
     user: User
   ): Observable<User> {
     return this.http.put<User>(this.URL + `/users`, {
@@ -23,6 +24,7 @@ export class UserService {
       lastName: lastName,
       enabled: enabled,
       admin: admin,
+      password: password,
       user: user,
     });
   }

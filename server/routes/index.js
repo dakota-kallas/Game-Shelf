@@ -34,6 +34,7 @@ router.put("/users", async (req, res) => {
     try {
       let enabled = true;
       let admin = false;
+      let password = null;
 
       // If the current session user is an admin, allow for enabled & admin to be changed.
       if (req.session.user.admin) {
@@ -41,11 +42,18 @@ router.put("/users", async (req, res) => {
         admin = req.body.admin;
       }
 
+      if (req.body.password && validatePassword(req.body.password)) {
+        password = bcrypt.hashSync(req.body.password, 10);
+      } else if (req.body.password != "") {
+        throw new Error("Password must be at least 8 characters.");
+      }
+
       let updatedUser = await UserDB.updateUser(
         req.body.firstName,
         req.body.lastName,
         enabled,
         admin,
+        password,
         req.body.user
       );
       updatedUser = await UserDB.getByEmail(req.body.user.email);
@@ -318,6 +326,18 @@ async function getGames(idListString) {
     .catch((err) => {
       return null;
     });
+}
+
+function validatePassword(password) {
+  if (password.length < 8) {
+    return false;
+  }
+
+  if (/\s/.test(password)) {
+    return false;
+  }
+
+  return true;
 }
 
 /**

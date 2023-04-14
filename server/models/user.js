@@ -34,14 +34,17 @@ async function createUser(
   return user.toObject();
 }
 
-async function updateUser(firstName, lastName, enabled, admin, user) {
+async function updateUser(firstName, lastName, enabled, admin, password, user) {
   try {
     const existingUser = await User.findById(user._id);
 
     if (!existingUser) {
-      throw new Error("User not found");
+      throw new Error("User not found.");
     }
 
+    if (password) {
+      existingUser.password = password;
+    }
     existingUser.firstName = firstName;
     existingUser.lastName = lastName;
     existingUser.enabled = enabled;
@@ -50,7 +53,7 @@ async function updateUser(firstName, lastName, enabled, admin, user) {
     await existingUser.save();
     return existingUser.toObject();
   } catch (error) {
-    throw new Error(`Failed to update user: ${error.message}`);
+    throw new Error(`Failed to update user, try again later.`);
   }
 }
 

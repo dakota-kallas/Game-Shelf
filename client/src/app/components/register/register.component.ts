@@ -29,19 +29,26 @@ export class RegisterComponent {
       this.lastName
     ) {
       if (this.confirmPassword == this.password) {
-        this.authService
-          .register(this.email, this.password, this.firstName, this.lastName)
-          .subscribe((user) => {
-            if (typeof user === 'object' && 'email' in user && user.email) {
-              this.email = '';
-              this.password = '';
-              this.router.navigateByUrl('login');
-            } else {
-              this.errorMsg = 'There was an issue.';
-              this.errorOccured = true;
-              this.password = '';
-            }
-          });
+        if (this.validatePassword(this.password)) {
+          this.authService
+            .register(this.email, this.password, this.firstName, this.lastName)
+            .subscribe((user) => {
+              if (typeof user === 'object' && 'email' in user && user.email) {
+                this.email = '';
+                this.password = '';
+                this.router.navigateByUrl('login');
+              } else {
+                this.errorMsg = 'There was an issue.';
+                this.errorOccured = true;
+                this.password = '';
+              }
+            });
+        } else {
+          this.errorMsg = 'Passwords be at least 8 characters.';
+          this.errorOccured = true;
+          this.password = '';
+          this.confirmPassword = '';
+        }
       } else {
         this.errorMsg = 'Passwords must match.';
         this.errorOccured = true;
@@ -49,5 +56,17 @@ export class RegisterComponent {
         this.confirmPassword = '';
       }
     }
+  }
+
+  validatePassword(password: string): boolean {
+    if (password.length < 8) {
+      return false;
+    }
+
+    if (/\s/.test(password)) {
+      return false;
+    }
+
+    return true;
   }
 }
