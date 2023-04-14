@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.errorOccured = false;
+    this.errorMsg = '';
 
     if (this.email && this.password) {
       this.authService.login(this.email, this.password).subscribe((user) => {
@@ -29,8 +30,12 @@ export class LoginComponent implements OnInit {
           this.email = '';
           this.password = '';
           this.router.navigateByUrl('discover');
+        } else if (!(typeof user === 'object')) {
+          this.errorMsg = user;
+          this.errorOccured = true;
+          this.password = '';
         } else {
-          this.errorMsg = 'There was an issue.';
+          this.errorMsg = 'Something went wrong, try again later.';
           this.errorOccured = true;
           this.password = '';
         }

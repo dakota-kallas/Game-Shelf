@@ -19,11 +19,17 @@ router.post("/login", upload.none(), async (req, res) => {
       if (err) {
         res.status(401).send(ERROR);
       } else if (result) {
-        req.session.regenerate(() => {
-          delete user.password;
-          req.session.user = user;
-          res.json(user);
-        });
+        if (user.enabled) {
+          req.session.regenerate(() => {
+            delete user.password;
+            req.session.user = user;
+            res.json(user);
+          });
+        } else {
+          res
+            .status(403)
+            .send("This account has been disabled, contact an admin for more.");
+        }
       } else {
         res.status(401).send(ERROR);
       }
@@ -55,13 +61,16 @@ router.get("/who/", (req, res) => {
 /**
  * USER REGISTRATION
  */
-router.post("/user", async (req, res) => {
+router.post("/users", async (req, res) => {
   const email = req.body.email;
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
   const password = req.body.password;
 
   try {
+    if (!validateEmail(email) || !validatePassword(password)) {
+      throw new Error("Invalid credentials provided for registration.");
+    }
     let user = await UserDB.createUser(
       email,
       bcrypt.hashSync(password, 10),
@@ -88,5 +97,23 @@ router.post("/user", async (req, res) => {
     res.status(409).send(err.message);
   }
 });
+
+function validatePassword(password) {
+  if (password.length < 8) {
+    return false;
+  }
+
+  if (/\s/.test(password)) {
+    return false;
+  }
+
+  return true;
+}
+
+function validateEmail(email) {
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  return emailPattern.test(email);
+}
 
 module.exports = router;

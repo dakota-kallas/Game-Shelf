@@ -9,13 +9,22 @@ import { GameComponent } from './components/game/game.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
+import { AdminGuard } from './guards/admin.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
   { path: 'register', component: RegisterComponent },
   { path: 'discover', component: DiscoverComponent, canActivate: [AuthGuard] },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'manage', component: ManageUsersComponent, canActivate: [AuthGuard] },
+  {
+    path: 'profile/:uid',
+    component: ProfileComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'manage',
+    component: ManageUsersComponent,
+    canActivate: [AdminGuard],
+  },
   {
     path: 'gameshelf',
     component: GameShelfComponent,

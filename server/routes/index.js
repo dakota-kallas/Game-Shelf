@@ -29,17 +29,41 @@ router.all("*", (req, res, next) => {
 /**
  * UPDATE USER DETAILS
  */
-router.put("/user", async (req, res) => {
-  if (req.session.user._id == req.body.user._id) {
+router.put("/users", async (req, res) => {
+  if (req.session.user._id == req.body.user._id || req.session.user.admin) {
     try {
+      let enabled = true;
+      let admin = false;
+      let password = null;
+
+      // If the current session user is an admin, allow for enabled & admin to be changed.
+      if (req.session.user.admin) {
+        enabled = req.body.enabled;
+        admin = req.body.admin;
+      }
+
+      if (req.body.password && validatePassword(req.body.password)) {
+        password = bcrypt.hashSync(req.body.password, 10);
+      } else if (req.body.password != "") {
+        throw new Error("Password must be at least 8 characters.");
+      }
+
       let updatedUser = await UserDB.updateUser(
         req.body.firstName,
         req.body.lastName,
+        enabled,
+        admin,
+        password,
         req.body.user
       );
-      updatedUser = await UserDB.getByEmail(req.session.user.email);
+      updatedUser = await UserDB.getByEmail(req.body.user.email);
       delete updatedUser.password;
-      req.session.user = updatedUser;
+
+      // If the current session user is not an admin, update the session user.
+      if (!req.session.user.admin) {
+        req.session.user = updatedUser;
+      }
+
       res.status(200).send(updatedUser);
     } catch (err) {
       res.status(403).send(err.message);
@@ -52,7 +76,7 @@ router.put("/user", async (req, res) => {
 /**
  * GET ALL USERS
  */
-router.get("/user", async (req, res) => {
+router.get("/users", async (req, res) => {
   if (req.session.user.admin) {
     try {
       let users = await UserDB.getUsers();
@@ -62,6 +86,24 @@ router.get("/user", async (req, res) => {
     }
   } else {
     res.status(409).send("Unable to obtain users, try again later.");
+  }
+});
+
+/**
+ * GET ALL USERS
+ */
+router.get("/users/:uid", async (req, res) => {
+  const userId = req.params.uid;
+  try {
+    if (req.session.user.admin || req.session.user._id == userId) {
+      let user = await UserDB.getById(userId);
+      delete user.password;
+      res.status(200).send(user);
+    } else {
+      throw new Error("Unable to retrieve user, try again later.");
+    }
+  } catch (err) {
+    res.status(409).send(err.message);
   }
 });
 
@@ -284,6 +326,18 @@ async function getGames(idListString) {
     .catch((err) => {
       return null;
     });
+}
+
+function validatePassword(password) {
+  if (password.length < 8) {
+    return false;
+  }
+
+  if (/\s/.test(password)) {
+    return false;
+  }
+
+  return true;
 }
 
 /**
