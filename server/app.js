@@ -11,13 +11,10 @@ var authRouter = require("./routes/auth");
 var app = express();
 
 let mongoose = require("mongoose");
-mongoose.connect(
-  "mongodb+srv://admin:connect4@cluster0.uyp7a.mongodb.net/game-shelf",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+mongoose.connect("mongodb://localhost:27017/game-shelf", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 app.use(
   session({
