@@ -99,13 +99,8 @@ export class GameComponent implements OnInit {
 
   ensureHTMLTags(description: String | undefined): String | undefined {
     if (description) {
-      if (!description.match(/^<\w+>/)) {
-        description = '<p>' + description;
-        description = description + '</p>';
-      } else if (!description.match(/<\/\w+>$/)) {
-        description = '<p>' + description;
-        description = description + '</p>';
-      }
+      description = '<div>' + description;
+      description = description + '</div>';
     }
 
     return description;
