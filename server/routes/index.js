@@ -29,7 +29,7 @@ router.all("*", (req, res, next) => {
 /**
  * UPDATE USER DETAILS
  */
-router.put("/user", async (req, res) => {
+router.put("/users", async (req, res) => {
   if (req.session.user._id == req.body.user._id || req.session.user.admin) {
     try {
       let enabled = true;
@@ -68,7 +68,7 @@ router.put("/user", async (req, res) => {
 /**
  * GET ALL USERS
  */
-router.get("/user", async (req, res) => {
+router.get("/users", async (req, res) => {
   if (req.session.user.admin) {
     try {
       let users = await UserDB.getUsers();
@@ -78,6 +78,24 @@ router.get("/user", async (req, res) => {
     }
   } else {
     res.status(409).send("Unable to obtain users, try again later.");
+  }
+});
+
+/**
+ * GET ALL USERS
+ */
+router.get("/users/:uid", async (req, res) => {
+  const userId = req.params.uid;
+  try {
+    if (req.session.user.admin || req.session.user._id == userId) {
+      let user = await UserDB.getById(userId);
+      delete user.password;
+      res.status(200).send(user);
+    } else {
+      throw new Error("Unable to retrieve user, try again later.");
+    }
+  } catch (err) {
+    res.status(409).send(err.message);
   }
 });
 

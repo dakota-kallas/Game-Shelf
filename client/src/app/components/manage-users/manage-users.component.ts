@@ -65,7 +65,7 @@ export class ManageUsersComponent implements OnInit {
       this.errorMsg = 'Only 1 user can be selected for this action.';
       this.errorOccured = true;
     } else {
-      this.router.navigateByUrl(`profile`);
+      this.router.navigateByUrl(`profile/${selectedUsers[0]._id}`);
     }
   }
 

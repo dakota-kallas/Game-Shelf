@@ -79,7 +79,7 @@ export class AuthService implements OnInit {
     firstName: string,
     lastName: string
   ): Observable<User> {
-    const API = this.URL + '/user';
+    const API = this.URL + '/users';
     return this.http.post<User>(API, {
       email: email,
       password: password,

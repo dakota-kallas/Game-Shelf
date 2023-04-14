@@ -18,7 +18,7 @@ export class UserService {
     admin: boolean,
     user: User
   ): Observable<User> {
-    return this.http.put<User>(this.URL + `/user`, {
+    return this.http.put<User>(this.URL + `/users`, {
       firstName: firstName,
       lastName: lastName,
       enabled: enabled,
@@ -28,6 +28,10 @@ export class UserService {
   }
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.URL + '/user');
+    return this.http.get<User[]>(this.URL + '/users');
+  }
+
+  getUser(userId: string): Observable<User> {
+    return this.http.get<User>(this.URL + `/users/${userId}`);
   }
 }

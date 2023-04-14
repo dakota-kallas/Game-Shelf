@@ -14,7 +14,11 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
   { path: 'register', component: RegisterComponent },
   { path: 'discover', component: DiscoverComponent, canActivate: [AuthGuard] },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  {
+    path: 'profile/:uid',
+    component: ProfileComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'manage', component: ManageUsersComponent, canActivate: [AuthGuard] },
   {
     path: 'gameshelf',

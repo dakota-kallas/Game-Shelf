@@ -59,6 +59,11 @@ async function getByEmail(email) {
   return user && user.toObject();
 }
 
+async function getById(_id) {
+  const user = await User.findOne({ _id });
+  return user && user.toObject();
+}
+
 async function getUsers() {
   const users = await User.find().select("-password");
   return users && users.map((user) => user.toObject());
@@ -67,6 +72,7 @@ async function getUsers() {
 module.exports = {
   User: User,
   updateUser: updateUser,
+  getById: getById,
   getByEmail: getByEmail,
   getUsers: getUsers,
   createUser: createUser,

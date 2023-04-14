@@ -55,7 +55,7 @@ router.get("/who/", (req, res) => {
 /**
  * USER REGISTRATION
  */
-router.post("/user", async (req, res) => {
+router.post("/users", async (req, res) => {
   const email = req.body.email;
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
