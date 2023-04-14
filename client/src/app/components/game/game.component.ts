@@ -47,6 +47,7 @@ export class GameComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.gameId = params['gid'];
       this.gameApi.getOne(this.gameId).subscribe((game) => {
+        game.description = this.ensureHTMLTags(game.description);
         this.game = game;
         this.getGameShelf();
       });
@@ -94,5 +95,19 @@ export class GameComponent implements OnInit {
         this.inShelf = false;
       }
     });
+  }
+
+  ensureHTMLTags(description: String | undefined): String | undefined {
+    if (description) {
+      if (!description.match(/^<\w+>/)) {
+        description = '<p>' + description;
+        description = description + '</p>';
+      } else if (!description.match(/<\/\w+>$/)) {
+        description = '<p>' + description;
+        description = description + '</p>';
+      }
+    }
+
+    return description;
   }
 }

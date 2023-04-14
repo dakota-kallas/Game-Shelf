@@ -1,3 +1,7 @@
 #edit-profile-form {
   background-color: #eee;
 }
+
+.h-fit-content {
+  height: fit-content;
+}
