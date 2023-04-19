@@ -120,6 +120,7 @@ router.get("/gameshelf", async function (req, res) {
     );
 
     if (idString != "") {
+      idString += `&limit=${gameshelf.games.length}`;
       let games = await getGames(idString);
       if (games) {
         gameshelf.games = games;
@@ -165,6 +166,7 @@ router.put("/gameshelf", async function (req, res) {
         }
 
         if (idString != "") {
+          idString += `&limit=${updatedShelf.games.length}`;
           let games = await getGames(idString);
           if (games) {
             updatedShelf.games = games;
@@ -289,9 +291,8 @@ router.get("/games/:gid", async function (req, res) {
  * @returns {Game[]}
  */
 async function getGames(idListString) {
-  return fetch(
-    `https://api.boardgameatlas.com/api/search?client_id=${BGAClientID}&ids=${idListString}`
-  )
+  const fetchURL = `https://api.boardgameatlas.com/api/search?client_id=${BGAClientID}&ids=${idListString}`;
+  return fetch(fetchURL)
     .then((response) => response.json())
     .then((data) => {
       if (data.games && data.games.length > 0) {
