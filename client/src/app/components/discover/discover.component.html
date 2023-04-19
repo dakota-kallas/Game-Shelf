@@ -85,6 +85,7 @@
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-end gap-2">
+                        <div><span>Page 1-{{Math.ceil(maxSearchCount / 10)}} ({{maxSearchCount}} results)</span></div>
                         <div class="col search-button">
                             <button *ngIf="currentSearchCount > 1" class="btn btn-outline-primary"
                                 (click)="currentSearchCount = currentSearchCount - 10">&larr;</button>
@@ -94,8 +95,6 @@
                                 class="btn btn-outline-primary"
                                 (click)="currentSearchCount = currentSearchCount + 10">&rarr;</button>
                         </div>
-
-
                     </div>
                 </div>
             </div>

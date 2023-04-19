@@ -34,7 +34,10 @@ export class ProfileComponent implements OnInit {
       this.userId = params['uid'];
       this.authApi.fetchUser().subscribe((currentUser) => {
         this.currentUser = currentUser;
-        if (currentUser.admin || currentUser._id == this.userId) {
+        if (
+          currentUser &&
+          (currentUser.admin || currentUser._id == this.userId)
+        ) {
           this.userApi.getUser(this.userId).subscribe((user) => {
             this.user = user;
             this.email = user.email;

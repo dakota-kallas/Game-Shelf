@@ -35,22 +35,30 @@ export class AuthService implements OnInit {
     if (this.user) {
       window.localStorage.setItem('user', JSON.stringify(user));
     } else {
-      window.localStorage.removeItem('user');
+      window.localStorage.clear();
     }
     this.userSubject.next(user);
   }
 
-  fetchUser(): Observable<User> {
+  fetchUser(): Observable<User | undefined> {
     return this.http.get<User>(this.URL + '/who/').pipe(
       tap((user) => {
         this.setUser(user);
+      }),
+      catchError((error) => {
+        window.localStorage.clear();
+        return of(undefined);
       })
     );
   }
 
-  getAuthenticatedUser(): Observable<User> {
+  getAuthenticatedUser(): Observable<User | undefined> {
+    const setup = window.localStorage.getItem('setupTime');
+    const tenMinutesInMilliseconds = 10 * 60 * 1000;
+    const now = new Date().getTime();
+
     let txt = window.localStorage.getItem('user');
-    if (txt) {
+    if (txt && setup && Number(setup) + tenMinutesInMilliseconds > now) {
       let user: User = JSON.parse(txt as string) as User;
       this.setUser(user);
       return of(user);
@@ -75,6 +83,10 @@ export class AuthService implements OnInit {
         }),
         tap((u) => {
           if (typeof u === 'object' && 'email' in u && u.email) {
+            window.localStorage.setItem(
+              'setupTime',
+              new Date().getTime().toString()
+            );
             this.setUser(u);
           }
         })

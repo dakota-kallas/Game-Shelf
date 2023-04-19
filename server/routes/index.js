@@ -165,7 +165,7 @@ router.put("/gameshelf", async function (req, res) {
         }
 
         if (idString != "") {
-          let games = await getGames(idString);
+          let games = await getGames(idString, updatedShelf.games.length);
           if (games) {
             updatedShelf.games = games;
             res.status(200).send(updatedShelf);
@@ -286,6 +286,7 @@ router.get("/games/:gid", async function (req, res) {
 /**
  * Helper method used to fetch game(s) from the BoardGameAtlas API
  * @param {String[]} idListString
+ * @param {Number} numGames
  * @returns {Game[]}
  */
 async function getGames(idListString, numGames) {
