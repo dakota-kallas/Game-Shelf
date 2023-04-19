@@ -165,8 +165,7 @@ router.put("/gameshelf", async function (req, res) {
         }
 
         if (idString != "") {
-          idString += `&limit=${updatedShelf.games.length}`;
-          let games = await getGames(idString);
+          let games = await getGames(idString, updatedShelf.games.length);
           if (games) {
             updatedShelf.games = games;
             res.status(200).send(updatedShelf);
