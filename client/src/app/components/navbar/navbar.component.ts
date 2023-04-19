@@ -15,17 +15,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
     return this.user != undefined;
   }
 
-  constructor(private authService: AuthService, private router: Router) {
-    authService.userSubject.subscribe((user: User | undefined) => {
-      this.user = user;
-    });
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
   userString() {
     return JSON.stringify(this.user);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.authService.userSubject.subscribe((user: User | undefined) => {
+      this.user = user;
+    });
+  }
 
   ngOnDestroy() {}
 
