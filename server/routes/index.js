@@ -287,6 +287,7 @@ router.get("/games/:gid", async function (req, res) {
 /**
  * Helper method used to fetch game(s) from the BoardGameAtlas API
  * @param {String[]} idListString
+ * @param {Number} numGames
  * @returns {Game[]}
  */
 async function getGames(idListString, numGames) {
