@@ -7,7 +7,7 @@
             <form id="register-form" class="float-end card shadow">
                 <h3>Register</h3>
                 <div>
-                    <div [hidden]="!errorOccured" class="text-danger">
+                    <div [hidden]="!errorOccured" class="text-danger" id="error-container">
                         *{{errorMsg}}
                     </div>
                     <div>

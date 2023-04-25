@@ -71,6 +71,13 @@ router.post("/users", async (req, res) => {
     if (!validateEmail(email) || !validatePassword(password)) {
       throw new Error("Invalid credentials provided for registration.");
     }
+
+    let existingUser = await UserDB.getByEmail(email);
+
+    if (existingUser) {
+      throw new Error("An account already exists with that email.");
+    }
+
     let user = await UserDB.createUser(
       email,
       bcrypt.hashSync(password, 10),
