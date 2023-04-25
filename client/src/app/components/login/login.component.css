@@ -26,3 +26,56 @@
   color: white;
   letter-spacing: 3px;
 }
+
+.auth-icon {
+  max-width: 35px;
+  max-height: 35px;
+  min-height: 35px;
+  min-width: 35px;
+  margin: 0;
+  padding: 0;
+}
+
+#facebook-icon {
+  padding-top: 8px;
+  max-width: 45px;
+  max-height: 45px;
+  min-height: 45px;
+  min-width: 45px;
+  background-color: blue;
+}
+
+#facebook-icon:hover {
+  background-color: darkblue;
+}
+
+.auth-btn {
+  padding: 5px;
+  border: 0;
+}
+
+.auth-btn:hover {
+  background-color: lightgrey;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.separator::before,
+.separator::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid gray;
+}
+
+.separator:not(:empty)::before {
+  margin-right: 0.5em;
+}
+
+.separator:not(:empty)::after {
+  margin-left: 0.5em;
+}

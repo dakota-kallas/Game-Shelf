@@ -7,6 +7,44 @@ let GameShelfDB = require("../models/gameshelf.js");
 const multer = require("multer");
 const upload = multer();
 
+var passport = require("passport");
+var GoogleStrategy = require("passport-google-oidc");
+require("dotenv").config({ path: "../.env" });
+
+router.get("/login/federated/google", passport.authenticate("google"));
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID:
+        "410826730415-s84jfsgj362ijoje6m0rljjatd84ofp4.apps.googleusercontent.com",
+      clientSecret: "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",
+      callbackURL: "/oauth2/redirect/google",
+      scope: ["profile"],
+    },
+    function verify(issuer, profile, cb) {
+      console.log(`$ NEW GOOGLE STRATEGY`);
+      console.log(`$ issuer: ${JSON.stringify(issuer)}`);
+      console.log(`$ profile: ${JSON.stringify(profile)}`);
+      console.log(`$ cb: ${JSON.stringify(cb)}`);
+    }
+  )
+);
+
+passport.serializeUser(function (user, cb) {
+  console.log(`$ SERIALIZE USER`);
+  console.log(`$ user: ${JSON.stringify(user)}`);
+  console.log(`$ cb: ${JSON.stringify(cb)}`);
+});
+
+router.get(
+  "/oauth2/redirect/google",
+  passport.authenticate("google", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+  })
+);
+
 router.post("/login", upload.none(), async (req, res) => {
   const email = req.body.email.toLowerCase();
   const password = req.body.password;
