@@ -22,7 +22,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      secure: false,
+      secure: true,
       maxAge: 10 * 60 * 1000,
     },
   })
