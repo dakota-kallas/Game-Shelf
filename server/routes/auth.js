@@ -8,7 +8,7 @@ const multer = require("multer");
 const upload = multer();
 
 router.post("/login", upload.none(), async (req, res) => {
-  const email = req.body.email;
+  const email = req.body.email.toLowerCase();
   const password = req.body.password;
 
   let user = await UserDB.getByEmail(email);
