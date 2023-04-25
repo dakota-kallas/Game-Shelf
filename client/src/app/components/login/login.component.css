@@ -36,12 +36,20 @@
   padding: 0;
 }
 
-#facebook-icon {
+#facebook-icon,
+#twitter-icon {
   padding-top: 8px;
   max-width: 45px;
   max-height: 45px;
   min-height: 45px;
   min-width: 45px;
+}
+
+#twitter-icon {
+  padding-left: 7px;
+}
+
+#facebook-icon {
   background-color: blue;
 }
 
@@ -49,13 +57,13 @@
   background-color: darkblue;
 }
 
+#google-icon:hover {
+  background-color: lightgrey;
+}
+
 .auth-btn {
   padding: 5px;
   border: 0;
-}
-
-.auth-btn:hover {
-  background-color: lightgrey;
 }
 
 .separator {
