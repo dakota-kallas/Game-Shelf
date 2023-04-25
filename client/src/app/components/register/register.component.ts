@@ -38,14 +38,24 @@ export class RegisterComponent {
                 this.firstName,
                 this.lastName
               )
-              .subscribe((user) => {
-                if (typeof user === 'object' && 'email' in user && user.email) {
-                  this.email = '';
-                  this.password = '';
-                  this.router.navigateByUrl('login');
-                } else {
-                  this.setError('There was an issue.');
-                }
+              .subscribe({
+                next: (user) => {
+                  if (
+                    typeof user === 'object' &&
+                    'email' in user &&
+                    user.email
+                  ) {
+                    this.email = '';
+                    this.password = '';
+                    this.confirmPassword = '';
+                    this.router.navigateByUrl('login');
+                  } else {
+                    this.setError('There was an issue.');
+                  }
+                },
+                error: (error) => {
+                  this.setError(error.error);
+                },
               });
           } else {
             this.setError('Passwords be at least 8 characters.');

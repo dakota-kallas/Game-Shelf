@@ -1,25 +1,28 @@
 #register-form {
-    max-width: 600px;
-    min-width: 300px;
-    padding: 15px;
-    background-color: #eee;
-    border-radius: 0.5em;
-    margin-top: 1em;
-    margin-right: 1em;
-    height: fit-content;
-    width: fit-content;
-  }
-  
-  #game-shelf-icon {
-    max-width: 100px;
-  }
-  
-  .things-title {
-    font-size: 400%;
-    text-shadow: 3px 3px 3px black;
-    font-family: "Montserrat", sans-serif;
-    font-weight: bold;
-    color: white;
-    letter-spacing: 3px;
-  }
-  
+  max-width: 600px;
+  min-width: 300px;
+  padding: 15px;
+  background-color: #eee;
+  border-radius: 0.5em;
+  margin-top: 1em;
+  margin-right: 1em;
+  height: fit-content;
+  width: fit-content;
+}
+
+#game-shelf-icon {
+  max-width: 100px;
+}
+
+#error-container {
+  max-width: 260px;
+}
+
+.things-title {
+  font-size: 400%;
+  text-shadow: 3px 3px 3px black;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  color: white;
+  letter-spacing: 3px;
+}

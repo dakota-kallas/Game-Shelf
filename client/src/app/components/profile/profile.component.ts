@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -25,7 +26,8 @@ export class ProfileComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private userApi: UserService,
-    private authApi: AuthService
+    private authApi: AuthService,
+    private location: Location
   ) {}
 
   ngOnInit() {
@@ -79,6 +81,10 @@ export class ProfileComponent implements OnInit {
         this.errorOccured = true;
       }
     }
+  }
+
+  onCancel() {
+    this.location.back();
   }
 
   validatePassword(password: string): boolean {

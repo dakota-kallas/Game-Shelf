@@ -8,7 +8,7 @@ const multer = require("multer");
 const upload = multer();
 
 router.post("/login", upload.none(), async (req, res) => {
-  const email = req.body.email;
+  const email = req.body.email.toLowerCase();
   const password = req.body.password;
 
   let user = await UserDB.getByEmail(email);
@@ -62,7 +62,7 @@ router.get("/who/", (req, res) => {
  * USER REGISTRATION
  */
 router.post("/users", async (req, res) => {
-  const email = req.body.email;
+  const email = req.body.email.toLowerCase();
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
   const password = req.body.password;
@@ -71,6 +71,13 @@ router.post("/users", async (req, res) => {
     if (!validateEmail(email) || !validatePassword(password)) {
       throw new Error("Invalid credentials provided for registration.");
     }
+
+    let existingUser = await UserDB.getByEmail(email);
+
+    if (existingUser) {
+      throw new Error("An account already exists with that email.");
+    }
+
     let user = await UserDB.createUser(
       email,
       bcrypt.hashSync(password, 10),
