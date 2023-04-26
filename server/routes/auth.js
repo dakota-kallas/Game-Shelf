@@ -9,8 +9,11 @@ const upload = multer();
 
 var passport = require("passport");
 var GoogleStrategy = require("passport-google-oidc");
+var FacebookStrategy = require("passport-facebook");
 
 router.get("/login/federated/google", passport.authenticate("google"));
+
+router.get("/login/federated/facebook", passport.authenticate("facebook"));
 
 passport.use(
   new GoogleStrategy(
@@ -69,6 +72,25 @@ passport.use(
   )
 );
 
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: "1228394564345265",
+      clientSecret: "b01266e02a9b509723fdfb8b66948128",
+      callbackURL: "api/v1/oauth2/redirect/facebook",
+      state: true,
+    },
+    function verify(accessToken, refreshToken, profile, cb) {
+      console.log(`$ accessToken: ${accessToken}`);
+      console.log(`$ accessToken JSON: ${JSON.stringify(accessToken)}`);
+      console.log(`$ refreshToken: ${refreshToken}`);
+      console.log(`$ refreshToken JSON: ${JSON.stringify(refreshToken)}`);
+      console.log(`$ profile: ${profile}`);
+      console.log(`$ profile JSON: ${JSON.stringify(profile)}`);
+    }
+  )
+);
+
 passport.serializeUser(function (user, done) {
   done(null, user);
 });
@@ -80,6 +102,14 @@ passport.deserializeUser(async function (user, done) {
 router.get(
   "/oauth2/redirect/google",
   passport.authenticate("google", {
+    successRedirect: "/",
+    failureRedirect: "/",
+  })
+);
+
+router.get(
+  "/oauth2/redirect/facebook",
+  passport.authenticate("facebook", {
     successRedirect: "/",
     failureRedirect: "/",
   })
