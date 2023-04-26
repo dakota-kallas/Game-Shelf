@@ -20,23 +20,25 @@ passport.use(
         "410826730415-s84jfsgj362ijoje6m0rljjatd84ofp4.apps.googleusercontent.com",
       clientSecret: "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",
       callbackURL: "/api/v1/oauth2/redirect/google",
-      scope: ["profile"],
+      scope: ["profile", "email"],
     },
     function verify(issuer, profile, cb) {
       console.log(`$ NEW GOOGLE STRATEGY`);
       console.log(`$ issuer: ${JSON.stringify(issuer)}`);
-      console.log(`$ profile: ${JSON.stringify(profile)}`);
-      console.log(`$ cb: ${JSON.stringify(cb)}`);
+      // console.log(`$ profile: ${JSON.stringify(profile)}`);
+      // console.log(`$ cb: ${JSON.stringify(cb)}`);
+      const email = profile.emails[0].value;
+      const firstName = profile.name.givenName;
+      const lastName = profile.name.familyName;
+
+      console.log(`$ email: ${JSON.stringify(email)}`);
+      console.log(`$ firstName: ${JSON.stringify(firstName)}`);
+      console.log(`$ lastName: ${JSON.stringify(lastName)}`);
+
       return cb(null, null);
     }
   )
 );
-
-passport.serializeUser(function (user, cb) {
-  console.log(`$ SERIALIZE USER`);
-  console.log(`$ user: ${JSON.stringify(user)}`);
-  console.log(`$ cb: ${JSON.stringify(cb)}`);
-});
 
 router.get(
   "/oauth2/redirect/google",
