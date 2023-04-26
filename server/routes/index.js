@@ -283,14 +283,21 @@ router.get("/games/:gid", async function (req, res) {
 });
 
 /**
- * GET GAME LOGS FOR CURRENT USER
+ * GET GAME LOGS
  */
 router.get("/gamelogs", async function (req, res) {
-  let gameLogs = await GameLogDB.getByOwner(req.session.user.email);
+  const bgaGameId = req.query.bgaGameId;
+  let gameLogs = null;
+  if (bgaGameId) {
+    gameLogs = await GameLogDB.getByBGAGame(bgaGameId, req.session.user.email);
+  } else {
+    gameLogs = await GameLogDB.getByOwner(req.session.user.email);
+  }
+
   if (gameLogs) {
     res.status(200).send(gameLogs);
   } else {
-    res.status(400).send("Unable to retrieve game logs, try again later.");
+    res.status(200).send("Unable to retrieve game logs, try again later.");
   }
 });
 
@@ -301,7 +308,7 @@ router.get("/gamelogs/:glid", async function (req, res) {
   const gameLogId = req.params.glid;
   let gameLog = await GameLogDB.getById(gameLogId);
   if (gameLog && gameLog.owner == req.session.user.email) {
-    res.status(200).send(gameLogs);
+    res.status(200).send(gameLog);
   } else {
     res
       .status(400)
@@ -316,13 +323,13 @@ router.delete("/gamelogs/:glid", async function (req, res) {
   try {
     const gameLogId = req.params.glid;
     if (gameLogId) {
-      let removedGameLogId = await GameLogDB.removeGameLog(
+      let removedGameLog = await GameLogDB.removeGameLog(
         gameLogId,
         req.session.user.email
       );
 
-      if (removedGameLogId) {
-        res.status(200).send(removedGameLogId);
+      if (removedGameLog) {
+        res.status(200).send(removedGameLog);
       } else {
         throw Error(
           "There was an issue removing the game log, try again later."
@@ -369,7 +376,7 @@ router.put("/gamelogs/:glid", async function (req, res) {
 /**
  * CREATE A GAME LOG
  */
-router.post("/gamelogs", upload.none(), async (req, res) => {
+router.post("/gamelogs", async (req, res) => {
   const bgaGameId = req.body.bgaGameId;
   const date = req.body.date;
   const note = req.body.note;

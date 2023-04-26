@@ -18,6 +18,12 @@
   color: orangered;
 }
 
+.btn-xs {
+  padding: 0.2rem 0.4rem;
+  font-size: 0.75rem;
+  border-radius: 0.2rem;
+}
+
 h2 {
   font-size: 1.25rem;
   font-weight: normal;

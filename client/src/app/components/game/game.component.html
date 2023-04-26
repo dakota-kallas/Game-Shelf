@@ -16,6 +16,54 @@
                     </button>
                     <a class="btn btn-outline-secondary mx-3" target="_blank" href="{{game.rules}}"
                         [hidden]="!game.rules"><i class="fa fa-book"></i> Read Rules</a>
+                    <button class="btn btn-primary mx-3" (click)="createGameLog()">
+                        <i class="fa fa-plus"></i>
+                        <span> Add Game Log</span>
+                    </button>
+                    <div class="row mt-5 mb-2" *ngIf="gameLogs?.length !== 0">
+                        <div class="col">
+                            <div class="row justify-content-center text-center">
+                                <h2>My Game History</h2>
+                                <hr class="w-75">
+                            </div>
+                            <div class="row justify-content-center">
+                                <table class="table table-striped w-fit-content">
+                                    <tbody>
+                                        <tr *ngFor="let gameLog of gameLogs">
+                                            <td>
+                                                <a class="btn btn-xs btn-outline-secondary"
+                                                    [routerLink]="['/gamelogs', gameLog._id]">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                            </td>
+                                            <td>{{gameLog.date | date: 'EEE MMM d y'}}</td>
+                                            <td *ngIf="gameLog.rating">
+                                                <ng-container
+                                                    *ngFor="let i of [].constructor(Math.floor(gameLog.rating))">
+                                                    <i class="fa fa-star text-goldenrod"></i>
+                                                </ng-container>
+                                                <ng-container
+                                                    *ngIf="gameLog.rating - Math.floor(gameLog.rating) == 0.5">
+                                                    <i class="fa fa-star-half-o text-goldenrod"></i>
+                                                </ng-container>
+                                                <ng-container *ngIf="Math.ceil(gameLog.rating) != 5">
+                                                    <ng-container
+                                                        *ngFor="let i of [].constructor(Math.floor(5 - (Math.round(gameLog.rating * 2) / 2)))">
+                                                        <i class="fa fa-star-o text-goldenrod"></i>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </td>
+                                            <td *ngIf="!gameLog.rating">
+                                                <ng-container *ngFor="let i of [].constructor(5)">
+                                                    <i class="fa fa-star-o text-secondary"></i>
+                                                </ng-container>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col">

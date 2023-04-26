@@ -12,6 +12,7 @@ import { GameComponent } from './components/game/game.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
+import { GameLogComponent } from './components/gamelog/gamelog.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ManageUsersComponent } from './components/manage-users/manage-users.com
     ProfileComponent,
     RegisterComponent,
     ManageUsersComponent,
+    GameLogComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],

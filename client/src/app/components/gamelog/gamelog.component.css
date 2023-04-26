@@ -1,0 +1,13 @@
+#gameLog-form {
+  width: 600px;
+  padding: 15px;
+  background-color: #eee;
+  border-radius: 0.5em;
+  margin-top: 1em;
+  margin-right: 1em;
+  height: fit-content;
+}
+
+.thumbnail {
+  width: 300px;
+}

@@ -1,0 +1,48 @@
+<div class="background">
+    <div class="flex-column d-flex">
+        <div class="d-flex justify-content-center">
+            <div id="gameLog-form" class="float-end card shadow">
+                <form class="col">
+                    <div>
+                        <h3>{{bgaGame?.name}} - Game Log</h3>
+                    </div>
+                    <div class="row">
+                        <div class="row">
+                            <div class="form-group mb-2 w-50">
+                                <label for="date">Date</label>
+                                <input type="date" class="form-control" name="date" placeholder="Date"
+                                    [(ngModel)]="date">
+                            </div>
+
+                            <div class="form-group mb-2 w-50">
+                                <label for="rating">Rating</label>
+                                <input type="number" class="form-control" name="rating" placeholder="Enter rating"
+                                    [(ngModel)]="gameLog.rating" max="5" min="0">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group mb-2">
+                                <label for="note">Note</label>
+                                <textarea class="form-control" name="note" placeholder="Add a note here...."
+                                    [(ngModel)]="gameLog.note" rows="5"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <button type="submit" (click)="update()" class="btn btn-primary btn-sm">Save Changes
+                        </button>
+                        <button (click)="back()" class="btn btn-secondary btn-sm mx-2">
+                            <i class="fa fa-arrow-left"></i> Back
+                        </button>
+                        <button (click)="delete()" class="btn btn-danger btn-sm mx-2">
+                            Delete
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</div>

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { GameLog } from 'src/app/models/game-log.model';
 import { GameShelf } from 'src/app/models/game-shelf.model';
 import { Game } from 'src/app/models/game.model';
 import { GameService } from 'src/app/services/game.service';
+import { GameLogService } from 'src/app/services/gamelog.service';
 import { GameShelfService } from 'src/app/services/gameshelf.service';
 
 @Component({
@@ -34,13 +36,15 @@ export class GameComponent implements OnInit {
   private gameId: string = '';
   Math = window.Math;
   gameShelf: GameShelf | undefined;
+  gameLogs: GameLog[] | undefined;
   inShelf: boolean = false;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private gameApi: GameService,
-    private gameShelfApi: GameShelfService
+    private gameShelfApi: GameShelfService,
+    private gameLogApi: GameLogService
   ) {}
 
   ngOnInit() {
@@ -50,6 +54,7 @@ export class GameComponent implements OnInit {
         game.description = this.ensureHTMLTags(game.description);
         this.game = game;
         this.getGameShelf();
+        this.getGameLogs();
       });
     });
   }
@@ -86,7 +91,7 @@ export class GameComponent implements OnInit {
     });
   }
 
-  removeFromShelf(gameId: String) {
+  removeFromShelf(gameId: string) {
     this.gameShelfApi.removeGameFromShelf(gameId).subscribe((game) => {
       if (game && this.gameShelf) {
         this.gameShelf.games = this.gameShelf?.games.filter(
@@ -97,12 +102,29 @@ export class GameComponent implements OnInit {
     });
   }
 
-  ensureHTMLTags(description: String | undefined): String | undefined {
+  ensureHTMLTags(description: string | undefined): string | undefined {
     if (description) {
       description = '<div>' + description;
       description = description + '</div>';
     }
 
     return description;
+  }
+
+  createGameLog() {
+    this.gameLogApi
+      .createGameLog(
+        this.game.bgaGameId,
+        new Date(Date.now()).toDateString(),
+        undefined,
+        undefined
+      )
+      .subscribe((gameLog) => this.router.navigate(['/gamelogs', gameLog._id]));
+  }
+
+  getGameLogs() {
+    this.gameLogApi.getGameLogsForGame(this.gameId).subscribe((gameLogs) => {
+      this.gameLogs = gameLogs;
+    });
   }
 }

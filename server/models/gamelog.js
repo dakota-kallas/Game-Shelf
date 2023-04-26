@@ -20,8 +20,13 @@ async function createGameLog(owner, bgaGameId, date, note, rating) {
 }
 
 async function getByOwner(owner) {
-  const gameLog = await GameLog.findOne({ owner });
-  return gameLog && gameLog.toObject();
+  const gameLogs = await GameLog.find({ owner });
+  return gameLogs.map((gameLog) => gameLog.toObject());
+}
+
+async function getByBGAGame(bgaGameId, owner) {
+  const gameLogs = await GameLog.find({ owner, bgaGameId });
+  return gameLogs.map((gameLog) => gameLog.toObject());
 }
 
 async function getById(_id) {
@@ -34,7 +39,10 @@ async function updateGameLog(updatedGameLog, owner) {
   if (!gameLog) {
     throw new Error("Game Log not found.");
   }
-  gameLog = updatedGameLog;
+
+  gameLog.date = updatedGameLog.date.toString();
+  gameLog.note = updatedGameLog.note;
+  gameLog.rating = updatedGameLog.rating;
 
   await gameLog.save();
   return gameLog.toObject();
@@ -47,13 +55,14 @@ async function removeGameLog(gameLogId, owner) {
   }
 
   await GameLog.deleteOne({ _id: gameLogId });
-  return gameLogId;
+  return gameLog;
 }
 
 module.exports = {
   GameLog: GameLog,
   createGameLog: createGameLog,
   getByOwner: getByOwner,
+  getByBGAGame: getByBGAGame,
   getById: getById,
   updateGameLog: updateGameLog,
   removeGameLog: removeGameLog,

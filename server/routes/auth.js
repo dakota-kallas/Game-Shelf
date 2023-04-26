@@ -54,7 +54,6 @@ passport.use(
               throw new Error("Error creating User document:" + error.message);
             });
         } catch (err) {
-          console.log(`${err}`);
           return done(null, false, {
             message: "User not found",
           });
