@@ -4,6 +4,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var session = require("express-session");
+var passport = require("passport");
 
 var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
@@ -11,10 +12,13 @@ var authRouter = require("./routes/auth");
 var app = express();
 
 let mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/game-shelf", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  "mongodb+srv://admin:connect4@cluster0.uyp7a.mongodb.net/game-shelf",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
 app.use(
   session({
@@ -22,11 +26,16 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      secure: true,
+      secure: false,
       maxAge: 10 * 60 * 1000,
     },
   })
 );
+// Initialize Passport
+app.use(passport.initialize());
+
+// Enable session support
+app.use(passport.session());
 
 app.use(logger("dev"));
 app.use(express.json());

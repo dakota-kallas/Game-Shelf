@@ -5,4 +5,5 @@ export interface User {
   lastName: string;
   enabled: boolean;
   admin: boolean;
+  issuer: string;
 }

@@ -3,6 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap, of, catchError } from 'rxjs';
 import { User } from '../models/user.model';
 import { Constants } from '../constants/constants';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class AuthService implements OnInit {
     User | undefined
   >(undefined);
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.ngOnInit();
   }
 
@@ -44,6 +45,9 @@ export class AuthService implements OnInit {
     return this.http.get<User>(this.URL + '/who/').pipe(
       tap((user) => {
         this.setUser(user);
+        if (this.router.url == '/login') {
+          this.router.navigateByUrl('discover');
+        }
       }),
       catchError((error) => {
         window.localStorage.clear();

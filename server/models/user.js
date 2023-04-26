@@ -3,11 +3,12 @@ const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema(
   {
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    password: { type: String },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     enabled: { type: Boolean, default: true },
     admin: { type: Boolean, default: false },
+    issuer: { type: String, required: true },
   },
   { versionKey: false }
 );
@@ -20,7 +21,8 @@ async function createUser(
   firstName,
   lastName,
   enabled,
-  admin
+  admin,
+  issuer
 ) {
   const user = new User({
     email,
@@ -29,6 +31,7 @@ async function createUser(
     lastName,
     enabled,
     admin,
+    issuer,
   });
   await user.save();
   return user.toObject();
