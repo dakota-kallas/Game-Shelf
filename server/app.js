@@ -10,15 +10,13 @@ var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
 
 var app = express();
+require("dotenv").config({ path: ".env" });
 
 let mongoose = require("mongoose");
-mongoose.connect(
-  "mongodb+srv://admin:connect4@cluster0.uyp7a.mongodb.net/game-shelf",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+mongoose.connect(process.env.MONGODB_CONNECT_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 app.use(
   session({
