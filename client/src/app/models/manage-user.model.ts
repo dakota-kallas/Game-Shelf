@@ -5,5 +5,6 @@ export interface ManageUser {
   lastName: string;
   enabled: boolean;
   admin: boolean;
+  issuer: string;
   selected: boolean;
 }

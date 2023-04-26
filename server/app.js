@@ -31,7 +31,11 @@ app.use(
     },
   })
 );
-app.use(passport.authenticate("session"));
+// Initialize Passport
+app.use(passport.initialize());
+
+// Enable session support
+app.use(passport.session());
 
 app.use(logger("dev"));
 app.use(express.json());

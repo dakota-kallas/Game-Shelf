@@ -58,6 +58,7 @@ export class ManageUsersComponent implements OnInit {
           lastName: selectedUser.lastName,
           enabled: selectedUser.enabled,
           admin: selectedUser.admin,
+          issuer: selectedUser.issuer,
         };
         return user;
       });
@@ -80,6 +81,7 @@ export class ManageUsersComponent implements OnInit {
           lastName: user.lastName,
           enabled: user.enabled,
           admin: user.admin,
+          issuer: user.issuer,
           selected: false,
         };
         this.users.push(manageUser);
@@ -99,6 +101,7 @@ export class ManageUsersComponent implements OnInit {
           lastName: selectedUser.lastName,
           enabled: selectedUser.enabled,
           admin: selectedUser.admin,
+          issuer: selectedUser.issuer,
         };
         return user;
       });
@@ -140,6 +143,7 @@ export class ManageUsersComponent implements OnInit {
           lastName: selectedUser.lastName,
           enabled: selectedUser.enabled,
           admin: selectedUser.admin,
+          issuer: selectedUser.issuer,
         };
         return user;
       });
