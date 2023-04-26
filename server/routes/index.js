@@ -5,6 +5,7 @@ router.use(express.urlencoded({ extended: true }));
 
 let UserDB = require("../models/user.js");
 let GameShelfDB = require("../models/gameshelf.js");
+let GameLogDB = require("../models/gamelog.js");
 let Game = require("../models/game.js");
 
 const saltRounds = 10;
@@ -277,7 +278,125 @@ router.get("/games/:gid", async function (req, res) {
   if (games) {
     res.status(200).send(games[0]);
   } else {
-    res.status(400).send("Unable to retrieve game details, try agai later.");
+    res.status(400).send("Unable to retrieve game details, try again later.");
+  }
+});
+
+/**
+ * GET GAME LOGS FOR CURRENT USER
+ */
+router.get("/gamelogs", async function (req, res) {
+  let gameLogs = await GameLogDB.getByOwner(req.session.user.email);
+  if (gameLogs) {
+    res.status(200).send(gameLogs);
+  } else {
+    res.status(400).send("Unable to retrieve game logs, try again later.");
+  }
+});
+
+/**
+ * GET GAME LOG DETAILS
+ */
+router.get("/gamelogs/:glid", async function (req, res) {
+  const gameLogId = req.params.glid;
+  let gameLog = await GameLogDB.getById(gameLogId);
+  if (gameLog && gameLog.owner == req.session.user.email) {
+    res.status(200).send(gameLogs);
+  } else {
+    res
+      .status(400)
+      .send("Unable to retrieve game log details, try again later.");
+  }
+});
+
+/**
+ * DELETE GAME LOG
+ */
+router.delete("/gamelogs/:glid", async function (req, res) {
+  try {
+    const gameLogId = req.params.glid;
+    if (gameLogId) {
+      let removedGameLogId = await GameLogDB.removeGameLog(
+        gameLogId,
+        req.session.user.email
+      );
+
+      if (removedGameLogId) {
+        res.status(200).send(removedGameLogId);
+      } else {
+        throw Error(
+          "There was an issue removing the game log, try again later."
+        );
+      }
+    } else {
+      throw Error(
+        "There was an issue providing the game log, try again later."
+      );
+    }
+  } catch (err) {
+    res.status(404).send(err.message);
+  }
+});
+
+/**
+ * UPDATE GAME LOG
+ */
+router.put("/gamelogs/:glid", async function (req, res) {
+  try {
+    const gameLog = req.body.gameLog;
+    const gameLogId = req.params.glid;
+    if (gameLog && gameLogId && gameLogId == gameLog._id) {
+      let updatedGameLog = await GameLogDB.updateGameLog(
+        gameLog,
+        req.session.user.email
+      );
+
+      if (updatedGameLog) {
+        res.status(200).send(updatedGameLog);
+      } else {
+        throw Error(
+          "There was an issue updating the game log, try again later."
+        );
+      }
+    } else {
+      throw Error("There was an issue providing the game, try again later.");
+    }
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
+/**
+ * CREATE A GAME LOG
+ */
+router.post("/gamelogs", upload.none(), async (req, res) => {
+  const bgaGameId = req.body.bgaGameId;
+  const date = req.body.date;
+  const note = req.body.note;
+  const rating = req.body.rating;
+
+  try {
+    if (!bgaGameId || !date) {
+      throw new Error("Please provide all required fields.");
+    }
+
+    let newGameLog = await GameLogDB.createGameLog(
+      req.session.user.email,
+      bgaGameId,
+      date,
+      note,
+      rating
+    );
+
+    if (newGameLog) {
+      res.status(200).send(newGameLog);
+    } else {
+      throw new Error(
+        "There was an issue creating the game log, try again later."
+      );
+    }
+  } catch (err) {
+    res.status(400).send(err.message);
   }
 });
 
