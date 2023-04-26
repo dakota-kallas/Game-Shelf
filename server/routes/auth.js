@@ -63,7 +63,14 @@ passport.use(
         if (user && user.password) {
           delete user.password;
         }
-        return done(null, user);
+
+        if (user && !user.enabled) {
+          return done(null, false, {
+            message: "User is disabled.",
+          });
+        } else {
+          return done(null, user);
+        }
       }
     }
   )
