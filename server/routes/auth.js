@@ -19,7 +19,7 @@ passport.use(
       clientID:
         "410826730415-s84jfsgj362ijoje6m0rljjatd84ofp4.apps.googleusercontent.com",
       clientSecret: "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",
-      callbackURL: "/oauth2/redirect/google",
+      callbackURL: "/api/v1/oauth2/redirect/google",
       scope: ["profile"],
     },
     function verify(issuer, profile, cb) {
@@ -27,6 +27,7 @@ passport.use(
       console.log(`$ issuer: ${JSON.stringify(issuer)}`);
       console.log(`$ profile: ${JSON.stringify(profile)}`);
       console.log(`$ cb: ${JSON.stringify(cb)}`);
+      return cb(null, null);
     }
   )
 );

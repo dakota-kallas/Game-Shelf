@@ -49,8 +49,4 @@ export class LoginComponent implements OnInit {
       });
     }
   }
-
-  google() {}
-  facebook() {}
-  twitter() {}
 }
