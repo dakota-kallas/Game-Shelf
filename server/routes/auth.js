@@ -9,18 +9,15 @@ const upload = multer();
 
 var passport = require("passport");
 var GoogleStrategy = require("passport-google-oidc");
-var FacebookStrategy = require("passport-facebook");
+require("dotenv").config({ path: "./.env" });
 
 router.get("/login/federated/google", passport.authenticate("google"));
-
-router.get("/login/federated/facebook", passport.authenticate("facebook"));
 
 passport.use(
   new GoogleStrategy(
     {
-      clientID:
-        "410826730415-s84jfsgj362ijoje6m0rljjatd84ofp4.apps.googleusercontent.com",
-      clientSecret: "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",
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "/api/v1/oauth2/redirect/google",
       scope: ["profile", "email"],
     },
@@ -72,25 +69,6 @@ passport.use(
   )
 );
 
-passport.use(
-  new FacebookStrategy(
-    {
-      clientID: "1228394564345265",
-      clientSecret: "b01266e02a9b509723fdfb8b66948128",
-      callbackURL: "api/v1/oauth2/redirect/facebook",
-      state: true,
-    },
-    function verify(accessToken, refreshToken, profile, cb) {
-      console.log(`$ accessToken: ${accessToken}`);
-      console.log(`$ accessToken JSON: ${JSON.stringify(accessToken)}`);
-      console.log(`$ refreshToken: ${refreshToken}`);
-      console.log(`$ refreshToken JSON: ${JSON.stringify(refreshToken)}`);
-      console.log(`$ profile: ${profile}`);
-      console.log(`$ profile JSON: ${JSON.stringify(profile)}`);
-    }
-  )
-);
-
 passport.serializeUser(function (user, done) {
   done(null, user);
 });
@@ -102,14 +80,6 @@ passport.deserializeUser(async function (user, done) {
 router.get(
   "/oauth2/redirect/google",
   passport.authenticate("google", {
-    successRedirect: "/",
-    failureRedirect: "/",
-  })
-);
-
-router.get(
-  "/oauth2/redirect/facebook",
-  passport.authenticate("facebook", {
     successRedirect: "/",
     failureRedirect: "/",
   })
