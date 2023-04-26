@@ -47,6 +47,10 @@ export class AuthService implements OnInit {
         this.setUser(user);
         if (this.router.url == '/login') {
           this.router.navigateByUrl('discover');
+          window.localStorage.setItem(
+            'setupTime',
+            new Date().getTime().toString()
+          );
         }
       }),
       catchError((error) => {
