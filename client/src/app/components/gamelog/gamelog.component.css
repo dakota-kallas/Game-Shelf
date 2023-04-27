@@ -16,10 +16,12 @@
   width: fit-content !important;
 }
 
-.text-goldenrod {
-  color: goldenrod;
-}
-
 p {
   margin: 0 0 5px 0;
+}
+
+ngb-rating {
+  margin: -15px 0;
+  color: goldenrod;
+  font-size: 40px;
 }

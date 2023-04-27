@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { IgcFormsModule } from 'igniteui-angular';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
@@ -35,7 +34,6 @@ import { GameLogComponent } from './components/gamelog/gamelog.component';
     HttpClientModule,
     NgbModule,
     FormsModule,
-    IgcFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

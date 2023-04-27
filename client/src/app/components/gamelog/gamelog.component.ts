@@ -5,9 +5,6 @@ import { GameLog } from 'src/app/models/game-log.model';
 import { GameService } from 'src/app/services/game.service';
 import { GameLogService } from 'src/app/services/gamelog.service';
 import { Game } from 'src/app/models/game.model';
-import { defineComponents, IgcRatingComponent } from 'igniteui-webcomponents';
-
-defineComponents(IgcRatingComponent);
 
 @Component({
   selector: 'app-gamelog',
