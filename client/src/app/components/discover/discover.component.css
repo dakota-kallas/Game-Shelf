@@ -2,6 +2,15 @@
   min-width: 320px;
 }
 
+.button-container {
+  width: fit-content !important;
+  flex: unset !important;
+}
+
+.game-list {
+  min-width: 300px;
+}
+
 .thumbnail {
   height: 80px;
   max-width: 80px;
