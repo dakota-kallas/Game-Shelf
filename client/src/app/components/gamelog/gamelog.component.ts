@@ -44,7 +44,6 @@ export class GameLogComponent implements OnInit {
         this.selectedStar = this.gameLog.rating || 0;
         this.gameApi.getOne(this.gameLog.bgaGameId).subscribe((game) => {
           this.bgaGame = game;
-          console.log(JSON.stringify(game));
         });
       });
     });
