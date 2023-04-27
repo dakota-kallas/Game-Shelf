@@ -29,8 +29,17 @@ nav {
 }
 
 /* responsive, form small screens, use 13px font size */
-@media (max-width: 500px) {
-  .navbar-brand span {
+@media (max-width: 620px) {
+  .navbar-brand span,
+  #user-full-name {
     display: none;
+  }
+  .nav-item {
+    text-align: left;
+  }
+  .dropdown-menu[data-bs-popper] {
+    top: 100%;
+    left: -120px;
+    margin-top: var(--bs-dropdown-spacer);
   }
 }

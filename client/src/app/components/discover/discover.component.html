@@ -23,7 +23,7 @@
                             Back to Discover</button>
                     </div>
                     <hr>
-                    <table class=" table table-striped">
+                    <table class="game-list table table-striped">
                         <tbody>
                             <tr *ngFor="let game of searchGames | slice:currentSearchCount-1:currentSearchCount-1+10">
                                 <td class="thumbnail-cell">
@@ -67,7 +67,7 @@
                                                 <span> - released {{game.year}}</span>
                                             </div>
                                         </div>
-                                        <div class="col text-end">
+                                        <div class="col text-end button-container">
                                             <button *ngIf="!isGameInShelf(game)" class="btn btn-success mx-3"
                                                 (click)="addGameToShelf(game)">
                                                 <i class="fa fa-plus"></i>
@@ -102,7 +102,7 @@
                 <div class="row my-3">
                     <h2>Top 10 Popular Games</h2>
                     <hr>
-                    <table class="table table-striped">
+                    <table class="game-list table table-striped">
                         <tbody>
                             <tr *ngFor="let game of popularGames">
                                 <td class="thumbnail-cell">
@@ -146,7 +146,7 @@
                                                 <span> - released {{game.year}}</span>
                                             </div>
                                         </div>
-                                        <div class="col text-end">
+                                        <div class="col text-end button-container">
                                             <button *ngIf="!isGameInShelf(game)" class="btn btn-success mx-3"
                                                 (click)="addGameToShelf(game)">
                                                 <i class="fa fa-plus"></i>
@@ -169,7 +169,7 @@
                 <div class="row my-3">
                     <h2>Top 10 Trending Games</h2>
                     <hr>
-                    <table class="table table-striped">
+                    <table class="game-list table table-striped">
                         <tbody>
                             <tr *ngFor="let game of trendingGames">
                                 <td class="thumbnail-cell">
@@ -213,7 +213,7 @@
                                                 <span> - released {{game.year}}</span>
                                             </div>
                                         </div>
-                                        <div class="col text-end">
+                                        <div class="col text-end button-container">
                                             <button *ngIf="!isGameInShelf(game)" class="btn btn-success mx-3"
                                                 (click)="addGameToShelf(game)">
                                                 <i class="fa fa-plus"></i>
