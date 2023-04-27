@@ -143,10 +143,9 @@ router.get("/who/", (req, res) => {
     } else {
       if (req.session.passport && req.session.passport.user) {
         let user = req.session.passport.user;
-        req.session.regenerate(() => {
-          req.session.user = user;
-          res.status(200).send(user);
-        });
+        req.session.regenerate();
+        req.session.user = user;
+        res.status(200).send(user);
       } else {
         res.status(403).send("Session user invalid.");
       }
