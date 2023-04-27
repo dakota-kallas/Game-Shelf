@@ -152,10 +152,8 @@ router.get("/who/", (req, res) => {
       if (req.session.passport && req.session.passport.user) {
         console.log(`$ SETTING SESSION USER\n`);
         let user = req.session.passport.user;
-        req.session.regenerate(() => {
-          req.session.user = user;
-          res.status(200).send(user);
-        });
+        req.session.user = user;
+        res.status(200).send(user);
       } else {
         console.log(`$ NO PASSPORT AND USER\n`);
         res.status(403).send("Session user invalid.");
