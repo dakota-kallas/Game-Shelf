@@ -150,6 +150,7 @@ router.get("/who/", (req, res) => {
     } else {
       console.log(`$ NO RESULT`);
       if (req.session.passport && req.session.passport.user) {
+        console.log(`$ SETTING SESSION USER`);
         let user = req.session.passport.user;
         req.session.regenerate(() => {
           req.session.user = user;
