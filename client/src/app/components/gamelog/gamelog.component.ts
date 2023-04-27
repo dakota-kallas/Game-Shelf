@@ -5,6 +5,9 @@ import { GameLog } from 'src/app/models/game-log.model';
 import { GameService } from 'src/app/services/game.service';
 import { GameLogService } from 'src/app/services/gamelog.service';
 import { Game } from 'src/app/models/game.model';
+import { defineComponents, IgcRatingComponent } from 'igniteui-webcomponents';
+
+defineComponents(IgcRatingComponent);
 
 @Component({
   selector: 'app-gamelog',
@@ -24,6 +27,7 @@ export class GameLogComponent implements OnInit {
   bgaGame: Game | undefined;
   private gameLogId: string = '';
   date: string = '';
+  selectedStar: number = 0;
 
   constructor(
     private router: Router,
@@ -39,6 +43,7 @@ export class GameLogComponent implements OnInit {
       this.gameLogApi.getGameLog(this.gameLogId).subscribe((gameLog) => {
         this.gameLog = gameLog;
         this.date = new Date(gameLog.date).toISOString().substring(0, 10);
+        this.selectedStar = this.gameLog.rating || 0;
         this.gameApi.getOne(this.gameLog.bgaGameId).subscribe((game) => {
           this.bgaGame = game;
         });
@@ -47,11 +52,14 @@ export class GameLogComponent implements OnInit {
   }
 
   back() {
+    console.log(`star: ${this.selectedStar}`);
+
     this.location.back();
   }
 
   update() {
     this.gameLog.date = this.date;
+    this.gameLog.rating = this.selectedStar;
     this.gameLogApi.updateGameLog(this.gameLog).subscribe((updatedLog) => {
       this.location.back();
     });

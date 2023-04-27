@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
+import { IgcFormsModule } from 'igniteui-angular';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -27,7 +29,14 @@ import { GameLogComponent } from './components/gamelog/gamelog.component';
     ManageUsersComponent,
     GameLogComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    NgbModule,
+    FormsModule,
+    IgcFormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

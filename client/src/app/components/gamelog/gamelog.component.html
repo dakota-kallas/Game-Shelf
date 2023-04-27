@@ -14,10 +14,15 @@
                                     [(ngModel)]="date">
                             </div>
 
-                            <div class="form-group mb-2 w-50">
+                            <!-- <div class="form-group mb-2 w-50">
                                 <label for="rating">Rating</label>
                                 <input type="number" class="form-control" name="rating" placeholder="Enter rating"
                                     [(ngModel)]="gameLog.rating" max="5" min="0">
+                            </div> -->
+                            <div class="form-group mb-2 w-fit-content">
+                                <p for="rating">Rate Your Experience</p>
+                                <igc-rating name="rating" [(ngModel)]="selectedStar" hover-preview size="large"
+                                    step=".5" max="5" class="text-goldenrod"></igc-rating>
                             </div>
                         </div>
 
@@ -43,6 +48,5 @@
             </div>
 
         </div>
-
     </div>
 </div>

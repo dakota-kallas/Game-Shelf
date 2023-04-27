@@ -11,3 +11,15 @@
 .thumbnail {
   width: 300px;
 }
+
+.w-fit-content {
+  width: fit-content !important;
+}
+
+.text-goldenrod {
+  color: goldenrod;
+}
+
+p {
+  margin: 0 0 5px 0;
+}
