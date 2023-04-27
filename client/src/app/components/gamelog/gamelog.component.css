@@ -1,0 +1,27 @@
+#gameLog-form {
+  width: 600px;
+  padding: 15px;
+  background-color: #eee;
+  border-radius: 0.5em;
+  margin-top: 1em;
+  margin-right: 1em;
+  height: fit-content;
+}
+
+.thumbnail {
+  width: 300px;
+}
+
+.w-fit-content {
+  width: fit-content !important;
+}
+
+p {
+  margin: 0 0 5px 0;
+}
+
+ngb-rating {
+  margin: -10px 0;
+  gap: 1px;
+  font-size: 30px;
+}

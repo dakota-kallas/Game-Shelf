@@ -16,6 +16,48 @@
                     </button>
                     <a class="btn btn-outline-secondary mx-3" target="_blank" href="{{game.rules}}"
                         [hidden]="!game.rules"><i class="fa fa-book"></i> Read Rules</a>
+                    <button class="btn btn-primary mx-3" (click)="createGameLog()">
+                        <i class="fa fa-plus"></i>
+                        <span> Add Game Log</span>
+                    </button>
+                    <div class="row mt-5 mb-2" *ngIf="gameLogs?.length !== 0">
+                        <div class="col">
+                            <div class="row justify-content-center text-center">
+                                <h2>My Game History</h2>
+                                <hr class="w-75">
+                            </div>
+                            <div class="row justify-content-center">
+                                <table class="table table-striped w-fit-content">
+                                    <tbody>
+                                        <tr *ngFor="let gameLog of gameLogs">
+                                            <td>
+                                                <a class="btn btn-xs btn-outline-secondary"
+                                                    [routerLink]="['/gamelogs', gameLog._id]">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                            </td>
+                                            <td>{{gameLog.date | date: 'EEE MMM d y'}}</td>
+                                            <td *ngIf="gameLog.rating">
+                                                <ng-container *ngFor="let i of [].constructor(gameLog.rating)">
+                                                    <i class="bi-heart-fill text-danger heart-icon"></i>
+                                                </ng-container>
+                                                <ng-container *ngIf="gameLog.rating != 5">
+                                                    <ng-container *ngFor="let i of [].constructor(5 - gameLog.rating)">
+                                                        <i class="bi-heart text-danger heart-icon"></i>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </td>
+                                            <td *ngIf="!gameLog.rating">
+                                                <ng-container *ngFor="let i of [].constructor(5)">
+                                                    <i class="bi-heart text-secondary heart-icon"></i>
+                                                </ng-container>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col">
@@ -58,7 +100,7 @@
                     <span [hidden]="!game.year"><i class="fa fa-calendar"></i> {{game.year}}</span>
                     <span [hidden]="game.rank == 9999999"><i class="fa fa-trophy text-goldenrod"></i>
                         {{game.rank}}</span>
-                    <span [hidden]="game.trendingRank == 0"><i class="fa fa-fire text-burnt"></i>
+                    <span [hidden]="game.trendingRank == 0"><i class="bi-fire text-burnt"></i>
                         {{game.trendingRank}}</span>
                 </div>
             </div>

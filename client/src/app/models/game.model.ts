@@ -1,18 +1,18 @@
 export interface Game {
-  bgaGameId: String;
-  name: String | undefined;
+  bgaGameId: string;
+  name: string | undefined;
   rating: number | undefined;
-  image: String | undefined;
-  thumbnail: String | undefined;
+  image: string | undefined;
+  thumbnail: string | undefined;
   minPlayers: number | undefined;
   maxPlayers: number | undefined;
   year: number | undefined;
-  playtime: String | undefined;
+  playtime: string | undefined;
   plays: number | undefined;
   rank: number | undefined;
   trendingRank: number | undefined;
-  description: String | undefined;
+  description: string | undefined;
   minAge: number | undefined;
-  rules: String | undefined;
-  publisher: String | undefined;
+  rules: string | undefined;
+  publisher: string | undefined;
 }

@@ -90,7 +90,7 @@ export class DiscoverComponent implements OnInit {
     return false;
   }
 
-  removeFromShelf(gameId: String) {
+  removeFromShelf(gameId: string) {
     this.gameShelfApi.removeGameFromShelf(gameId).subscribe((game) => {
       if (game && this.gameShelf) {
         this.gameShelf.games = this.gameShelf?.games.filter(

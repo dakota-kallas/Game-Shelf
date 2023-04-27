@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -12,6 +13,7 @@ import { GameComponent } from './components/game/game.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
+import { GameLogComponent } from './components/gamelog/gamelog.component';
 
 @NgModule({
   declarations: [
@@ -24,8 +26,15 @@ import { ManageUsersComponent } from './components/manage-users/manage-users.com
     ProfileComponent,
     RegisterComponent,
     ManageUsersComponent,
+    GameLogComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    NgbModule,
+    FormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

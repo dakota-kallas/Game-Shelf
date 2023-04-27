@@ -1,3 +1,7 @@
+#search-container {
+  min-width: 320px;
+}
+
 .thumbnail {
   height: 80px;
   max-width: 80px;

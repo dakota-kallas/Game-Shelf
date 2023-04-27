@@ -14,8 +14,18 @@
   color: goldenrod;
 }
 
+.heart-icon {
+  margin-right: 1px;
+}
+
 .text-burnt {
   color: orangered;
+}
+
+.btn-xs {
+  padding: 0.2rem 0.4rem;
+  font-size: 0.75rem;
+  border-radius: 0.2rem;
 }
 
 h2 {

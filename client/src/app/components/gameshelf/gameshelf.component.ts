@@ -26,7 +26,7 @@ export class GameShelfComponent implements OnInit {
     });
   }
 
-  removeFromShelf(bgaGameId: String) {
+  removeFromShelf(bgaGameId: string) {
     this.gameShelfApi.removeGameFromShelf(bgaGameId).subscribe((game) => {
       if (game && this.gameShelf) {
         this.gameShelf.games = this.gameShelf?.games.filter(
