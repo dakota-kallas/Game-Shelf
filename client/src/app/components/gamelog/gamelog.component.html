@@ -4,7 +4,10 @@
             <div id="gameLog-form" class="float-end card shadow">
                 <form class="col">
                     <div>
-                        <h3>{{bgaGame?.name}} - Game Log</h3>
+                        <h6>Game Log</h6>
+                    </div>
+                    <div>
+                        <h3>{{bgaGame?.name}}</h3>
                     </div>
                     <div class="row">
                         <div class="row">
@@ -16,7 +19,12 @@
 
                             <div class="form-group mb-2 w-fit-content">
                                 <p for="rating">Rate Your Experience</p>
-                                <ngb-rating name="rating" [max]="5" [(ngModel)]="selectedStar"></ngb-rating>
+                                <ngb-rating name="rating" [max]="5" [(ngModel)]="selectedStar" class="text-danger">
+                                    <ng-template let-fill="fill" let-index="index">
+                                        <i class="bi-heart{{fill === 100 ? '-fill' : ''}}" [class.filled]="fill === 100"
+                                            [class.low]="index < 3"></i>
+                                    </ng-template>
+                                </ngb-rating>
                             </div>
                         </div>
 

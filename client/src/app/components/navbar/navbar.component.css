@@ -27,3 +27,10 @@
 nav {
   min-height: 56px;
 }
+
+/* responsive, form small screens, use 13px font size */
+@media (max-width: 500px) {
+  .navbar-brand span {
+    display: none;
+  }
+}

@@ -1,12 +1,12 @@
 <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand ms-2 position-absolute" href="#"><img class="logo mx-2" src="../../../assets/gs-logo.png"
-            alt="Game Shelf Logo">Game Shelf</a>
+            alt="Game Shelf Logo"><span>Game Shelf</span></a>
     <div class="container-fluid w-100">
         <div class="d-flex justify-content-center w-100">
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between gap-2">
                 <a class="nav-link mx-auto link" [hidden]="user == undefined" [routerLink]="['/discover']"
                     routerLinkActive="active">Discover</a>
-                <span class="nav-link separator mx-2" [hidden]="user == undefined">|</span>
+                <span class="nav-link separator mx-2 text-secondary" [hidden]="user == undefined">|</span>
                 <a class="nav-link mx-auto link" [hidden]="user == undefined" [routerLink]="['/gameshelf']"
                     routerLinkActive="active">My Game Shelf</a>
             </div>

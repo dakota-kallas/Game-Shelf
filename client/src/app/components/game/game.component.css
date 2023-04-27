@@ -14,6 +14,10 @@
   color: goldenrod;
 }
 
+.heart-icon {
+  margin-right: 1px;
+}
+
 .text-burnt {
   color: orangered;
 }

@@ -20,12 +20,14 @@ async function createGameLog(owner, bgaGameId, date, note, rating) {
 }
 
 async function getByOwner(owner) {
-  const gameLogs = await GameLog.find({ owner });
+  const gameLogs = await GameLog.find({ owner }).sort({ date: "desc" });
   return gameLogs.map((gameLog) => gameLog.toObject());
 }
 
 async function getByBGAGame(bgaGameId, owner) {
-  const gameLogs = await GameLog.find({ owner, bgaGameId });
+  const gameLogs = await GameLog.find({ owner, bgaGameId }).sort({
+    date: "desc",
+  });
   return gameLogs.map((gameLog) => gameLog.toObject());
 }
 

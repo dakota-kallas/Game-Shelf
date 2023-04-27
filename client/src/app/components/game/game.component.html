@@ -38,24 +38,18 @@
                                             </td>
                                             <td>{{gameLog.date | date: 'EEE MMM d y'}}</td>
                                             <td *ngIf="gameLog.rating">
-                                                <ng-container
-                                                    *ngFor="let i of [].constructor(Math.floor(gameLog.rating))">
-                                                    <i class="fa fa-star text-goldenrod"></i>
+                                                <ng-container *ngFor="let i of [].constructor(gameLog.rating)">
+                                                    <i class="bi-heart-fill text-danger heart-icon"></i>
                                                 </ng-container>
-                                                <ng-container
-                                                    *ngIf="gameLog.rating - Math.floor(gameLog.rating) == 0.5">
-                                                    <i class="fa fa-star-half-o text-goldenrod"></i>
-                                                </ng-container>
-                                                <ng-container *ngIf="Math.ceil(gameLog.rating) != 5">
-                                                    <ng-container
-                                                        *ngFor="let i of [].constructor(Math.floor(5 - (Math.round(gameLog.rating * 2) / 2)))">
-                                                        <i class="fa fa-star-o text-goldenrod"></i>
+                                                <ng-container *ngIf="gameLog.rating != 5">
+                                                    <ng-container *ngFor="let i of [].constructor(5 - gameLog.rating)">
+                                                        <i class="bi-heart text-danger heart-icon"></i>
                                                     </ng-container>
                                                 </ng-container>
                                             </td>
                                             <td *ngIf="!gameLog.rating">
                                                 <ng-container *ngFor="let i of [].constructor(5)">
-                                                    <i class="fa fa-star-o text-secondary"></i>
+                                                    <i class="bi-heart text-secondary heart-icon"></i>
                                                 </ng-container>
                                             </td>
                                         </tr>
@@ -106,7 +100,7 @@
                     <span [hidden]="!game.year"><i class="fa fa-calendar"></i> {{game.year}}</span>
                     <span [hidden]="game.rank == 9999999"><i class="fa fa-trophy text-goldenrod"></i>
                         {{game.rank}}</span>
-                    <span [hidden]="game.trendingRank == 0"><i class="fa fa-fire text-burnt"></i>
+                    <span [hidden]="game.trendingRank == 0"><i class="bi-fire text-burnt"></i>
                         {{game.trendingRank}}</span>
                 </div>
             </div>

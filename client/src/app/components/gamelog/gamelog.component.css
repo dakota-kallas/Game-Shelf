@@ -21,7 +21,7 @@ p {
 }
 
 ngb-rating {
-  margin: -15px 0;
-  color: goldenrod;
-  font-size: 40px;
+  margin: -10px 0;
+  gap: 1px;
+  font-size: 30px;
 }

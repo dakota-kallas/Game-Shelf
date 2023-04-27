@@ -5,6 +5,7 @@ import { GameLog } from 'src/app/models/game-log.model';
 import { GameService } from 'src/app/services/game.service';
 import { GameLogService } from 'src/app/services/gamelog.service';
 import { Game } from 'src/app/models/game.model';
+import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-gamelog',
@@ -43,6 +44,7 @@ export class GameLogComponent implements OnInit {
         this.selectedStar = this.gameLog.rating || 0;
         this.gameApi.getOne(this.gameLog.bgaGameId).subscribe((game) => {
           this.bgaGame = game;
+          console.log(JSON.stringify(game));
         });
       });
     });
