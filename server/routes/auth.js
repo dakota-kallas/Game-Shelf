@@ -68,6 +68,7 @@ passport.use(
             message: "User is disabled.",
           });
         } else {
+          console.log(`$ Google Login User: ${JSON.stringify(user)}`);
           return done(null, user);
         }
       }
@@ -76,10 +77,12 @@ passport.use(
 );
 
 passport.serializeUser(function (user, done) {
+  console.log(`$ serializeUser: ${JSON.stringify(user)}`);
   done(null, user);
 });
 
 passport.deserializeUser(async function (user, done) {
+  console.log(`$ deserializeUser: ${JSON.stringify(user)}`);
   done(null, user);
 });
 
@@ -138,9 +141,14 @@ router.post("/logout", upload.none(), (req, res) => {
 router.get("/who/", (req, res) => {
   try {
     let result = req.session && req.session.user ? req.session.user : undefined;
+    console.log(`$ req.session: ${JSON.stringify(req.session)}`);
+    console.log(
+      `$ req.session.passport: ${JSON.stringify(req.session.passport)}`
+    );
     if (result) {
       res.status(200).send(result);
     } else {
+      console.log(`$ NO RESULT`);
       if (req.session.passport && req.session.passport.user) {
         let user = req.session.passport.user;
         req.session.regenerate(() => {
@@ -148,6 +156,7 @@ router.get("/who/", (req, res) => {
           res.status(200).send(user);
         });
       } else {
+        console.log(`$ NO PASSPORT AND USER`);
         res.status(403).send("Session user invalid.");
       }
     }
