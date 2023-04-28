@@ -46,3 +46,9 @@ tr:last-child td:last-child {
   border-bottom-right-radius: 10px;
   border-style: none;
 }
+
+@media (max-width: 620px) {
+  button:hover span {
+    display: none !important;
+  }
+}
