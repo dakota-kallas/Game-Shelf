@@ -2,6 +2,12 @@
   flex-grow: unset;
 }
 
+#dropdown {
+  position: absolute;
+  right: 0;
+  margin-right: 3em;
+}
+
 .logo {
   width: 24px;
 }
@@ -41,5 +47,8 @@ nav {
     top: 100%;
     left: -120px;
     margin-top: var(--bs-dropdown-spacer);
+  }
+  #dropdown {
+    margin-right: 1em;
   }
 }
