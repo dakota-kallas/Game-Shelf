@@ -5,14 +5,15 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var session = require("express-session");
 var passport = require("passport");
-
+const compression = require("compression");
+let mongoose = require("mongoose");
 var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
 
 var app = express();
+app.use(compression());
 require("dotenv").config({ path: ".env" });
 
-let mongoose = require("mongoose");
 mongoose.connect(process.env.MONGODB_CONNECT_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -40,6 +41,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use("/robots.txt", function (req, res, next) {
+  res.type("text/plain");
+  res.send("User-agent: *\nAllow: /");
+});
 
 app.use("/api/v1", authRouter);
 app.use("/api/v1", indexRouter);
