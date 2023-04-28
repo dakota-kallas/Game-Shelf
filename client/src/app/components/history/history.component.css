@@ -1,0 +1,30 @@
+#log-list {
+  background-color: #eee;
+  min-width: 370px;
+  width: fit-content;
+}
+
+#search {
+  min-width: 100px;
+  margin-left: 5px;
+}
+
+.rating-row {
+  min-width: 100px !important;
+}
+
+.name-row {
+  font-weight: 500;
+}
+
+.note-row {
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.clickable-row:hover {
+  cursor: pointer;
+  background-color: #d9d9d9;
+}

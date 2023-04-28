@@ -33,12 +33,14 @@ export class GameLogService {
 
   createGameLog(
     bgaGameId: string,
+    bgaGameName: string,
     date: string,
     note: string | undefined,
     rating: string | undefined
   ): Observable<GameLog> {
     return this.http.post<GameLog>(this.URL + `/gamelogs`, {
       bgaGameId: bgaGameId,
+      bgaGameName: bgaGameName,
       date: date,
       note: note,
       rating: rating,

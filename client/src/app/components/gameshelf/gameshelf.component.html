@@ -4,6 +4,7 @@
             <div class="row my-3">
                 <h2>My Game Shelf</h2>
                 <hr>
+                <div *ngIf="gameShelf?.games?.length == 0">No games added yet.</div>
                 <table class="table table-striped">
                     <tbody>
                         <tr *ngFor="let game of gameShelf?.games">

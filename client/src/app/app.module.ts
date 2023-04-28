@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { Location } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
@@ -14,6 +15,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 import { GameLogComponent } from './components/gamelog/gamelog.component';
+import { HistoryComponent } from './components/history/history.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { GameLogComponent } from './components/gamelog/gamelog.component';
     RegisterComponent,
     ManageUsersComponent,
     GameLogComponent,
+    HistoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,7 @@ import { GameLogComponent } from './components/gamelog/gamelog.component';
     NgbModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [Location],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -11,6 +11,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 import { AdminGuard } from './guards/admin.guard';
 import { GameLogComponent } from './components/gamelog/gamelog.component';
+import { HistoryComponent } from './components/history/history.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
@@ -35,6 +36,11 @@ const routes: Routes = [
   {
     path: 'gamelogs/:glid',
     component: GameLogComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'history',
+    component: HistoryComponent,
     canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: 'login', pathMatch: 'full' },
