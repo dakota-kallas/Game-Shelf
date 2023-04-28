@@ -378,6 +378,7 @@ router.put("/gamelogs/:glid", async function (req, res) {
  */
 router.post("/gamelogs", async (req, res) => {
   const bgaGameId = req.body.bgaGameId;
+  const bgaGameName = req.body.bgaGameName;
   const date = req.body.date;
   const note = req.body.note;
   const rating = req.body.rating;
@@ -390,6 +391,7 @@ router.post("/gamelogs", async (req, res) => {
     let newGameLog = await GameLogDB.createGameLog(
       req.session.user.email,
       bgaGameId,
+      bgaGameName,
       date,
       note,
       rating

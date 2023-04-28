@@ -22,6 +22,9 @@
                         <li><a class="dropdown-item" id="profile-button" [routerLink]="['/profile', user?._id]">Edit
                                 Profile</a>
                         </li>
+                        <li><a class="dropdown-item" id="logs-button" [routerLink]="['/history']">View
+                                Game Logs</a>
+                        </li>
                         <li><a class="dropdown-item" id="manage-button" [hidden]="!user?.admin"
                                 [routerLink]="['/manage']">Manage Users</a>
                         </li>

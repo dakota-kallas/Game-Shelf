@@ -115,6 +115,7 @@ export class GameComponent implements OnInit {
     this.gameLogApi
       .createGameLog(
         this.game.bgaGameId,
+        this.game.name || '-',
         new Date(Date.now()).toDateString(),
         undefined,
         undefined

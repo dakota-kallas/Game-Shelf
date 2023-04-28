@@ -36,7 +36,7 @@
                                                     <i class="fa fa-eye"></i>
                                                 </a>
                                             </td>
-                                            <td>{{gameLog.date | date: 'EEE MMM d y'}}</td>
+                                            <td><span>{{gameLog.date | date: 'EEE MMM d y'}}</span></td>
                                             <td *ngIf="gameLog.rating">
                                                 <ng-container *ngFor="let i of [].constructor(gameLog.rating)">
                                                     <i class="bi-heart-fill text-danger heart-icon"></i>

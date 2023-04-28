@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { GameLog } from 'src/app/models/game-log.model';
-import { GameService } from 'src/app/services/game.service';
 import { GameLogService } from 'src/app/services/gamelog.service';
 import { Game } from 'src/app/models/game.model';
-import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-gamelog',
@@ -16,22 +14,20 @@ export class GameLogComponent implements OnInit {
   private static EMPTY_GameLog = {
     _id: '',
     bgaGameId: '',
+    bgaGameName: '',
     owner: '',
     date: '',
     note: undefined,
     rating: undefined,
   };
   gameLog: GameLog = Object.assign({}, GameLogComponent.EMPTY_GameLog);
-  bgaGame: Game | undefined;
   private gameLogId: string = '';
   date: string = '';
   selectedStar: number = 0;
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private gameLogApi: GameLogService,
-    private gameApi: GameService,
     private location: Location
   ) {}
 
@@ -42,16 +38,11 @@ export class GameLogComponent implements OnInit {
         this.gameLog = gameLog;
         this.date = new Date(gameLog.date).toISOString().substring(0, 10);
         this.selectedStar = this.gameLog.rating || 0;
-        this.gameApi.getOne(this.gameLog.bgaGameId).subscribe((game) => {
-          this.bgaGame = game;
-        });
       });
     });
   }
 
   back() {
-    console.log(`star: ${this.selectedStar}`);
-
     this.location.back();
   }
 
