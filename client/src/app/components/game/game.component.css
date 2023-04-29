@@ -59,4 +59,8 @@ h2 {
 }
 
 @media (max-width: 620px) {
+  #display,
+  #info {
+    justify-content: center;
+  }
 }
