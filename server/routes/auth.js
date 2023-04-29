@@ -121,6 +121,7 @@ router.get(
   "/oauth2/redirect/twitter",
   passport.authenticate("twitter"),
   async function (req, res) {
+    console.log(`$ HERE!!!`);
     const userData = JSON.stringify(req.user, undefined, 2);
     let user = await UserDB.getByEmail(req.user.username);
 
