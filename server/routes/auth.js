@@ -9,9 +9,26 @@ const upload = multer();
 
 var passport = require("passport");
 var GoogleStrategy = require("passport-google-oidc");
+const TwitterStrategy = require("@superfaceai/passport-twitter-oauth2");
 require("dotenv").config({ path: "./.env" });
 
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(async function (user, done) {
+  done(null, user);
+});
+
 router.get("/login/federated/google", passport.authenticate("google"));
+
+router.get(
+  "/oauth2/redirect/google",
+  passport.authenticate("google", {
+    successRedirect: "/",
+    failureRedirect: "/",
+  })
+);
 
 passport.use(
   new GoogleStrategy(
@@ -75,20 +92,40 @@ passport.use(
   )
 );
 
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(async function (user, done) {
-  done(null, user);
-});
+passport.use(
+  // <2> Strategy initialization
+  new TwitterStrategy(
+    {
+      clientID: process.env.TWITTER_CLIENT_ID,
+      clientSecret: process.env.TWITTER_CLIENT_SECRET,
+      clientType: "confidential",
+      callbackURL: `/api/v1/auth/twitter/callback`,
+    },
+    // <3> Verify callback
+    (accessToken, refreshToken, profile, cb) => {
+      console.log("Success!", { accessToken, refreshToken });
+      console.log(`$ profile: ${JSON.stringify(profile)}`);
+      return cb(null, profile);
+    }
+  )
+);
 
 router.get(
-  "/oauth2/redirect/google",
-  passport.authenticate("google", {
-    successRedirect: "/",
-    failureRedirect: "/",
+  "/login/federated/twitter",
+  passport.authenticate("twitter", {
+    // <6> Scopes
+    scope: ["users.read"],
   })
+);
+
+// <7> Callback handler
+router.get(
+  "/oauth2/redirect/twitter",
+  passport.authenticate("twitter"),
+  function (req, res) {
+    const userData = JSON.stringify(req.user, undefined, 2);
+    res.status(203).send();
+  }
 );
 
 router.post("/login", upload.none(), async (req, res) => {
