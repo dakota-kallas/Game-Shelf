@@ -124,6 +124,7 @@ router.get(
   passport.authenticate("twitter"),
   function (req, res) {
     const userData = JSON.stringify(req.user, undefined, 2);
+    console.log(`$ userData: ${userData}`);
     res.status(203).send();
   }
 );
