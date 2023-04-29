@@ -32,7 +32,7 @@
                             <div class="form-group mb-2">
                                 <label for="note">Note</label>
                                 <textarea class="form-control" name="note" placeholder="Add a note here...."
-                                    [(ngModel)]="gameLog.note" rows="5"></textarea>
+                                    [(ngModel)]="gameLog.note"></textarea>
                             </div>
                         </div>
                     </div>
@@ -42,8 +42,8 @@
                         <button (click)="back()" class="btn btn-secondary btn-sm mx-2">
                             <i class="fa fa-arrow-left"></i> Back
                         </button>
-                        <button (click)="delete()" class="btn btn-danger btn-sm mx-2">
-                            Delete
+                        <button (click)="delete()" class="btn btn-danger btn-sm float-end me-4">
+                            <i class="fa fa-trash-o"></i> Delete
                         </button>
                     </div>
                 </form>
