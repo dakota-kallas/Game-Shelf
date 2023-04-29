@@ -36,9 +36,13 @@
   padding: 0;
 }
 
-#google-icon:hover,
-#twitter-icon:hover {
+#google-icon:hover {
   background-color: lightgrey;
+}
+
+#twitter-icon i {
+  padding-top: 3px !important;
+  color: white;
 }
 
 .auth-btn {
