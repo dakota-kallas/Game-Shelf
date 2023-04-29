@@ -28,7 +28,35 @@
   border-radius: 0.2rem;
 }
 
+#description {
+  min-width: 300px;
+}
+
+#info {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#info span {
+  gap: 4px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  white-space: nowrap;
+}
+
+#info i {
+  width: 16px;
+}
+
 h2 {
   font-size: 1.25rem;
   font-weight: normal;
+}
+
+@media (max-width: 620px) {
 }

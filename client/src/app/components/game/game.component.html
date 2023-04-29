@@ -89,10 +89,10 @@
                     </div>
 
                 </div>
-                <div class="row my-2" [innerHTML]="game.description">
+                <div id="description" class="row my-2" [innerHTML]="game.description">
                 </div>
                 <hr>
-                <div class="row my-2 d-block">
+                <div id="info" class="my-2">
                     <span [hidden]="!game.minPlayers || !game.maxPlayers"><i class="fa fa-users"></i>
                         {{game.minPlayers}}-{{game.maxPlayers}}</span>
                     <span [hidden]="!game.minAge"><i class="fa fa-user"></i> Ages {{game.minAge}}+</span>
