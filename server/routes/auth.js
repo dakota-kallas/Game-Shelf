@@ -99,7 +99,7 @@ passport.use(
       clientID: process.env.TWITTER_CLIENT_ID,
       clientSecret: process.env.TWITTER_CLIENT_SECRET,
       clientType: "confidential",
-      callbackURL: `/api/v1/auth/twitter/callback`,
+      callbackURL: `/api/v1/oauth2/redirect/twitter`,
     },
     // <3> Verify callback
     (accessToken, refreshToken, profile, cb) => {
@@ -114,7 +114,7 @@ router.get(
   "/login/federated/twitter",
   passport.authenticate("twitter", {
     // <6> Scopes
-    scope: ["users.read"],
+    scope: ["offline.access", "tweet.read", "users.read"],
   })
 );
 
