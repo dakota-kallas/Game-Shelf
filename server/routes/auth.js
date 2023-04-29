@@ -99,7 +99,7 @@ passport.use(
       clientID: process.env.TWITTER_CLIENT_ID,
       clientSecret: process.env.TWITTER_CLIENT_SECRET,
       clientType: "confidential",
-      callbackURL: `/api/v1/auth/twitter/callback`,
+      callbackURL: `https://gameshelf.dakotakallas.dev/api/v1/auth/twitter/callback`,
     },
     // <3> Verify callback
     (accessToken, refreshToken, profile, cb) => {
