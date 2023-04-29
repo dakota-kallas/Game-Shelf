@@ -9,9 +9,26 @@ const upload = multer();
 
 var passport = require("passport");
 var GoogleStrategy = require("passport-google-oidc");
+const TwitterStrategy = require("@superfaceai/passport-twitter-oauth2");
 require("dotenv").config({ path: "./.env" });
 
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(async function (user, done) {
+  done(null, user);
+});
+
 router.get("/login/federated/google", passport.authenticate("google"));
+
+router.get(
+  "/oauth2/redirect/google",
+  passport.authenticate("google", {
+    successRedirect: "/",
+    failureRedirect: "/",
+  })
+);
 
 passport.use(
   new GoogleStrategy(
@@ -75,20 +92,87 @@ passport.use(
   )
 );
 
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(async function (user, done) {
-  done(null, user);
-});
+passport.use(
+  // <2> Strategy initialization
+  new TwitterStrategy(
+    {
+      clientID: process.env.TWITTER_CLIENT_ID,
+      clientSecret: process.env.TWITTER_CLIENT_SECRET,
+      clientType: "confidential",
+      callbackURL: `/api/v1/oauth2/redirect/twitter`,
+    },
+    // <3> Verify callback
+    (accessToken, refreshToken, profile, cb) => {
+      return cb(null, profile);
+    }
+  )
+);
 
 router.get(
-  "/oauth2/redirect/google",
-  passport.authenticate("google", {
-    successRedirect: "/",
-    failureRedirect: "/",
+  "/login/federated/twitter",
+  passport.authenticate("twitter", {
+    // <6> Scopes
+    scope: ["offline.access", "tweet.read", "users.read"],
   })
+);
+
+// <7> Callback handler
+router.get(
+  "/oauth2/redirect/twitter",
+  passport.authenticate("twitter", { failureRedirect: "/" }),
+  async function (req, res) {
+    let user = await UserDB.getByEmail(req.user.username);
+
+    if (!user) {
+      try {
+        const name = req.user.displayName.split(" ", 2);
+        let newUser = await UserDB.createUser(
+          req.user.username,
+          null,
+          name[0],
+          name[1],
+          true,
+          false,
+          "Twitter"
+        )
+          .then((user) => {
+            GameShelfDB.createGameShelf(user.email, [])
+              .then((gameshelf) => {
+                req.session.regenerate(() => {
+                  req.session.user = user;
+                  res.redirect("/");
+                });
+              })
+              .catch((error) => {
+                throw new Error(
+                  "Error creating GameShelf document:" + error.message
+                );
+              });
+          })
+          .catch((error) => {
+            throw new Error("Error creating User document:" + error.message);
+          });
+      } catch (err) {
+        return done(null, false, {
+          message: "User not found",
+        });
+      }
+    } else {
+      if (user && user.password) {
+        delete user.password;
+      }
+
+      if ((user && !user.enabled) || user.issuer != "Twitter") {
+        req.session.user = null;
+        res.redirect("/");
+      } else {
+        req.session.regenerate(() => {
+          req.session.user = user;
+          res.redirect("/");
+        });
+      }
+    }
+  }
 );
 
 router.post("/login", upload.none(), async (req, res) => {
