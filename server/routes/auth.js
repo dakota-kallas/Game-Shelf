@@ -103,8 +103,6 @@ passport.use(
     },
     // <3> Verify callback
     (accessToken, refreshToken, profile, cb) => {
-      console.log("Success!", { accessToken, refreshToken });
-      console.log(`$ profile: ${JSON.stringify(profile)}`);
       return cb(null, profile);
     }
   )
@@ -124,8 +122,6 @@ router.get(
   passport.authenticate("twitter"),
   async function (req, res) {
     const userData = JSON.stringify(req.user, undefined, 2);
-    console.log(`$ userData: ${userData}`);
-    console.log(`$ req.user.username: ${req.user.username}`);
     let user = await UserDB.getByEmail(req.user.username);
 
     if (!user) {
@@ -167,7 +163,7 @@ router.get(
         delete user.password;
       }
 
-      if (user && !user.enabled) {
+      if ((user && !user.enabled) || user.issuer != "Twitter") {
         req.session.user = null;
         res.redirect("/");
       } else {
