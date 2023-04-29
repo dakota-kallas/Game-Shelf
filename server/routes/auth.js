@@ -122,10 +122,61 @@ router.get(
 router.get(
   "/oauth2/redirect/twitter",
   passport.authenticate("twitter"),
-  function (req, res) {
+  async function (req, res) {
     const userData = JSON.stringify(req.user, undefined, 2);
     console.log(`$ userData: ${userData}`);
-    res.redirect("/");
+    console.log(`$ req.user.username: ${req.user.username}`);
+    let user = await UserDB.getByEmail(req.user.username);
+
+    if (!user) {
+      try {
+        const name = req.user.displayName.split(" ", 2);
+        let newUser = await UserDB.createUser(
+          req.user.username,
+          null,
+          name[0],
+          name[1],
+          true,
+          false,
+          "Twitter"
+        )
+          .then((user) => {
+            GameShelfDB.createGameShelf(user.email, [])
+              .then((gameshelf) => {
+                req.session.regenerate(() => {
+                  req.session.user = user;
+                  res.redirect("/");
+                });
+              })
+              .catch((error) => {
+                throw new Error(
+                  "Error creating GameShelf document:" + error.message
+                );
+              });
+          })
+          .catch((error) => {
+            throw new Error("Error creating User document:" + error.message);
+          });
+      } catch (err) {
+        return done(null, false, {
+          message: "User not found",
+        });
+      }
+    } else {
+      if (user && user.password) {
+        delete user.password;
+      }
+
+      if (user && !user.enabled) {
+        req.session.user = null;
+        res.redirect("/");
+      } else {
+        req.session.regenerate(() => {
+          req.session.user = user;
+          res.redirect("/");
+        });
+      }
+    }
   }
 );
 
