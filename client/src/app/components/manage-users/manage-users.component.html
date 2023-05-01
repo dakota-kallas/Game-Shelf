@@ -4,6 +4,17 @@
             <div class="row my-3">
                 <h2>Manage Users</h2>
                 <hr>
+                <div id="search-container" class="row justify-content-between p-0 mb-2">
+                    <div class="col">
+                        <input type="text" id="search" class="form-control w-100" placeholder="Enter email here..."
+                            [(ngModel)]="value" (keyup.enter)="search()">
+                    </div>
+                    <div class="col search-button">
+                        <button type="submit" (click)="search()" class="btn btn-primary"><i class="fa fa-search"></i>
+                            Search
+                        </button>
+                    </div>
+                </div>
                 <div class="dropdown mb-2">
                     <a class="btn btn-primary dropdown-toggle" id="dropdownMenuButton" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -45,7 +56,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let selectUser of users">
+                            <tr *ngFor="let selectUser of visibleUsers">
                                 <td><input type="checkbox" (change)="resetError()" [(ngModel)]="selectUser.selected">
                                 </td>
                                 <td>{{selectUser.email}}</td>

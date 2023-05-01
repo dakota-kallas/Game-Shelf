@@ -14,6 +14,8 @@ export class ManageUsersComponent implements OnInit {
   users: ManageUser[] = [];
   errorMsg: string = '';
   errorOccured: boolean = false;
+  visibleUsers: ManageUser[] | null = null;
+  value: string = '';
 
   constructor(
     private userApi: UserService,
@@ -86,7 +88,18 @@ export class ManageUsersComponent implements OnInit {
         };
         this.users.push(manageUser);
       }
+      this.visibleUsers = this.users;
     });
+  }
+
+  search() {
+    if (this.users && this.value != '') {
+      this.visibleUsers = this.users.filter((user) =>
+        user.email.includes(this.value)
+      );
+    } else {
+      this.visibleUsers = this.users;
+    }
   }
 
   setAdmin(admin: boolean) {
