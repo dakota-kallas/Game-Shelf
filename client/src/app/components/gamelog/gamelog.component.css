@@ -29,6 +29,14 @@ ngb-rating {
   font-size: 30px;
 }
 
+#game-name:hover {
+  cursor: pointer;
+}
+
+#game-name i {
+  font-size: 0.5em;
+}
+
 @media (max-width: 620px) {
   textarea {
     height: 16em !important;

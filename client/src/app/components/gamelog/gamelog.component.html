@@ -7,7 +7,8 @@
                         <h6>Game Log</h6>
                     </div>
                     <div>
-                        <h3>{{gameLog.bgaGameName}}</h3>
+                        <h3 id="game-name" [routerLink]="['/games', gameLog.bgaGameId]">{{gameLog.bgaGameName}} <i
+                                class="bi bi-box-arrow-down-right text-primary"></i></h3>
                     </div>
                     <div class="row">
                         <div class="row">

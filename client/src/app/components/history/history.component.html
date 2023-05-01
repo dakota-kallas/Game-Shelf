@@ -17,39 +17,42 @@
                     </div>
                 </div>
 
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Date</th>
-                            <th>Rating</th>
-                            <th>Note</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let gameLog of visibleGameLogs" class="clickable-row"
-                            [routerLink]="['/gamelogs', gameLog._id]">
-                            <td class="name-row">{{gameLog.bgaGameName}}</td>
-                            <td>{{gameLog.date | date: 'MM-dd-y'}}</td>
-                            <td *ngIf="gameLog.rating" class="rating-row">
-                                <ng-container *ngFor="let i of [].constructor(gameLog.rating)">
-                                    <i class="bi-heart-fill text-danger heart-icon"></i>
-                                </ng-container>
-                                <ng-container *ngIf="gameLog.rating != 5">
-                                    <ng-container *ngFor="let i of [].constructor(5 - gameLog.rating)">
-                                        <i class="bi-heart text-danger heart-icon"></i>
+                <div class="table-container p-0">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>Rating</th>
+                                <th>Note</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let gameLog of visibleGameLogs" class="clickable-row"
+                                [routerLink]="['/gamelogs', gameLog._id]">
+                                <td class="name-row">{{gameLog.bgaGameName}}</td>
+                                <td>{{gameLog.date | date: 'MM-dd-y'}}</td>
+                                <td *ngIf="gameLog.rating" class="rating-row">
+                                    <ng-container *ngFor="let i of [].constructor(gameLog.rating)">
+                                        <i class="bi-heart-fill text-danger heart-icon"></i>
                                     </ng-container>
-                                </ng-container>
-                            </td>
-                            <td *ngIf="!gameLog.rating" class="rating-row">
-                                <ng-container *ngFor="let i of [].constructor(5)">
-                                    <i class="bi-heart text-secondary heart-icon"></i>
-                                </ng-container>
-                            </td>
-                            <td class="note-row">{{gameLog.note}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                                    <ng-container *ngIf="gameLog.rating != 5">
+                                        <ng-container *ngFor="let i of [].constructor(5 - gameLog.rating)">
+                                            <i class="bi-heart text-danger heart-icon"></i>
+                                        </ng-container>
+                                    </ng-container>
+                                </td>
+                                <td *ngIf="!gameLog.rating" class="rating-row">
+                                    <ng-container *ngFor="let i of [].constructor(5)">
+                                        <i class="bi-heart text-secondary heart-icon"></i>
+                                    </ng-container>
+                                </td>
+                                <td class="note-row">{{gameLog.note}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
                 <div *ngIf="visibleGameLogs?.length == 0">No game logs found.</div>
             </div>
         </div>

@@ -12,6 +12,8 @@ import { GameShelfService } from 'src/app/services/gameshelf.service';
 export class GameShelfComponent implements OnInit {
   gameShelf: GameShelf | undefined;
   Math = window.Math;
+  currentGameCount: number = 0;
+  maxGameCount: number = 0;
 
   constructor(private gameShelfApi: GameShelfService) {}
   ngOnInit(): void {
@@ -22,6 +24,10 @@ export class GameShelfComponent implements OnInit {
     this.gameShelfApi.getGameShelf().subscribe((gameShelf) => {
       if (gameShelf.owner) {
         this.gameShelf = gameShelf;
+        if (this.gameShelf.games.length > 0) {
+          this.currentGameCount = 1;
+          this.maxGameCount = this.gameShelf.games.length;
+        }
       }
     });
   }

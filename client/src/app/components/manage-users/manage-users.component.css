@@ -9,6 +9,6 @@
 
 .table-container {
   position: relative;
-  height: 500px;
+  max-height: calc(100vh - 400px);
   overflow: auto;
 }
