@@ -29,6 +29,12 @@
   background-color: #d9d9d9;
 }
 
+.table-container {
+  position: relative;
+  max-height: calc(100vh - 350px);
+  overflow: auto;
+}
+
 @media (max-width: 620px) {
   .note-row {
     max-width: 100px !important;
