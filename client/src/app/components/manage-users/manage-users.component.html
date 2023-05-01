@@ -32,33 +32,35 @@
                         *{{errorMsg}}
                     </span>
                 </div>
-                <table class="table table-striped">
-                    <thead class="table-light">
-                        <tr>
-                            <th scope="col"><input type="checkbox" (change)="selectAll($event)"></th>
-                            <th scope="col">Email</th>
-                            <th scope="col">First Name</th>
-                            <th scope="col">Last Name</th>
-                            <th scope="col" class="align-middle text-center w-boolean">Enabled</th>
-                            <th scope="col" class="align-middle text-center w-boolean">Admin</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let selectUser of users">
-                            <td><input type="checkbox" (change)="resetError()" [(ngModel)]="selectUser.selected">
-                            </td>
-                            <td>{{selectUser.email}}</td>
-                            <td>{{selectUser.firstName}}</td>
-                            <td>{{selectUser.lastName}}</td>
-                            <td class="w-auto text-center">
-                                <input type="checkbox" disabled [(ngModel)]="selectUser.enabled">
-                            </td>
-                            <td class="w-auto align-middle text-center">
-                                <input type="checkbox" disabled [(ngModel)]="selectUser.admin">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-container">
+                    <table class="table table-striped">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col"><input type="checkbox" (change)="selectAll($event)"></th>
+                                <th scope="col">Email</th>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col" class="align-middle text-center w-boolean">Enabled</th>
+                                <th scope="col" class="align-middle text-center w-boolean">Admin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let selectUser of users">
+                                <td><input type="checkbox" (change)="resetError()" [(ngModel)]="selectUser.selected">
+                                </td>
+                                <td>{{selectUser.email}}</td>
+                                <td>{{selectUser.firstName}}</td>
+                                <td>{{selectUser.lastName}}</td>
+                                <td class="w-auto text-center">
+                                    <input type="checkbox" disabled [(ngModel)]="selectUser.enabled">
+                                </td>
+                                <td class="w-auto align-middle text-center">
+                                    <input type="checkbox" disabled [(ngModel)]="selectUser.admin">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

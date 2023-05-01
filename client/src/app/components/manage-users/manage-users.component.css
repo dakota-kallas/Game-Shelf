@@ -1,3 +1,9 @@
 .w-boolean {
   width: 5rem;
 }
+
+.table-container {
+  position: relative;
+  height: 500px;
+  overflow: auto;
+}
