@@ -13,7 +13,7 @@ import { UserService } from 'src/app/services/user.service';
 export class ProfileComponent implements OnInit {
   user: User | undefined;
   private userId: string = '';
-  private currentUser: User | undefined;
+  currentUser: User | undefined;
   email: string = '';
   firstName: string = '';
   lastName: string = '';
@@ -65,12 +65,18 @@ export class ProfileComponent implements OnInit {
               this.password,
               this.user
             )
-            .subscribe((user) => {
-              this.user = user;
-              if (!this.currentUser?.admin) {
-                this.authApi.setUser(user);
-              }
-              this.router.navigateByUrl('login');
+            .subscribe({
+              next: (user) => {
+                this.user = user;
+                if (!this.currentUser?.admin) {
+                  this.authApi.setUser(user);
+                }
+                this.router.navigateByUrl('login');
+              },
+              error: (error) => {
+                this.errorMsg = error.error;
+                this.errorOccured = true;
+              },
             });
         } else {
           this.errorMsg = 'Password must be at least 8 characters.';
@@ -85,6 +91,34 @@ export class ProfileComponent implements OnInit {
 
   onCancel() {
     this.location.back();
+  }
+
+  generatePassword() {
+    this.resetError();
+    if (this.user && this.currentUser && this.currentUser.admin) {
+      this.userApi
+        .updateUser(
+          this.user.firstName,
+          this.user.lastName,
+          this.user.enabled,
+          this.user.admin,
+          'placeholder',
+          this.user
+        )
+        .subscribe({
+          next: (user) => {
+            this.user = user;
+            if (!this.currentUser?.admin) {
+              this.authApi.setUser(user);
+            }
+            this.router.navigateByUrl('login');
+          },
+          error: (error) => {
+            this.errorMsg = error.error;
+            this.errorOccured = true;
+          },
+        });
+    }
   }
 
   validatePassword(password: string): boolean {
