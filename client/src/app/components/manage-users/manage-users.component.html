@@ -4,6 +4,11 @@
             <div class="row my-3">
                 <h2>Manage Users</h2>
                 <hr>
+                <div class=" mt-0 mb-2">
+                    <span class="text-danger" [hidden]="!errorOccured">
+                        *{{errorMsg}}
+                    </span>
+                </div>
                 <div id="action-container" class="d-flex mb-2">
                     <div class="dropdown me-4">
                         <a class="btn btn-primary dropdown-toggle" id="dropdownMenuButton" role="button"
@@ -29,9 +34,6 @@
                             <button class="dropdown-item" (click)="manageUser()"><i class="fa fa-lock"></i> Manage
                                 Profile</button>
                         </div>
-                        <span class="mx-4 text-danger" [hidden]="!errorOccured">
-                            *{{errorMsg}}
-                        </span>
                     </div>
                     <div id="search-container" class="row p-0">
                         <div class="col">

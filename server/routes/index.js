@@ -1,17 +1,27 @@
 var express = require("express");
 var router = express.Router();
 const bcrypt = require("bcryptjs");
+const nodemailer = require("nodemailer");
 router.use(express.urlencoded({ extended: true }));
 
 let UserDB = require("../models/user.js");
 let GameShelfDB = require("../models/gameshelf.js");
 let GameLogDB = require("../models/gamelog.js");
 let Game = require("../models/game.js");
+require("dotenv").config({ path: "./.env" });
 
 const saltRounds = 10;
 const BGAClientID = "byh1ZsZ8eh";
 
 // makeMockData();
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.GOOGLE_CONTACT_EMAIL,
+    pass: process.env.GOOGLE_CONTACT_PASS,
+  },
+});
 
 // ROUTES
 
@@ -43,7 +53,32 @@ router.put("/users", async (req, res) => {
         admin = req.body.admin;
       }
 
-      if (req.body.password && validatePassword(req.body.password)) {
+      if (req.body.password && req.body.user.issuer != "local") {
+        throw new Error("Cannot update 3rd party account managed password.");
+      }
+
+      if (req.session.user.admin && req.body.password) {
+        password = generateTemporaryPassword(10);
+
+        const mailOptions = {
+          from: '"Game Shelf" <dkgameshelf@gmail.com>',
+          to: req.body.user.email,
+          subject: "Game Shelf: Temporary Password Change",
+          text: `Your new temporary password is: ${password} \n\n Have questions? Contact us! (<a href="mailto:contact@dakotakallas.dev">contact@dakotakallas.dev</a>)`,
+          html: `
+    <p>Your new temporary password is: <strong>${password}</strong></p>
+    <hr />
+    <p>Have questions? Contact us! (<a href="mailto:contact@dakotakallas.dev">contact@dakotakallas.dev</a>)</p>
+  `,
+        };
+        password = bcrypt.hashSync(password, 10);
+
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            throw new Error("Error generating password.");
+          }
+        });
+      } else if (req.body.password && validatePassword(req.body.password)) {
         password = bcrypt.hashSync(req.body.password, 10);
       } else if (req.body.password != "") {
         throw new Error("Password must be at least 8 characters.");
@@ -518,6 +553,23 @@ function makeMockData() {
     .catch((error) => {
       console.error("Error creating GameShelf document:", error);
     });
+}
+
+/**
+ * Generate a random password string
+ * @param {number} length
+ * @returns A string
+ */
+function generateTemporaryPassword(length) {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let password = "";
+  for (let i = 0; i < length; i++) {
+    password += characters.charAt(
+      Math.floor(Math.random() * characters.length)
+    );
+  }
+  return password;
 }
 
 module.exports = router;
