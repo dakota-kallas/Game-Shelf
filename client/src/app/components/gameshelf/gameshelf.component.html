@@ -5,9 +5,12 @@
                 <h2>My Game Shelf</h2>
                 <hr>
                 <div *ngIf="gameShelf?.games?.length == 0">No games added yet.</div>
+                <div>
+
+                </div>
                 <table class="table table-striped">
                     <tbody>
-                        <tr *ngFor="let game of gameShelf?.games">
+                        <tr *ngFor="let game of gameShelf?.games | slice:currentGameCount-1:currentGameCount-1+10">
                             <td class="thumbnail-cell">
                                 <a [routerLink]="['/games', game.bgaGameId]"><img class="thumbnail" src="{{game.image}}"
                                         alt="Game Image"></a>
@@ -59,6 +62,18 @@
                         </tr>
                     </tbody>
                 </table>
+                <div *ngIf="gameShelf?.games?.length != 0" class="d-flex justify-content-end gap-2">
+                    <div><span>Page 1-{{Math.ceil(maxGameCount / 10)}} ({{maxGameCount}} results)</span></div>
+                    <div class="col game-button">
+                        <button *ngIf="currentGameCount > 1" class="btn btn-outline-primary"
+                            (click)="currentGameCount = currentGameCount - 10">&larr;</button>
+                    </div>
+                    <div class="col game-button">
+                        <button *ngIf="maxGameCount > 10 && (maxGameCount - 10) > currentGameCount"
+                            class="btn btn-outline-primary"
+                            (click)="currentGameCount = currentGameCount + 10">&rarr;</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
