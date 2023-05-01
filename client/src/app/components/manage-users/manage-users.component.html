@@ -4,45 +4,49 @@
             <div class="row my-3">
                 <h2>Manage Users</h2>
                 <hr>
-                <div id="search-container" class="row justify-content-between p-0 mb-2">
-                    <div class="col">
-                        <input type="text" id="search" class="form-control w-100" placeholder="Enter email here..."
-                            [(ngModel)]="value" (keyup.enter)="search()">
+                <div id="action-container" class="d-flex mb-2">
+                    <div class="dropdown me-4">
+                        <a class="btn btn-primary dropdown-toggle" id="dropdownMenuButton" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Actions
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <button class="dropdown-item" (click)="setEnabled(true)"><i
+                                    class="fa fa-toggle-on text-success"></i>
+                                Enable</button>
+                            <button class="dropdown-item" (click)="setEnabled(false)"><i
+                                    class="fa fa-toggle-on fa-flip-horizontal text-danger"></i>
+                                Disable</button>
+                            <div class="dropdown-divider"></div>
+                            <button class="dropdown-item" (click)="setAdmin(true)"><i
+                                    class="fa fa-arrow-up text-success"></i>
+                                Promote
+                                to Admin</button>
+                            <button class="dropdown-item" (click)="setAdmin(false)"><i
+                                    class="fa fa-arrow-down text-danger"></i> Demote
+                                to User</button>
+                            <div class="dropdown-divider"></div>
+                            <button class="dropdown-item" (click)="manageUser()"><i class="fa fa-lock"></i> Manage
+                                Profile</button>
+                        </div>
+                        <span class="mx-4 text-danger" [hidden]="!errorOccured">
+                            *{{errorMsg}}
+                        </span>
                     </div>
-                    <div class="col search-button">
-                        <button type="submit" (click)="search()" class="btn btn-primary"><i class="fa fa-search"></i>
-                            Search
-                        </button>
+                    <div id="search-container" class="row p-0">
+                        <div class="col">
+                            <input type="text" id="search" class="form-control" placeholder="Enter email here..."
+                                [(ngModel)]="value" (keyup.enter)="search()">
+                        </div>
+                        <div class="col search-button">
+                            <button type="submit" (click)="search()" class="btn btn-primary"><i
+                                    class="fa fa-search"></i>
+                                Search
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div class="dropdown mb-2">
-                    <a class="btn btn-primary dropdown-toggle" id="dropdownMenuButton" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Actions
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <button class="dropdown-item" (click)="setEnabled(true)"><i
-                                class="fa fa-toggle-on text-success"></i>
-                            Enable</button>
-                        <button class="dropdown-item" (click)="setEnabled(false)"><i
-                                class="fa fa-toggle-on fa-flip-horizontal text-danger"></i>
-                            Disable</button>
-                        <div class="dropdown-divider"></div>
-                        <button class="dropdown-item" (click)="setAdmin(true)"><i
-                                class="fa fa-arrow-up text-success"></i>
-                            Promote
-                            to Admin</button>
-                        <button class="dropdown-item" (click)="setAdmin(false)"><i
-                                class="fa fa-arrow-down text-danger"></i> Demote
-                            to User</button>
-                        <div class="dropdown-divider"></div>
-                        <button class="dropdown-item" (click)="manageUser()"><i class="fa fa-lock"></i> Manage
-                            Profile</button>
-                    </div>
-                    <span class="mx-4 text-danger" [hidden]="!errorOccured">
-                        *{{errorMsg}}
-                    </span>
-                </div>
+
                 <div class="table-container">
                     <table class="table table-striped">
                         <thead class="table-light">
