@@ -14,7 +14,7 @@ export class ManageUsersComponent implements OnInit {
   users: ManageUser[] = [];
   errorMsg: string = '';
   errorOccured: boolean = false;
-  visibleUsers: ManageUser[] | null = null;
+  visibleUsers: ManageUser[] = [];
   value: string = '';
 
   constructor(
@@ -39,7 +39,7 @@ export class ManageUsersComponent implements OnInit {
       checked = true;
     }
 
-    const updatedUsers = this.users.map((user) => {
+    const updatedUsers = this.visibleUsers.map((user) => {
       user.selected = checked;
 
       return user;
@@ -50,7 +50,7 @@ export class ManageUsersComponent implements OnInit {
 
   manageUser(): void {
     this.resetError();
-    const selectedUsers: User[] = this.users
+    const selectedUsers: User[] = this.visibleUsers
       .filter((user) => user.selected)
       .map((selectedUser) => {
         const user: User = {
@@ -104,7 +104,7 @@ export class ManageUsersComponent implements OnInit {
 
   setAdmin(admin: boolean) {
     this.resetError();
-    const selectedUsers: User[] = this.users
+    const selectedUsers: User[] = this.visibleUsers
       .filter((user) => user.selected)
       .map((selectedUser) => {
         const user: User = {
@@ -131,7 +131,7 @@ export class ManageUsersComponent implements OnInit {
         )
         .subscribe((updatedUser) => {
           if (selectedUser.admin != updatedUser.admin) {
-            const updatedUsers = this.users.map((user) => {
+            const updatedUsers = this.visibleUsers.map((user) => {
               if (user.email === updatedUser.email) {
                 user.admin = updatedUser.admin;
               }
@@ -139,6 +139,7 @@ export class ManageUsersComponent implements OnInit {
             });
 
             this.users = updatedUsers;
+            this.visibleUsers = updatedUsers;
           }
         });
     }
@@ -146,7 +147,7 @@ export class ManageUsersComponent implements OnInit {
 
   setEnabled(enabled: boolean) {
     this.resetError();
-    const selectedUsers: User[] = this.users
+    const selectedUsers: User[] = this.visibleUsers
       .filter((user) => user.selected)
       .map((selectedUser) => {
         const user: User = {
@@ -173,7 +174,7 @@ export class ManageUsersComponent implements OnInit {
         )
         .subscribe((updatedUser) => {
           if (selectedUser.enabled != updatedUser.enabled) {
-            const updatedUsers = this.users.map((user) => {
+            const updatedUsers = this.visibleUsers.map((user) => {
               if (user.email === updatedUser.email) {
                 user.enabled = updatedUser.enabled;
               }
@@ -181,6 +182,7 @@ export class ManageUsersComponent implements OnInit {
             });
 
             this.users = updatedUsers;
+            this.visibleUsers = updatedUsers;
           }
         });
     }
