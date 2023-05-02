@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/wwwss"
+    "start": "node ./bin/wwws"
   },
   "dependencies": {
     "@superfaceai/passport-twitter-oauth2": "^1.2.3",
