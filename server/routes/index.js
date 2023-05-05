@@ -11,7 +11,6 @@ let Game = require("../models/game.js");
 require("dotenv").config({ path: "./.env" });
 
 const saltRounds = 10;
-const BGAClientID = "byh1ZsZ8eh";
 
 // makeMockData();
 
@@ -263,7 +262,7 @@ router.get("/search", async function (req, res) {
     } else if (orderBy) {
       orderParam = `&order_by=${orderBy}&limit=10`;
     }
-    let fetchURL = `https://api.boardgameatlas.com/api/search?client_id=${BGAClientID}${searchParam}${orderParam}`;
+    let fetchURL = `https://api.boardgameatlas.com/api/search?client_id=${process.env.BGA_CLIENT_ID}${searchParam}${orderParam}`;
     fetch(fetchURL)
       .then((response) => response.json())
       .then((data) => {
@@ -454,7 +453,7 @@ router.post("/gamelogs", async (req, res) => {
  */
 async function getGames(idListString, numGames) {
   return fetch(
-    `https://api.boardgameatlas.com/api/search?client_id=${BGAClientID}&ids=${idListString}&limit=${numGames}`
+    `https://api.boardgameatlas.com/api/search?client_id=${process.env.BGA_CLIENT_ID}&ids=${idListString}&limit=${numGames}`
   )
     .then((response) => response.json())
     .then((data) => {
