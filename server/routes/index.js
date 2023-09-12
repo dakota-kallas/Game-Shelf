@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
+const { parseString } = require("xml2js");
 router.use(express.urlencoded({ extended: true }));
 
 let UserDB = require("../models/user.js");
@@ -255,50 +256,106 @@ router.get("/search", async function (req, res) {
   const searchName = req.query.name;
   const orderBy = req.query.orderBy;
   if (searchName || orderBy) {
-    let orderParam = "";
-    let searchParam = "";
-    if (searchName) {
-      searchParam = `&name=${encodeURIComponent(searchName)}&limit=30`;
-    } else if (orderBy) {
-      orderParam = `&order_by=${orderBy}&limit=10`;
-    }
-    let fetchURL = `https://api.boardgameatlas.com/api/search?client_id=${process.env.BGA_CLIENT_ID}${searchParam}${orderParam}`;
-    fetch(fetchURL)
-      .then((response) => response.json())
-      .then((data) => {
-        let games = [];
+    try {
+      let limit = 40;
 
-        if (data.games) {
-          data.games.forEach((game) => {
-            const currentGame = new Game(
-              game.id,
-              game.name,
-              Math.round(game.average_user_rating * 2) / 2,
-              game.images.small,
-              game.image_url,
-              game.min_players,
-              game.max_players,
-              game.year_published,
-              game.playtime ?? "--",
-              game.plays,
-              game.rank,
-              game.trending_rank,
-              game.description,
-              game.min_age,
-              game.rules_url,
-              game.primary_publisher?.name
-            );
+      let fetchURL = `https://boardgamegeek.com/xmlapi2/search?type=boardgame&query=${encodeURIComponent(
+        searchName
+      )}`;
+
+      if (orderBy) {
+        fetchURL = `https://boardgamegeek.com/xmlapi2/hot?type=boardgame`;
+        limit = 10;
+      }
+
+      const response = await fetch(fetchURL);
+      if (!response.ok) {
+        throw new Error(`Error fetching data: ${response.statusText}`);
+      }
+      const xmlText = await response.text();
+      const result = await new Promise((resolve, reject) => {
+        parseString(xmlText, (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(result);
+          }
+        });
+      });
+
+      let count = 0;
+      let gamesIdString = "";
+      let games = [];
+
+      if (result && result.items.item) {
+        let currentCount = 0;
+        result.items.item.some((item) => {
+          if (currentCount >= limit) {
+            return true;
+          }
+          gamesIdString += `${item.$.id},`;
+          currentCount++;
+          return false;
+        });
+
+        count = result.items.$.total;
+
+        let gamesFetchURL = `https://boardgamegeek.com/xmlapi2/thing?id=${gamesIdString}&stats=1`;
+        const gamesResponse = await fetch(gamesFetchURL);
+        if (!gamesResponse.ok) {
+          throw new Error(
+            `Error fetching games data: ${gamesResponse.statusText}`
+          );
+        }
+        const gamesXmlText = await gamesResponse.text();
+        const gamesResult = await new Promise((resolve, reject) => {
+          parseString(gamesXmlText, (err, result) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result);
+            }
+          });
+        });
+
+        if (gamesResult && gamesResult.items.item) {
+          gamesResult.items.item.forEach((item) => {
+            let publisher = null;
+            item.link.some((item) => {
+              if (item.$ && item.$.type === "boardgamepublisher") {
+                publisher = item.$.value;
+                return true;
+              }
+              return false;
+            });
+
+            const currentGame = new Game({
+              id: item.$.id,
+              name: item.name[0].$.value,
+              description: item.description[0],
+              image: item.image[0],
+              thumbnail: item.thumbnail[0],
+              minPlayers: item.minplayers[0].$.value,
+              maxPlayers: item.maxplayers[0].$.value,
+              playtime: item.playingtime[0].$.value,
+              minAge: item.minage[0].$.value,
+              year: item.yearpublished[0].$.value,
+              publisher: publisher,
+            });
             games.push(currentGame);
           });
         }
+      }
 
-        res.setHeader("Search-Count", games.length);
-        res.status(200).json(games);
-      })
-      .catch((err) => {
-        res.status(400).send(err.message);
-      });
+      res.setHeader("Search-Count", count ?? 0);
+      res.status(200).json(games);
+    } catch (error) {
+      console.error("Error occurred:", error);
+      res.setHeader("Search-Count", 0);
+      res.status(500).send("Internal server error");
+    }
   } else {
+    res.setHeader("Search-Count", 0);
     res.status(400).send("Error occurred!");
   }
 });
@@ -452,43 +509,60 @@ router.post("/gamelogs", async (req, res) => {
  * @returns {Game[]}
  */
 async function getGames(idListString, numGames) {
-  return fetch(
-    `https://api.boardgameatlas.com/api/search?client_id=${process.env.BGA_CLIENT_ID}&ids=${idListString}&limit=${numGames}`
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.games && data.games.length > 0) {
-        let games = [];
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await fetch(
+        `https://boardgamegeek.com/xmlapi2/thing?id=${idListString}&stats=1`
+      );
 
-        data.games.forEach((game) => {
-          const currentGame = new Game(
-            game.id,
-            game.name,
-            Math.round(game.average_user_rating * 2) / 2,
-            game.images.small,
-            game.image_url,
-            game.min_players,
-            game.max_players,
-            game.year_published,
-            game.playtime ?? "--",
-            game.plays,
-            game.rank,
-            game.trending_rank,
-            game.description,
-            game.min_age,
-            game.rules_url,
-            game.primary_publisher?.name
-          );
-          games.push(currentGame);
-        });
-        return games;
-      } else {
-        return null;
+      if (!response.ok) {
+        throw new Error(`Error fetching data: ${response.statusText}`);
       }
-    })
-    .catch((err) => {
-      return null;
-    });
+
+      const xmlText = await response.text();
+      parseString(xmlText, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          let games = [];
+          if (result && result.items.item) {
+            result.items.item.forEach((item) => {
+              if (games.length >= numGames) {
+                resolve(games);
+              }
+              let publisher = null;
+              item.link.some((item) => {
+                if (item.$ && item.$.type === "boardgamepublisher") {
+                  publisher = item.$.value;
+                  return true;
+                }
+                return false;
+              });
+
+              const currentGame = new Game({
+                id: item.$.id,
+                name: item.name[0].$.value,
+                description: item.description[0],
+                image: item.image[0],
+                thumbnail: item.thumbnail[0],
+                minPlayers: item.minplayers[0].$.value,
+                maxPlayers: item.maxplayers[0].$.value,
+                playtime: item.playingtime[0].$.value,
+                minAge: item.minage[0].$.value,
+                year: item.yearpublished[0].$.value,
+                publisher: publisher,
+              });
+              games.push(currentGame);
+            });
+          }
+
+          resolve(games);
+        }
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
 function validatePassword(password) {
