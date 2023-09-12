@@ -1,6 +1,6 @@
 class Game {
   constructor(options) {
-    this.bgaGameId = options.id;
+    this.bggGameId = options.id;
     this.name = options.name;
     this.rating = options.rating;
     this.image = options.image;

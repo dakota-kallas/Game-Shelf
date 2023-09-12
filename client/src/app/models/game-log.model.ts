@@ -1,7 +1,7 @@
 export interface GameLog {
   _id: string;
   owner: string;
-  bgaGameId: string;
+  bggGameId: string;
   bgaGameName: string;
   date: string;
   note: string | undefined;

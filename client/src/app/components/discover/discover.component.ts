@@ -73,7 +73,7 @@ export class DiscoverComponent implements OnInit {
       if (
         gameShelf &&
         this.gameShelf &&
-        gameShelf.games.findIndex((g) => g.bgaGameId == game.bgaGameId) != -1
+        gameShelf.games.findIndex((g) => g.bggGameId == game.bggGameId) != -1
       ) {
         this.gameShelf.games.push(game);
       }
@@ -83,7 +83,7 @@ export class DiscoverComponent implements OnInit {
   isGameInShelf(game: Game): boolean {
     if (
       this.gameShelf &&
-      this.gameShelf.games.findIndex((g) => g.bgaGameId == game.bgaGameId) != -1
+      this.gameShelf.games.findIndex((g) => g.bggGameId == game.bggGameId) != -1
     ) {
       return true;
     }
@@ -94,7 +94,7 @@ export class DiscoverComponent implements OnInit {
     this.gameShelfApi.removeGameFromShelf(gameId).subscribe((game) => {
       if (game && this.gameShelf) {
         this.gameShelf.games = this.gameShelf?.games.filter(
-          (game) => game.bgaGameId !== gameId
+          (game) => game.bggGameId !== gameId
         );
       }
     });

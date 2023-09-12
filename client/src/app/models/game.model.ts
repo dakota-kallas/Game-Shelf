@@ -1,5 +1,5 @@
 export interface Game {
-  bgaGameId: string;
+  bggGameId: string;
   name: string | undefined;
   rating: number | undefined;
   image: string | undefined;

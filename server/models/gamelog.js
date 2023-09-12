@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const GameLogSchema = new mongoose.Schema(
   {
     owner: { type: String, required: true },
-    bgaGameId: { type: String, required: true },
+    bggGameId: { type: String, required: true },
     bgaGameName: { type: String, required: true },
     date: { type: String, required: true },
     note: { type: String },
@@ -16,7 +16,7 @@ const GameLog = mongoose.model("GameLog", GameLogSchema);
 
 async function createGameLog(
   owner,
-  bgaGameId,
+  bggGameId,
   bgaGameName,
   date,
   note,
@@ -24,7 +24,7 @@ async function createGameLog(
 ) {
   const gameLog = new GameLog({
     owner,
-    bgaGameId,
+    bggGameId,
     bgaGameName,
     date,
     note,
@@ -42,8 +42,8 @@ async function getByOwner(owner) {
   return gameLogs.map((gameLog) => gameLog.toObject());
 }
 
-async function getByBGAGame(bgaGameId, owner) {
-  const gameLogs = await GameLog.find({ owner, bgaGameId }).sort({
+async function getByBGAGame(bggGameId, owner) {
+  const gameLogs = await GameLog.find({ owner, bggGameId }).sort({
     date: "desc",
   });
   return gameLogs.map((gameLog) => gameLog.toObject());

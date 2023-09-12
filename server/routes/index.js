@@ -152,7 +152,7 @@ router.get("/gameshelf", async function (req, res) {
     let idString = "";
 
     gameshelf.games.forEach(
-      (bgaGameId) => (idString = `${idString},${bgaGameId}`)
+      (bggGameId) => (idString = `${idString},${bggGameId}`)
     );
 
     if (idString != "") {
@@ -183,7 +183,7 @@ router.put("/gameshelf", async function (req, res) {
 
       if (
         gameShelf &&
-        gameShelf.games.find((result) => result === game.bgaGameId)
+        gameShelf.games.find((result) => result === game.bggGameId)
       ) {
         res
           .status(409)
@@ -191,12 +191,12 @@ router.put("/gameshelf", async function (req, res) {
       } else {
         let updatedShelf = await GameShelfDB.addGameToShelf(
           req.session.user.email,
-          game.bgaGameId
+          game.bggGameId
         );
         let idString = "";
         if (updatedShelf.games) {
           updatedShelf.games.forEach(
-            (bgaGameId) => (idString = `${idString},${bgaGameId}`)
+            (bggGameId) => (idString = `${idString},${bggGameId}`)
           );
         }
 
@@ -227,11 +227,11 @@ router.put("/gameshelf", async function (req, res) {
  */
 router.delete("/gameshelf/:gid", async function (req, res) {
   try {
-    const bgaGameId = req.params.gid;
-    if (bgaGameId) {
+    const bggGameId = req.params.gid;
+    if (bggGameId) {
       let removedGameBGAId = await GameShelfDB.removeFromShelf(
         req.session.user.email,
-        bgaGameId
+        bggGameId
       );
 
       let games = await getGames(removedGameBGAId);
@@ -369,8 +369,8 @@ router.get("/search", async function (req, res) {
  * GET GAME DETAILS
  */
 router.get("/games/:gid", async function (req, res) {
-  const bgaGameId = req.params.gid;
-  let games = await getGames(bgaGameId);
+  const bggGameId = req.params.gid;
+  let games = await getGames(bggGameId);
   if (games) {
     res.status(200).send(games[0]);
   } else {
@@ -382,10 +382,10 @@ router.get("/games/:gid", async function (req, res) {
  * GET GAME LOGS
  */
 router.get("/gamelogs", async function (req, res) {
-  const bgaGameId = req.query.bgaGameId;
+  const bggGameId = req.query.bggGameId;
   let gameLogs = null;
-  if (bgaGameId) {
-    gameLogs = await GameLogDB.getByBGAGame(bgaGameId, req.session.user.email);
+  if (bggGameId) {
+    gameLogs = await GameLogDB.getByBGAGame(bggGameId, req.session.user.email);
   } else {
     gameLogs = await GameLogDB.getByOwner(req.session.user.email);
   }
@@ -473,20 +473,20 @@ router.put("/gamelogs/:glid", async function (req, res) {
  * CREATE A GAME LOG
  */
 router.post("/gamelogs", async (req, res) => {
-  const bgaGameId = req.body.bgaGameId;
+  const bggGameId = req.body.bggGameId;
   const bgaGameName = req.body.bgaGameName;
   const date = req.body.date;
   const note = req.body.note;
   const rating = req.body.rating;
 
   try {
-    if (!bgaGameId || !date) {
+    if (!bggGameId || !date) {
       throw new Error("Please provide all required fields.");
     }
 
     let newGameLog = await GameLogDB.createGameLog(
       req.session.user.email,
-      bgaGameId,
+      bggGameId,
       bgaGameName,
       date,
       note,
@@ -564,8 +564,8 @@ async function getGames(idListString, numGames) {
                       2) *
                       2
                   ) / 2,
+                rank: item.statistics[0].ratings[0].ranks[0].rank[0].$.value,
               });
-
               games.push(currentGame);
             });
           }

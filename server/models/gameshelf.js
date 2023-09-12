@@ -21,24 +21,24 @@ async function getByOwner(owner) {
   return gameshelf && gameshelf.toObject();
 }
 
-async function addGameToShelf(owner, bgaGameId) {
+async function addGameToShelf(owner, bggGameId) {
   const gameshelf = await GameShelf.findOne({ owner });
   if (!gameshelf) {
     throw new Error("GameShelf not found");
   }
-  gameshelf.games.push(bgaGameId);
+  gameshelf.games.push(bggGameId);
   await gameshelf.save();
   return gameshelf.toObject();
 }
 
-async function removeFromShelf(owner, bgaGameId) {
+async function removeFromShelf(owner, bggGameId) {
   const gameshelf = await GameShelf.findOne({ owner });
   if (!gameshelf) {
     throw new Error("GameShelf not found");
   }
-  gameshelf.games = gameshelf.games.filter((gameId) => gameId !== bgaGameId);
+  gameshelf.games = gameshelf.games.filter((gameId) => gameId !== bggGameId);
   await gameshelf.save();
-  return bgaGameId;
+  return bggGameId;
 }
 
 module.exports = {
