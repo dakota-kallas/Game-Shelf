@@ -25315,7 +25315,7 @@
           (1 & e && (p(0, "tbody"), C(1, bj, 26, 16, "tr", 16), m()), 2 & e)
         ) {
           const t = M();
-          g(1), v("ngForOf", t.popularGames);
+          g(1), v("ngForOf", t.trendingGames);
         }
       }
       function Cj(e, n) {
@@ -25467,7 +25467,7 @@
           (1 & e && (p(0, "tbody"), C(1, xj, 26, 16, "tr", 16), m()), 2 & e)
         ) {
           const t = M();
-          g(1), v("ngForOf", t.trendingGames);
+          g(1), v("ngForOf", t.randomGames);
         }
       }
       let kj = (() => {
@@ -25483,21 +25483,21 @@
                 (this.Math = window.Math);
             }
             ngOnInit() {
-              this.getGameShelf(), this.popular(), this.trending();
+              this.getGameShelf(), this.trending(), this.random();
             }
             getGameShelf() {
               this.gameShelfApi.getGameShelf().subscribe((r) => {
                 r.owner && (this.gameShelf = r);
               });
             }
-            popular() {
+            trending() {
               this.gameApi.orderBy("rank").subscribe((r) => {
-                this.popularGames = r;
+                this.trendingGames = r;
               });
             }
-            trending() {
-              this.gameApi.orderBy("trending").subscribe((r) => {
-                this.trendingGames = r;
+            random() {
+              this.gameApi.orderBy("random").subscribe((r) => {
+                this.randomGames = r;
               });
             }
             search() {
@@ -25665,7 +25665,7 @@
                   C(31, lj, 2, 0, "button", 18),
                   m()()()(),
                   p(32, "div", 10)(33, "div", 11)(34, "h2"),
-                  N(35, "Top 10 Popular Games"),
+                  N(35, "Top 10 trending Games"),
                   m(),
                   A(36, "hr"),
                   p(37, "table", 15),
@@ -25673,7 +25673,7 @@
                   C(39, Dj, 2, 1, "tbody", 19),
                   m()()(),
                   p(40, "div", 10)(41, "div", 11)(42, "h2"),
-                  N(43, "Top 10 Trending Games"),
+                  N(43, "Top 10 random Games"),
                   m(),
                   A(44, "hr"),
                   p(45, "table", 15),
@@ -25715,15 +25715,15 @@
                     g(1),
                     v("hidden", i.searched),
                     g(6),
-                    v("ngIf", !i.popularGames),
+                    v("ngIf", !i.trendingGames),
                     g(1),
-                    v("ngIf", i.popularGames),
+                    v("ngIf", i.trendingGames),
                     g(1),
                     v("hidden", i.searched),
                     g(6),
-                    v("ngIf", !i.trendingGames),
+                    v("ngIf", !i.randomGames),
                     g(1),
-                    v("ngIf", i.trendingGames));
+                    v("ngIf", i.randomGames));
               },
               dependencies: [Zt, kt, lr, Dr, _i, Kr, lu],
               styles: [
@@ -26379,7 +26379,7 @@
         playtime: void 0,
         plays: void 0,
         rank: void 0,
-        trendingRank: void 0,
+        randomRank: void 0,
         description: void 0,
         minAge: void 0,
         rules: void 0,
@@ -26555,9 +26555,9 @@
                 g(2),
                 Je(" ", t.game.rank, ""),
                 g(1),
-                v("hidden", 0 == t.game.trendingRank),
+                v("hidden", 0 == t.game.randomRank),
                 g(2),
-                Je(" ", t.game.trendingRank, ""));
+                Je(" ", t.game.randomRank, ""));
           },
           dependencies: [Zt, kt, lr, lu, Tp],
           styles: [

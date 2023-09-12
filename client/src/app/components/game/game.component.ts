@@ -25,7 +25,6 @@ export class GameComponent implements OnInit {
     playtime: undefined,
     plays: undefined,
     rank: undefined,
-    trendingRank: undefined,
     description: undefined,
     minAge: undefined,
     rules: undefined,

@@ -10,7 +10,6 @@ export interface Game {
   playtime: string | undefined;
   plays: number | undefined;
   rank: number | undefined;
-  trendingRank: number | undefined;
   description: string | undefined;
   minAge: number | undefined;
   rules: string | undefined;

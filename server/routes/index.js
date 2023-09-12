@@ -250,7 +250,7 @@ router.delete("/gameshelf/:gid", async function (req, res) {
 
 /**
  * SEARCH GAMES
- * Order_by Ex. rank, trending, plays (also limit?)
+ * Order_by Ex. rank, random, plays (also limit?)
  */
 router.get("/search", async function (req, res) {
   const searchName = req.query.name;
@@ -258,55 +258,36 @@ router.get("/search", async function (req, res) {
   if (searchName || orderBy) {
     try {
       let limit = 40;
+      let gamesIdString = "";
+      let runQuery = true;
+      let count = 0;
+      let games = [];
 
       let fetchURL = `https://boardgamegeek.com/xmlapi2/search?type=boardgame&query=${encodeURIComponent(
         searchName
       )}`;
 
-      if (orderBy) {
+      if (orderBy && orderBy == "rank") {
         fetchURL = `https://boardgamegeek.com/xmlapi2/hot?type=boardgame`;
         limit = 10;
-      }
-
-      const response = await fetch(fetchURL);
-      if (!response.ok) {
-        throw new Error(`Error fetching data: ${response.statusText}`);
-      }
-      const xmlText = await response.text();
-      const result = await new Promise((resolve, reject) => {
-        parseString(xmlText, (err, result) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(result);
-          }
-        });
-      });
-
-      let count = 0;
-      let gamesIdString = "";
-      let games = [];
-
-      if (result && result.items.item) {
-        result.items.item.some((item) => {
-          if (count >= limit) {
-            return true;
-          }
-          gamesIdString += `${item.$.id},`;
+      } else if (orderBy && orderBy == "random") {
+        for (let i = 0; i < 20; i++) {
+          const randomNumber = Math.floor(Math.random() * (4000 - 1 + 1)) + 1;
+          gamesIdString += `${randomNumber},`;
           count++;
-          return false;
-        });
-
-        let gamesFetchURL = `https://boardgamegeek.com/xmlapi2/thing?id=${gamesIdString}&stats=1`;
-        const gamesResponse = await fetch(gamesFetchURL);
-        if (!gamesResponse.ok) {
-          throw new Error(
-            `Error fetching games data: ${gamesResponse.statusText}`
-          );
         }
-        const gamesXmlText = await gamesResponse.text();
-        const gamesResult = await new Promise((resolve, reject) => {
-          parseString(gamesXmlText, (err, result) => {
+        limit = 10;
+        runQuery = false;
+      }
+
+      if (runQuery) {
+        const response = await fetch(fetchURL);
+        if (!response.ok) {
+          throw new Error(`Error fetching data: ${response.statusText}`);
+        }
+        const xmlText = await response.text();
+        const result = await new Promise((resolve, reject) => {
+          parseString(xmlText, (err, result) => {
             if (err) {
               reject(err);
             } else {
@@ -315,41 +296,94 @@ router.get("/search", async function (req, res) {
           });
         });
 
-        if (gamesResult && gamesResult.items.item) {
-          gamesResult.items.item.forEach((item) => {
-            let publisher = null;
-            item.link.some((item) => {
-              if (item.$ && item.$.type === "boardgamepublisher") {
-                publisher = item.$.value;
-                return true;
-              }
-              return false;
-            });
-
-            const currentGame = new Game({
-              id: item.$.id,
-              name: item.name[0].$.value,
-              description: item.description[0],
-              image: item.thumbnail[0],
-              thumbnail: item.image[0],
-              minPlayers: item.minplayers[0].$.value,
-              maxPlayers: item.maxplayers[0].$.value,
-              playtime: item.playingtime[0].$.value,
-              minAge: item.minage[0].$.value,
-              year: item.yearpublished[0].$.value,
-              publisher: publisher,
-              rating:
-                Math.round(
-                  (parseFloat(
-                    item.statistics[0].ratings[0].average[0].$.value
-                  ) /
-                    2) *
-                    2
-                ) / 2,
-            });
-            games.push(currentGame);
+        if (result && result.items.item) {
+          result.items.item.some((item) => {
+            if (count >= limit) {
+              return true;
+            }
+            gamesIdString += `${item.$.id},`;
+            count++;
+            return false;
           });
         }
+      }
+
+      let gamesFetchURL = `https://boardgamegeek.com/xmlapi2/thing?id=${gamesIdString}&stats=1`;
+      const gamesResponse = await fetch(gamesFetchURL);
+      if (!gamesResponse.ok) {
+        throw new Error(
+          `Error fetching games data: ${gamesResponse.statusText}`
+        );
+      }
+      const gamesXmlText = await gamesResponse.text();
+      const gamesResult = await new Promise((resolve, reject) => {
+        parseString(gamesXmlText, (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(result);
+          }
+        });
+      });
+
+      if (gamesResult && gamesResult.items.item) {
+        let currentCount = 0;
+        gamesResult.items.item.some((item) => {
+          if (currentCount >= limit) {
+            return true;
+          }
+          let publisher = null;
+          item.link.some((item) => {
+            if (item.$ && item.$.type === "boardgamepublisher") {
+              publisher = item.$.value;
+              return true;
+            }
+            return false;
+          });
+
+          const currentGame = new Game({
+            id: item.$.id,
+            name: item.name?.length > 0 ? item.name[0].$.value : undefined,
+            description:
+              item.description?.length > 0 ? item.description[0] : undefined,
+            image: item.thumbnail?.length > 0 ? item.thumbnail[0] : undefined,
+            thumbnail: item.image.length > 0 ? item.image[0] : undefined,
+            minPlayers:
+              item.minplayers?.length > 0
+                ? item.minplayers[0].$.value
+                : undefined,
+            maxPlayers:
+              item.maxplayers?.length > 0
+                ? item.maxplayers[0].$.value
+                : undefined,
+            playtime:
+              item.playingtime?.length > 0
+                ? item.playingtime[0].$.value
+                : undefined,
+            minAge:
+              item.minage?.length > 0 ? item.minage[0].$.value : undefined,
+            year:
+              item.yearpublished?.length > 0
+                ? item.yearpublished[0].$.value
+                : undefined,
+            publisher: publisher,
+            rating:
+              item.statistics?.length > 0 &&
+              item.statistics[0].ratings?.length > 0 &&
+              item.statistics[0].ratings[0].average?.length > 0
+                ? Math.round(
+                    (parseFloat(
+                      item.statistics[0].ratings[0].average[0].$.value
+                    ) /
+                      2) *
+                      2
+                  ) / 2
+                : undefined,
+          });
+          games.push(currentGame);
+          currentCount++;
+          return false;
+        });
       }
 
       res.setHeader("Search-Count", count ?? 0);
@@ -546,25 +580,52 @@ async function getGames(idListString, numGames) {
 
               const currentGame = new Game({
                 id: item.$.id,
-                name: item.name[0].$.value,
-                description: item.description[0],
-                image: item.thumbnail[0],
-                thumbnail: item.image[0],
-                minPlayers: item.minplayers[0].$.value,
-                maxPlayers: item.maxplayers[0].$.value,
-                playtime: item.playingtime[0].$.value,
-                minAge: item.minage[0].$.value,
-                year: item.yearpublished[0].$.value,
+                name: item.name?.length > 0 ? item.name[0].$.value : undefined,
+                description:
+                  item.description?.length > 0
+                    ? item.description[0]
+                    : undefined,
+                image:
+                  item.thumbnail?.length > 0 ? item.thumbnail[0] : undefined,
+                thumbnail: item.image.length > 0 ? item.image[0] : undefined,
+                minPlayers:
+                  item.minplayers?.length > 0
+                    ? item.minplayers[0].$.value
+                    : undefined,
+                maxPlayers:
+                  item.maxplayers?.length > 0
+                    ? item.maxplayers[0].$.value
+                    : undefined,
+                playtime:
+                  item.playingtime?.length > 0
+                    ? item.playingtime[0].$.value
+                    : undefined,
+                minAge:
+                  item.minage?.length > 0 ? item.minage[0].$.value : undefined,
+                year:
+                  item.yearpublished?.length > 0
+                    ? item.yearpublished[0].$.value
+                    : undefined,
                 publisher: publisher,
                 rating:
-                  Math.round(
-                    (parseFloat(
-                      item.statistics[0].ratings[0].average[0].$.value
-                    ) /
-                      2) *
-                      2
-                  ) / 2,
-                rank: item.statistics[0].ratings[0].ranks[0].rank[0].$.value,
+                  item.statistics?.length > 0 &&
+                  item.statistics[0].ratings?.length > 0 &&
+                  item.statistics[0].ratings[0].average?.length > 0
+                    ? Math.round(
+                        (parseFloat(
+                          item.statistics[0].ratings[0].average[0].$.value
+                        ) /
+                          2) *
+                          2
+                      ) / 2
+                    : undefined,
+                rank:
+                  item.statistics?.length > 0 &&
+                  item.statistics[0].ratings?.length > 0 &&
+                  item.statistics[0].ratings[0].ranks?.length > 0 &&
+                  item.statistics[0].ratings[0].ranks[0].rank?.length > 0
+                    ? item.statistics[0].ratings[0].ranks[0].rank[0].$.value
+                    : undefined,
               });
               games.push(currentGame);
             });

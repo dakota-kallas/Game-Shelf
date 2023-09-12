@@ -11,7 +11,6 @@ class Game {
     this.playtime = options.playtime;
     this.plays = options.plays;
     this.rank = options.rank;
-    this.trendingRank = options.trendingRank;
     this.description = options.description;
     this.minAge = options.minAge;
     this.rules = options.rules;

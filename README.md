@@ -23,7 +23,7 @@ This web application allows users to create and manage a list of board games the
 
 ###### Discover View
 
-<img width="1280" alt="Discover" src="https://i.ibb.co/svR36VF/discover.png">
+<img width="1280" alt="Discover" src="https://i.ibb.co/2MrL54B/home-screen.png">
 
 ###### Search List
 
