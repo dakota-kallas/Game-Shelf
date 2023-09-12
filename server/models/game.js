@@ -1,38 +1,20 @@
 class Game {
-  constructor(
-    bgaGameId,
-    name,
-    rating,
-    image,
-    thumbnail,
-    minPlayers,
-    maxPlayers,
-    year,
-    playtime,
-    plays,
-    rank,
-    trendingRank,
-    description,
-    minAge,
-    rules,
-    publisher
-  ) {
-    this.bgaGameId = bgaGameId;
-    this.name = name;
-    this.rating = rating;
-    this.image = image;
-    this.thumbnail = thumbnail;
-    this.minPlayers = minPlayers;
-    this.maxPlayers = maxPlayers;
-    this.year = year;
-    this.playtime = playtime;
-    this.plays = plays;
-    this.rank = rank;
-    this.trendingRank = trendingRank;
-    this.description = description;
-    this.minAge = minAge;
-    this.rules = rules;
-    this.publisher = publisher;
+  constructor(options) {
+    this.bggGameId = options.id;
+    this.name = options.name;
+    this.rating = options.rating;
+    this.image = options.image;
+    this.thumbnail = options.thumbnail;
+    this.minPlayers = options.minPlayers;
+    this.maxPlayers = options.maxPlayers;
+    this.year = options.year;
+    this.playtime = options.playtime;
+    this.plays = options.plays;
+    this.rank = options.rank;
+    this.description = options.description;
+    this.minAge = options.minAge;
+    this.rules = options.rules;
+    this.publisher = options.publisher;
   }
 }
 

@@ -13,8 +13,8 @@ export class DiscoverComponent implements OnInit {
   searchGames: Game[] | null = null;
   currentSearchCount: number = 0;
   maxSearchCount: number = 0;
-  popularGames: Game[] | undefined;
   trendingGames: Game[] | undefined;
+  randomGames: Game[] | undefined;
   gameShelf: GameShelf | undefined;
   searched: Boolean = false;
   @Input() value: string | undefined;
@@ -27,8 +27,8 @@ export class DiscoverComponent implements OnInit {
 
   ngOnInit(): void {
     this.getGameShelf();
-    this.popular();
     this.trending();
+    this.random();
   }
 
   getGameShelf() {
@@ -39,15 +39,15 @@ export class DiscoverComponent implements OnInit {
     });
   }
 
-  popular() {
-    this.gameApi.orderBy('rank').subscribe((popularGames) => {
-      this.popularGames = popularGames;
+  trending() {
+    this.gameApi.orderBy('rank').subscribe((trendingGames) => {
+      this.trendingGames = trendingGames;
     });
   }
 
-  trending() {
-    this.gameApi.orderBy('trending').subscribe((trendingGames) => {
-      this.trendingGames = trendingGames;
+  random() {
+    this.gameApi.orderBy('random').subscribe((randomGames) => {
+      this.randomGames = randomGames;
     });
   }
 
@@ -73,7 +73,7 @@ export class DiscoverComponent implements OnInit {
       if (
         gameShelf &&
         this.gameShelf &&
-        gameShelf.games.findIndex((g) => g.bgaGameId == game.bgaGameId) != -1
+        gameShelf.games.findIndex((g) => g.bggGameId == game.bggGameId) != -1
       ) {
         this.gameShelf.games.push(game);
       }
@@ -83,7 +83,7 @@ export class DiscoverComponent implements OnInit {
   isGameInShelf(game: Game): boolean {
     if (
       this.gameShelf &&
-      this.gameShelf.games.findIndex((g) => g.bgaGameId == game.bgaGameId) != -1
+      this.gameShelf.games.findIndex((g) => g.bggGameId == game.bggGameId) != -1
     ) {
       return true;
     }
@@ -94,7 +94,7 @@ export class DiscoverComponent implements OnInit {
     this.gameShelfApi.removeGameFromShelf(gameId).subscribe((game) => {
       if (game && this.gameShelf) {
         this.gameShelf.games = this.gameShelf?.games.filter(
-          (game) => game.bgaGameId !== gameId
+          (game) => game.bggGameId !== gameId
         );
       }
     });

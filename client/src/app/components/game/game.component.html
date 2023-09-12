@@ -10,7 +10,7 @@
                         <i class="fa fa-plus"></i>
                         <span> Add to Game Shelf</span>
                     </button>
-                    <button *ngIf="inShelf" class="btn btn-danger mx-3" (click)="removeFromShelf(game.bgaGameId)">
+                    <button *ngIf="inShelf" class="btn btn-danger mx-3" (click)="removeFromShelf(game.bggGameId)">
                         <i class="fa fa-minus"></i>
                         <span> Remove from Shelf</span>
                     </button>
@@ -100,8 +100,6 @@
                     <span [hidden]="!game.year"><i class="fa fa-calendar"></i> {{game.year}}</span>
                     <span [hidden]="game.rank == 9999999"><i class="fa fa-trophy text-goldenrod"></i>
                         {{game.rank}}</span>
-                    <span [hidden]="game.trendingRank == 0"><i class="bi-fire text-burnt"></i>
-                        {{game.trendingRank}}</span>
                 </div>
             </div>
         </div>

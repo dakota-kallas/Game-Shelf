@@ -14,7 +14,7 @@ import { GameShelfService } from 'src/app/services/gameshelf.service';
 })
 export class GameComponent implements OnInit {
   private static EMPTY_Game = {
-    bgaGameId: '',
+    bggGameId: '',
     name: undefined,
     rating: undefined,
     image: undefined,
@@ -25,7 +25,6 @@ export class GameComponent implements OnInit {
     playtime: undefined,
     plays: undefined,
     rank: undefined,
-    trendingRank: undefined,
     description: undefined,
     minAge: undefined,
     rules: undefined,
@@ -71,7 +70,7 @@ export class GameComponent implements OnInit {
   isGameInShelf(game: Game): boolean {
     if (
       this.gameShelf &&
-      this.gameShelf.games.findIndex((g) => g.bgaGameId == game.bgaGameId) != -1
+      this.gameShelf.games.findIndex((g) => g.bggGameId == game.bggGameId) != -1
     ) {
       return true;
     }
@@ -83,7 +82,7 @@ export class GameComponent implements OnInit {
       if (
         gameShelf &&
         this.gameShelf &&
-        gameShelf.games.findIndex((g) => g.bgaGameId == game.bgaGameId) != -1
+        gameShelf.games.findIndex((g) => g.bggGameId == game.bggGameId) != -1
       ) {
         this.gameShelf.games.push(game);
         this.inShelf = true;
@@ -95,7 +94,7 @@ export class GameComponent implements OnInit {
     this.gameShelfApi.removeGameFromShelf(gameId).subscribe((game) => {
       if (game && this.gameShelf) {
         this.gameShelf.games = this.gameShelf?.games.filter(
-          (game) => game.bgaGameId !== gameId
+          (game) => game.bggGameId !== gameId
         );
         this.inShelf = false;
       }
@@ -114,7 +113,7 @@ export class GameComponent implements OnInit {
   createGameLog() {
     this.gameLogApi
       .createGameLog(
-        this.game.bgaGameId,
+        this.game.bggGameId,
         this.game.name || '-',
         new Date(Date.now()).toDateString(),
         undefined,

@@ -13,7 +13,7 @@ import { Game } from 'src/app/models/game.model';
 export class GameLogComponent implements OnInit {
   private static EMPTY_GameLog = {
     _id: '',
-    bgaGameId: '',
+    bggGameId: '',
     bgaGameName: '',
     owner: '',
     date: '',

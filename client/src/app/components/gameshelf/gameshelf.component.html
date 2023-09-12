@@ -12,13 +12,13 @@
                     <tbody>
                         <tr *ngFor="let game of gameShelf?.games | slice:currentGameCount-1:currentGameCount-1+10">
                             <td class="thumbnail-cell">
-                                <a [routerLink]="['/games', game.bgaGameId]"><img class="thumbnail" src="{{game.image}}"
+                                <a [routerLink]="['/games', game.bggGameId]"><img class="thumbnail" src="{{game.image}}"
                                         alt="Game Image"></a>
                             </td>
                             <td>
                                 <div class="game-name">
                                     <a class="text-dark text-decoration-none"
-                                        [routerLink]="['/games', game.bgaGameId]"><strong>{{game.name}}</strong></a>
+                                        [routerLink]="['/games', game.bggGameId]"><strong>{{game.name}}</strong></a>
                                 </div>
                                 <div class="row">
                                     <div class="col">
@@ -52,7 +52,7 @@
                                         </div>
                                     </div>
                                     <div class="col text-end">
-                                        <button class="btn btn-danger mx-3" (click)="removeFromShelf(game.bgaGameId)">
+                                        <button class="btn btn-danger mx-3" (click)="removeFromShelf(game.bggGameId)">
                                             <i class="fa fa-minus"></i>
                                             <span>Remove from Shelf</span>
                                         </button>

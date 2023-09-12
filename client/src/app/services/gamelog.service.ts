@@ -11,9 +11,9 @@ export class GameLogService {
   private URL: string = Constants.API_VERSION;
   constructor(private http: HttpClient) {}
 
-  getGameLogsForGame(bgaGameId: string): Observable<GameLog[]> {
+  getGameLogsForGame(bggGameId: string): Observable<GameLog[]> {
     return this.http.get<GameLog[]>(
-      this.URL + `/gamelogs?bgaGameId=${bgaGameId}`
+      this.URL + `/gamelogs?bggGameId=${bggGameId}`
     );
   }
 
@@ -32,14 +32,14 @@ export class GameLogService {
   }
 
   createGameLog(
-    bgaGameId: string,
+    bggGameId: string,
     bgaGameName: string,
     date: string,
     note: string | undefined,
     rating: string | undefined
   ): Observable<GameLog> {
     return this.http.post<GameLog>(this.URL + `/gamelogs`, {
-      bgaGameId: bgaGameId,
+      bggGameId: bggGameId,
       bgaGameName: bgaGameName,
       date: date,
       note: note,
