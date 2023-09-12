@@ -288,17 +288,14 @@ router.get("/search", async function (req, res) {
       let games = [];
 
       if (result && result.items.item) {
-        let currentCount = 0;
         result.items.item.some((item) => {
-          if (currentCount >= limit) {
+          if (count >= limit) {
             return true;
           }
           gamesIdString += `${item.$.id},`;
-          currentCount++;
+          count++;
           return false;
         });
-
-        count = result.items.$.total;
 
         let gamesFetchURL = `https://boardgamegeek.com/xmlapi2/thing?id=${gamesIdString}&stats=1`;
         const gamesResponse = await fetch(gamesFetchURL);
@@ -333,14 +330,22 @@ router.get("/search", async function (req, res) {
               id: item.$.id,
               name: item.name[0].$.value,
               description: item.description[0],
-              image: item.image[0],
-              thumbnail: item.thumbnail[0],
+              image: item.thumbnail[0],
+              thumbnail: item.image[0],
               minPlayers: item.minplayers[0].$.value,
               maxPlayers: item.maxplayers[0].$.value,
               playtime: item.playingtime[0].$.value,
               minAge: item.minage[0].$.value,
               year: item.yearpublished[0].$.value,
               publisher: publisher,
+              rating:
+                Math.round(
+                  (parseFloat(
+                    item.statistics[0].ratings[0].average[0].$.value
+                  ) /
+                    2) *
+                    2
+                ) / 2,
             });
             games.push(currentGame);
           });
@@ -543,15 +548,24 @@ async function getGames(idListString, numGames) {
                 id: item.$.id,
                 name: item.name[0].$.value,
                 description: item.description[0],
-                image: item.image[0],
-                thumbnail: item.thumbnail[0],
+                image: item.thumbnail[0],
+                thumbnail: item.image[0],
                 minPlayers: item.minplayers[0].$.value,
                 maxPlayers: item.maxplayers[0].$.value,
                 playtime: item.playingtime[0].$.value,
                 minAge: item.minage[0].$.value,
                 year: item.yearpublished[0].$.value,
                 publisher: publisher,
+                rating:
+                  Math.round(
+                    (parseFloat(
+                      item.statistics[0].ratings[0].average[0].$.value
+                    ) /
+                      2) *
+                      2
+                  ) / 2,
               });
+
               games.push(currentGame);
             });
           }
