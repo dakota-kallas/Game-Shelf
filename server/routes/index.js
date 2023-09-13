@@ -12,6 +12,7 @@ let Game = require("../models/game.js");
 require("dotenv").config({ path: "./.env" });
 
 const saltRounds = 10;
+const placeholderImageURL = "https://i.ibb.co/3SrLCvJ/placeholder.png";
 
 // makeMockData();
 
@@ -346,8 +347,12 @@ router.get("/search", async function (req, res) {
             name: item.name?.length > 0 ? item.name[0].$.value : undefined,
             description:
               item.description?.length > 0 ? item.description[0] : undefined,
-            image: item.thumbnail?.length > 0 ? item.thumbnail[0] : undefined,
-            thumbnail: item.image.length > 0 ? item.image[0] : undefined,
+            image:
+              item.thumbnail?.length > 0
+                ? item.thumbnail[0]
+                : placeholderImageURL,
+            thumbnail:
+              item.image?.length > 0 ? item.image[0] : placeholderImageURL,
             minPlayers:
               item.minplayers?.length > 0
                 ? item.minplayers[0].$.value
@@ -586,8 +591,11 @@ async function getGames(idListString, numGames) {
                     ? item.description[0]
                     : undefined,
                 image:
-                  item.thumbnail?.length > 0 ? item.thumbnail[0] : undefined,
-                thumbnail: item.image.length > 0 ? item.image[0] : undefined,
+                  item.thumbnail?.length > 0
+                    ? item.thumbnail[0]
+                    : placeholderImageURL,
+                thumbnail:
+                  item.image?.length > 0 ? item.image[0] : placeholderImageURL,
                 minPlayers:
                   item.minplayers?.length > 0
                     ? item.minplayers[0].$.value
